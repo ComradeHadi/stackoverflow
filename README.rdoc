@@ -1,0 +1,73 @@
+== README
+
+export RAILS_APP=stackoverflow
+
+# создаем новый gemset для проекта
+
+rvm gemset create $RAILS_APP
+
+# переключаемся на новый gemset
+
+rvm gemset use $RAILS_APP
+
+# Устанавливаем rails в текущий gemset
+
+gem install rails
+
+# Создаем новое приложение (используем postgresql в качестве БД)
+
+rails new $RAILS_APP -d postgresql
+
+# возвращаемся в default gemset
+
+rvm gemset use default
+
+# переходим в папку проекта
+
+cd $RAILS_APP
+
+# указываем версию Ruby и gemset для проекта
+# не используем .rvmrc без необходимости
+
+rvm --ruby-version use `rvm current`@$RAILS_APP
+
+# сохраняем исходный конфиг database.yml
+# редактируем database.yml
+
+cp config/database.yml config/database.yml.sample
+
+# Устанавливаем драйвер postgresql
+
+gem install pg
+
+# Добавляем пользователя в базу
+
+sudo -iu postgres psql --command "CREATE USER $RAILS_APP WITH CREATEDB LOGIN PASSWORD '*****'" template1
+
+# Создаем базы
+
+rake db:create:all
+
+# Добавляем гемы rspec-rails, factory_girl_rails в @Gemfile
+# после этого запускаем bundle
+
+bundle install
+
+# Устанавливаем rspec
+
+rails generate rspec:install
+
+rm -r test
+
+# Добавялем проект в git; конфиг database.yml не должен попасть в git!
+
+git init
+echo config/database.yml >> .gitignore
+git add .
+git cm "$RAILS_APP: initial commit"
+
+# Привязываем наш локальный репозитарий к GitHub
+
+git remote add origin git@github.com:<USERNAME>/<PROJECTNAME>.git
+git push -u origin master
+
