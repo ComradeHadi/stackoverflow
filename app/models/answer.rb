@@ -1,5 +1,5 @@
 class Answer < ActiveRecord::Base
   belongs_to :question, dependent: :destroy
 
-  validates :title, :body, presence: true
+  validates :body, presence: true
 end
