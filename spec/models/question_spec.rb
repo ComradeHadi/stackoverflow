@@ -12,7 +12,7 @@ RSpec.describe Question, type: :model do
       answer1 = FactoryGirl.create(:answer, question_id: question1.id)
       answer2 = FactoryGirl.create(:answer, question_id: question1.id)
 
-      expect { question1.destroy }.to change{ Answer.count }.from(2).to(0)
+      expect { question1.destroy! }.to change{ Answer.count }.by(-2)
     end
   end
 end
