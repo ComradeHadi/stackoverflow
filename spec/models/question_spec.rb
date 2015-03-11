@@ -8,11 +8,10 @@ RSpec.describe Question, type: :model do
 
   describe "destroy question" do
     it "should destroy dependent answers" do
-      question1 = FactoryGirl.create(:question)
-      answer1 = FactoryGirl.create(:answer, question_id: question1.id)
-      answer2 = FactoryGirl.create(:answer, question_id: question1.id)
+      question = create(:question)
+      answers = create_list(:answer, 2, question: question)
 
-      expect { question1.destroy! }.to change{ Answer.count }.by(-2)
+      expect { question.destroy! }.to change{ Answer.count }.by(-2)
     end
   end
 end
