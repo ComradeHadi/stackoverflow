@@ -9,6 +9,8 @@ RSpec.describe Question, type: :model do
   describe "destroy question" do
     it "should destroy dependent answers" do
       question = create(:question)
+      # dont use let(): answers will not be created
+      # becase :answers is never used directly
       answers = create_list(:answer, 2, question: question)
 
       expect { question.destroy! }.to change{ Answer.count }.by(-2)
