@@ -42,6 +42,6 @@ class AnswersController < ApplicationController
     @answer = Answer.find(params[:id])
   end
   def answer_params
-    params.require(:answer).permit(:title, :body)
+    params.require(:answer).permit(:title, :body, :question_id, :user_id)
   end
 end
