@@ -10,8 +10,8 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer) }
   let(:question) { Question.find( answer.question_id ) }
 
-  # list of answers that all `belongs to one question
-  let(:answers) { only_question.answers << create_list(:answer, 2) }
+  # answers should belong to one question
+  let(:answers) { create_list(:answer, 2, question: only_question) }
 
   describe 'GET #index' do
     before { get :index, question_id: only_question }
