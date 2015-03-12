@@ -1,20 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  # only a question
-  let(:only_question) { create(:question) }
-
-  # dont use this question without answer,
-  # because it will create one answer implicitly by calling answer.question_id
-  # use only_question instead
-  let(:answer) { create(:answer) }
-  let(:question) { Question.find( answer.question_id ) }
-
-  # answers should belong to one question
-  let(:answers) { create_list(:answer, 2, question: only_question) }
+  let(:question) { create(:question) }
+  let(:answer) { create(:answer, question: question) }
+  let(:answers) { create_list(:answer, 2, question: question) }
 
   describe 'GET #index' do
-    before { get :index, question_id: only_question }
+    before { get :index, question_id: question }
 
     it 'populates answers array' do
       expect(assigns(:answers)).to match_array(answers)
@@ -63,19 +55,19 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves new answer in db' do
-        expect { post :create, answer: build_attributes(:answer), question_id: only_question }.to change(Answer, :count).by(1)
+        expect { post :create, answer: build_attributes(:answer), question_id: question }.to change(Answer, :count).by(1)
       end
       it 'redirects to show view' do
-        post :create, answer: build_attributes(:answer), question_id: only_question
+        post :create, answer: build_attributes(:answer), question_id: question
         expect(response).to redirect_to question_answer_path(assigns(:question), assigns(:answer))
       end
     end
     context 'with invalid attributes' do
       it 'saves new answer in db' do
-        expect { post :create, answer: build_attributes(:invalid_answer), question_id: only_question }.to_not change(Answer, :count)
+        expect { post :create, answer: build_attributes(:invalid_answer), question_id: question }.to_not change(Answer, :count)
       end
       it 're-renders new view' do
-        post :create, answer: build_attributes(:invalid_answer), question_id: only_question
+        post :create, answer: build_attributes(:invalid_answer), question_id: question
         expect(response).to render_template :new
       end
     end
