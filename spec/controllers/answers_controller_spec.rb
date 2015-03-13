@@ -55,7 +55,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves new answer in db' do
-        expect { post :create, answer: build_attributes(:answer), question_id: question }.to change(Answer, :count).by(1)
+        expect { post :create, answer: build_attributes(:answer), question_id: question }.to change(question.answers, :count).by(1)
       end
       it 'redirects to show view' do
         post :create, answer: build_attributes(:answer), question_id: question
@@ -64,7 +64,7 @@ RSpec.describe AnswersController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'saves new answer in db' do
-        expect { post :create, answer: build_attributes(:invalid_answer), question_id: question }.to_not change(Answer, :count)
+        expect { post :create, answer: build_attributes(:invalid_answer), question_id: question }.to_not change(question.answers, :count)
       end
       it 're-renders new view' do
         post :create, answer: build_attributes(:invalid_answer), question_id: question
@@ -105,7 +105,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'DELETE #destroy' do
     before { answer; question }
     it 'deletes answer' do
-      expect { delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(-1)
+      expect { delete :destroy, id: answer, question_id: question }.to change(question.answers, :count).by(-1)
     end
     it 'redirects to index view' do
       delete :destroy, id: answer, question_id: question
