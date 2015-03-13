@@ -85,3 +85,11 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
+
+def build_attributes(*args)
+  # FactoryGirl.attributes_for dont include associations
+  # referencing an association generates a call to database
+  # which can slow down tests in some cases
+  exclude_attributes = %w(id created_at updated_at)
+  FactoryGirl.build(*args).attributes.except(exclude_attributes).symbolize_keys
+end
