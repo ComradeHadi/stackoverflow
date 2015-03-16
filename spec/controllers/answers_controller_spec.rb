@@ -18,7 +18,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #show' do
-    before { get :show, id: answer, question_id: question }
+    before { get :show, id: answer }
 
     it 'assigns the requested answer to @answer' do
       expect(assigns(:answer)).to eq answer
@@ -41,7 +41,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #edit' do
-    before { get :edit, id: answer, question_id: question }
+    before { get :edit, id: answer }
 
     it 'assigns the requested answer to @answer' do
       expect(assigns(:answer)).to eq answer
@@ -76,22 +76,22 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #update' do
     context 'with valid attributes' do
       it 'assigns the requested answer to @answer' do
-        patch :update, id: answer, answer: build_attributes(:answer), question_id: question
+        patch :update, id: answer, answer: build_attributes(:answer)
         expect(assigns(:answer)).to eq answer
       end
       it 'changes answer attributes' do
-        patch :update, id: answer, answer: { body: 'new body' }, question_id: question
+        patch :update, id: answer, answer: { body: 'new body' }
         answer.reload
         expect(answer.body).to eq 'new body'
       end
       it 'redirects to updated answer' do
-        patch :update, id: answer, answer: { body: 'new body' }, question_id: question
+        patch :update, id: answer, answer: { body: 'new body' }
         answer.reload
         expect(response).to redirect_to answer_path(assigns(:answer))
       end
     end
     context 'with invalid attributes' do
-      before { patch :update, id: answer, answer: { body: nil }, question_id: question }
+      before { patch :update, id: answer, answer: { body: nil } }
       it 'does not change answer attributes' do
         answer.reload
         expect(answer.body).to eq 'MyText'
@@ -105,10 +105,10 @@ RSpec.describe AnswersController, type: :controller do
   describe 'DELETE #destroy' do
     before { answer; question }
     it 'deletes answer' do
-      expect { delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(-1)
+      expect { delete :destroy, id: answer }.to change(Answer, :count).by(-1)
     end
     it 'redirects to index view' do
-      delete :destroy, id: answer, question_id: question
+      delete :destroy, id: answer
       expect(response).to redirect_to question_answers_path(question)
     end
   end
