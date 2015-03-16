@@ -59,7 +59,7 @@ RSpec.describe AnswersController, type: :controller do
       end
       it 'redirects to show view' do
         post :create, answer: build_attributes(:answer), question_id: question
-        expect(response).to redirect_to question_answer_path(assigns(:question), assigns(:answer))
+        expect(response).to redirect_to answer_path(assigns(:answer))
       end
     end
     context 'with invalid attributes' do
@@ -87,7 +87,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'redirects to updated answer' do
         patch :update, id: answer, answer: { body: 'new body' }, question_id: question
         answer.reload
-        expect(response).to redirect_to question_answer_path(assigns(:question), assigns(:answer))
+        expect(response).to redirect_to answer_path(assigns(:answer))
       end
     end
     context 'with invalid attributes' do
