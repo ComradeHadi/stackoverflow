@@ -34,6 +34,11 @@ RSpec.configure do |config|
     /activesupport-/,
     /rspec-core-/,
     /rspec-rails-/,
+    /capybara-/,
+    /web-console-/,
+    /rack-/,
+    /railties-/,
+    /warden-/,
     /\/lib\d*\/ruby\//,
     /bin\//,
     /lib\/rspec\/(core|expectations|matchers|mocks)/
