@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :load_answer, only: [:show, :edit, :update, :destroy]
-  before_action :load_question, only: [:index, :new, :create, :destroy]
+  before_action :load_question, only: [:index, :new, :create]
 
   def index
     @answers = @question.answers
@@ -35,14 +35,12 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    redirect_to question_answers_path(@question)
+    redirect_to question_answers_path(@answer.question)
   end
 
   private
   def load_question
-    # answer#destroy is called without question_id when nested resource :answer is defined as shallow
-    # but we need @question to redirect_to after #destroy
-    @question = Question.find( params.fetch(:question_id) { @answer.question_id } )
+    @question = Question.find(params[:question_id])
   end
   def load_answer
     @answer = Answer.find(params[:id])
