@@ -3,4 +3,8 @@ en:
     found: "Questions found: %{count}"
   question:
     created: "Your question was successfully created."
+    updated: "Your question was updated"
+    destroyed: "Your question was deleted"
+    failure:
+      not_an_author: "Only an author can edit or delete his questions"
 

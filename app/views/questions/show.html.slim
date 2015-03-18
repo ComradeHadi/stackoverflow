@@ -2,6 +2,10 @@
   = @question.title
 #body
   = @question.body
+#edit
+  = link_to 'Edit question', edit_question_path(@question)
+#delete
+  = link_to 'Delete question', question_path(@question), method: :delete
 
 - unless @answers.empty?
   p= I18n.t('answers.found', count: @answers.count)

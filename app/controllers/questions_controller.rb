@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :authors_only, only: [:edit, :update, :destroy]
 
   def index
     @questions = Question.all
@@ -16,7 +17,6 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-    # check if author
   end
 
   def create
@@ -30,24 +30,28 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    # check if author
     if @question.update(strong_params)
-      redirect_to @question, notice: 'Your question successfully updated.'
+      redirect_to @question, notice: I18n.t('question.updated')
     else
-      flash[:alert] = 'ERROR: Question not updated'
+      flash[:alert] = I18n.t('question.failure.update.not_an_author')
       render :edit
     end
   end
 
   def destroy
-    # check if author
     @question.destroy
-    redirect_to questions_path
+    redirect_to questions_path, notice: I18n.t('question.destroyed')
   end
 
   private
   def load_question
     @question = Question.find(params[:id])
+  end
+  def authors_only
+    unless @question.user_id == current_user.id
+      redirect_to @question, alert: I18n.t('question.failure.not_an_author')
+      return
+    end
   end
   def strong_params
     strong_params = params.require(:question).permit(:title, :body, :user_id)
