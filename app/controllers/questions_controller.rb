@@ -7,6 +7,8 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    # show all answers for the question
+    @answers = @question.answers
   end
 
   def new
@@ -18,7 +20,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new question_params
+    @question = Question.new strong_params
     if @question.save
       redirect_to @question, notice: I18n.t('question.created')
     else
@@ -29,7 +31,7 @@ class QuestionsController < ApplicationController
 
   def update
     # check if author
-    if @question.update(question_params)
+    if @question.update(strong_params)
       redirect_to @question, notice: 'Your question successfully updated.'
     else
       flash[:alert] = 'ERROR: Question not updated'
@@ -47,8 +49,8 @@ class QuestionsController < ApplicationController
   def load_question
     @question = Question.find(params[:id])
   end
-  def question_params
-    question_params = params.require(:question).permit(:title, :body, :user_id)
-    question_params.merge( user_id: current_user.id ) if user_signed_in?
+  def strong_params
+    strong_params = params.require(:question).permit(:title, :body, :user_id)
+    strong_params.merge( user_id: current_user.id ) if user_signed_in?
   end
 end

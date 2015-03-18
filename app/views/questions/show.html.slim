@@ -2,3 +2,16 @@
   = @question.title
 #body
   = @question.body
+
+- unless @answers.empty?
+  p= I18n.t('answers.found', count: @answers.count)
+
+  table id="answers"
+    - for answer in @answers do
+      tr
+        td.body = answer.body
+- else
+  p No answers yet.
+
+= link_to 'Add answer', new_question_answer_path(@question)
+

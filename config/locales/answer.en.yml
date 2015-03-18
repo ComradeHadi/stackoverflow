@@ -1,0 +1,10 @@
+en:
+  answers:
+    found: "Answers found: %{count}"
+  answer:
+    created: "Your answer was successfully created."
+    updated: "Your answer was successfully updated."
+    failure:
+      not_created: "ERROR: Answer not created."
+      not_updated: "ERROR: Answer not updated."
+
