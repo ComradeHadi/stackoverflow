@@ -1,3 +1,13 @@
-p= link_to 'Ask question', new_question_path
+- unless @questions.empty?
 
+  p Questions found: #{ @questions.count }
+
+  table id="questions"
+    - for question in @questions do
+      tr
+        td.title = question.title
+- else
+  p No questions yet.
+
+= link_to 'Ask question', new_question_path
 
