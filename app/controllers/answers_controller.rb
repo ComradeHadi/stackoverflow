@@ -45,7 +45,6 @@ class AnswersController < ApplicationController
   def authors_only
     unless @answer.user_id == current_user.id
       redirect_to @answer.question, alert: I18n.t('answer.failure.not_an_author')
-      return
     end
   end
   def strong_params
