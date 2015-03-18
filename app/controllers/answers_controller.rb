@@ -1,19 +1,7 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_answer, only: [:show, :edit, :update, :destroy]
-  before_action :load_question, only: [:index, :new, :create]
-
-  def index
-    #TODO: убрать answers#index
-    #      список вопросов отображать в questions#show
-    @answers = @question.answers
-  end
-
-  def show
-    #TODO: убрать answers#show
-    # не показывать ответ на отдельной странице
-    # только список ответов на вопрос на странице указанного вопроса
-  end
+  before_action :authenticate_user!
+  before_action :load_answer, only: [:edit, :update, :destroy]
+  before_action :load_question, only: [:new, :create]
 
   def new
     @answer = @question.answers.new
