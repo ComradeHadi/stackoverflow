@@ -9,7 +9,7 @@ feature 'View questions', %q{
   given(:questions) { create_list(:question, 3) }
   before { questions }
 
-  scenario 'A guest can view questions' do
+  scenario 'Any guest can view questions' do
     visit questions_path
     expect(current_path).to eq questions_path
     expect(page).to have_content I18n.t('questions.found', count: questions.count)
@@ -39,13 +39,12 @@ feature 'Create question', %q{
     fill_in 'Body', with: question.body
     click_on 'Create'
 
-    expect(current_path).to eq question_path
     expect(page).to have_content I18n.t('question.created')
     expect(page).to have_content question.title
     expect(page).to have_content question.body
   end
 
-  scenario 'Guest tries to create a question' do
+  scenario 'Guest can not create a question' do
     visit questions_path
     click_on 'Ask question'
     expect(page).to have_content I18n.t('devise.failure.unauthenticated')
