@@ -4,24 +4,33 @@ feature 'View questions', %q{
   As a guest
   I want to be able to view existing questions
 } do
-  scenario 'Any user can view questions' do
-    questions = create_list(:question, 3)
 
+  given(:user) { create(:user) }
+  given(:questions) { create_list(:question, 3) }
+  before { questions }
+
+  scenario 'A guest can view questions' do
     visit questions_path
-    expect(page).to have_content 'Questions found: 3'
+    expect(current_path).to eq questions_path
+    expect(page).to have_content I18n.t('questions.found', count: questions.count)
+  end
+
+  scenario 'Authenticated user can view questions' do
+    log_in user
+    visit questions_path
+    expect(page).to have_content I18n.t('questions.found', count: questions.count)
   end
 end
 
-feature 'Create questions', %q{
+feature 'Create question', %q{
   As an authenticated user
-  I want to be able to ask questions
+  I want to be able to ask a question
 } do
 
   given(:user) { create(:user) }
+  given(:question) { build(:question) }
 
   scenario 'Authenticated user creates a question' do
-    question = build(:question)    
-
     log_in user
 
     visit questions_path
@@ -30,6 +39,7 @@ feature 'Create questions', %q{
     fill_in 'Body', with: question.body
     click_on 'Create'
 
+    expect(current_path).to eq question_path
     expect(page).to have_content I18n.t('question.created')
     expect(page).to have_content question.title
     expect(page).to have_content question.body

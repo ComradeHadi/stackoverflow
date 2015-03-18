@@ -1,6 +1,6 @@
 - unless @questions.empty?
 
-  p Questions found: #{ @questions.count }
+  p= I18n.t('questions.found', count: @questions.count)
 
   table id="questions"
     - for question in @questions do

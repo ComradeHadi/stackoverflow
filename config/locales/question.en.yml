@@ -1,4 +1,6 @@
 en:
+  questions:
+    found: "Questions found: %{count}"
   question:
     created: "Your question was successfully created."
 
