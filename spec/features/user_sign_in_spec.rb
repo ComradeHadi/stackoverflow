@@ -5,20 +5,12 @@ feature 'User sign in', %q{
   As a user
   I want to be able to sign-in
 } do
+
+  given(:user) { create(:user) }
+
   scenario 'Registered user try to sign in' do
-    # let(:user) = { create(:user) }
-
-    valid_email = 'user@test.com'
-    valid_password = '12345678'
-
-    User.create!(email: valid_email, password: valid_password)
-
-    visit new_user_session_path
-    fill_in 'Email', with: valid_email
-    fill_in 'Password', with: valid_password
-    click_on 'Log in'
-
-    expect(page).to have_content 'Signed in successfully'
+    log_in user
+    expect(page).to have_content I18n.t('devise.sessions.signed_in')
     expect(current_path).to eq root_path
   end
 
@@ -27,8 +19,7 @@ feature 'User sign in', %q{
     fill_in 'Email', with: 'wrong_email@non_existent.com'
     fill_in 'Password', with: '12345678'
     click_on 'Log in'
-save_page
-    expect(page).to have_content 'Invalid email or password'
+    expect(page).to have_content I18n.t('devise.failure.invalid', authentication_keys: 'email')
     expect(current_path).to eq new_user_session_path
   end
 end
