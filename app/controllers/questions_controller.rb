@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+  before_action :authenticate_user!, only: [:create, :update, :destroy]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -13,26 +14,31 @@ class QuestionsController < ApplicationController
   end
 
   def edit
+    # check if author
   end
 
   def create
-    @question = Question.new(question_params)
+    @question = Question.new question_params
     if @question.save
-      redirect_to @question
+      redirect_to @question, notice: I18n.t('question.created')
     else
+      flash[:alert] = 'ERROR: Question not created'
       render :new
     end
   end
 
   def update
+    # check if author
     if @question.update(question_params)
-      redirect_to @question
+      redirect_to @question, notice: 'Your question successfully updated.'
     else
+      flash[:alert] = 'ERROR: Question not updated'
       render :edit
     end
   end
 
   def destroy
+    # check if author
     @question.destroy
     redirect_to questions_path
   end
@@ -42,6 +48,7 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
   end
   def question_params
-    params.require(:question).permit(:title, :body, :user_id)
+    question_params = params.require(:question).permit(:title, :body, :user_id)
+    question_params.merge( user_id: current_user.id ) if user_signed_in?
   end
 end
