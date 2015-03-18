@@ -29,6 +29,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    before { sign_in question.user }
     before { get :new }
 
     it 'assigns new question to @question' do
@@ -40,7 +41,10 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
-    before { get :edit, id: question }
+    before do
+      sign_in question.user;
+      get :edit, id: question
+    end
 
     it 'assigns the requested question to @question' do
       expect(assigns(:question)).to eq question
@@ -107,7 +111,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { question; sign_in question.user }
+    before { sign_in question.user }
     it 'deletes question' do
       expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
     end

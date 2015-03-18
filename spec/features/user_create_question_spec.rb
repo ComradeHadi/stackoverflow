@@ -27,10 +27,6 @@ feature 'User sign in', %q{
   scenario 'Non-authenticated user tries to create a question' do
     visit questions_path
     click_on 'Ask question'
-    fill_in 'Title', with: 'Test question title'
-    fill_in 'Body', with: 'Test question body'
-    click_on 'Create'
-
     expect(page).to have_content I18n.t(:unauthenticated, scope: 'devise.failure')
   end
 end
