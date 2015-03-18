@@ -2,6 +2,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_answer, only: [:edit, :update, :destroy]
   before_action :load_question, only: [:new, :create]
+  before_action :authors_only, only: [:edit, :update, :destroy]
 
   def new
     @answer = @question.answers.new
@@ -31,7 +32,7 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    redirect_to question_answers_path(@answer.question)
+    redirect_to question_path(@answer.question), notice: I18n.t('answer.destroyed')
   end
 
   private
@@ -40,6 +41,12 @@ class AnswersController < ApplicationController
   end
   def load_answer
     @answer = Answer.find(params[:id])
+  end
+  def authors_only
+    unless @answer.user_id == current_user.id
+      redirect_to @answer.question, alert: I18n.t('answer.failure.not_an_author')
+      return
+    end
   end
   def strong_params
     strong_params = params.require(:answer).permit(:title, :body, :question_id, :user_id)

@@ -18,7 +18,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #edit' do
-    before { sign_in question.user }
+    before { sign_in answer.user }
     before { get :edit, id: answer }
 
     it 'assigns the requested answer to @answer' do
@@ -31,7 +31,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
-    before { sign_in question.user }
+    before { sign_in answer.user }
     context 'with valid attributes' do
       it 'saves new answer in db' do
         expect { post :create, answer: build_attributes(:answer), question_id: question }.to change(question.answers, :count).by(1)
@@ -53,7 +53,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    before { sign_in question.user }
+    before { sign_in answer.user }
     context 'with valid attributes' do
       it 'assigns the requested answer to @answer' do
         patch :update, id: answer, answer: build_attributes(:answer)
@@ -83,14 +83,14 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { sign_in question.user }
+    before { sign_in answer.user }
     before { answer; question }
     it 'deletes answer' do
       expect { delete :destroy, id: answer }.to change(Answer, :count).by(-1)
     end
     it 'redirects to index view' do
       delete :destroy, id: answer
-      expect(response).to redirect_to question_answers_path(question)
+      expect(response).to redirect_to question_path(question)
     end
   end
 end
