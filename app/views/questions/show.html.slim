@@ -7,17 +7,14 @@
 #delete
   = link_to 'Delete question', question_path(@question), method: :delete
 
-- unless @answers.empty?
-  p= I18n.t('answers.found', count: @answers.count)
+#answers
+  = render 'answers'
 
-  table id="answers"
-    - for answer in @answers do
-      tr
-        td.body = answer.body
-        td.edit = link_to 'Edit answer', edit_answer_path(answer), id: "edit_answer_#{ answer.id }"
-        td.delete = link_to 'Delete answer', answer_path(answer), id: "delete_answer_#{ answer.id }", method: :delete
-- else
-  p No answers yet.
+/ #answer#new (add answer with ajax without page reload)
+= form_for [@question, @question.answers.build], remote: true do |f|
+  = f.label :body, 'Your answer'
+  = f.text_area :body
+  = f.submit 'Save answer'
 
 = link_to 'Add answer', new_question_answer_path(@question)
 
