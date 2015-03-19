@@ -1,0 +1,10 @@
+en:
+  answers:
+    found: "Answers found: %{count}"
+  answer:
+    created: "Your answer was successfully created."
+    updated: "Your answer was updated."
+    destroyed: "Your answer was deleted"
+    failure:
+      not_an_author: "Only an author can edit or delete his answers"
+

@@ -1,0 +1,13 @@
+- unless @questions.empty?
+
+  p= I18n.t('questions.found', count: @questions.count)
+
+  table id="questions"
+    - for question in @questions do
+      tr
+        td.title = question.title
+- else
+  p No questions yet.
+
+= link_to 'Ask question', new_question_path
+

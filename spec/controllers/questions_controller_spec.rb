@@ -29,6 +29,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    before { sign_in question.user }
     before { get :new }
 
     it 'assigns new question to @question' do
@@ -40,6 +41,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+    before { sign_in question.user }
     before { get :edit, id: question }
 
     it 'assigns the requested question to @question' do
@@ -52,6 +54,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    before { sign_in question.user }
     context 'with valid attributes' do
       it 'saves new question in db' do
         expect { post :create, question: build_attributes(:question) }.to change(Question, :count).by(1)
@@ -73,6 +76,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    before { sign_in question.user }
     context 'with valid attributes' do
       it 'assigns the requested question to @question' do
         patch :update, id: question, question: attributes_for(:question)
@@ -95,8 +99,8 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'does not change question attributes' do
         question.reload
-        expect(question.title).to eq 'MyString'
-        expect(question.body).to eq 'MyText'
+        expect(question.title).to eq question.title
+        expect(question.body).to eq question.body
       end
       it 're-renders edit view' do
         expect(response).to render_template :edit
@@ -105,7 +109,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { question }
+    before { sign_in question.user }
     it 'deletes question' do
       expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
     end

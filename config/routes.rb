@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
+  devise_for :users
+  root to: "questions#index"
+
   resources :questions do
-    resources :answers, shallow: true
+    resources :answers, except: [:index, :show], shallow: true
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
