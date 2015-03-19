@@ -17,7 +17,6 @@ feature 'Delete answer', %q{
     # answers are listed only under question page
     visit question_path(question)
     expect(page).to have_content I18n.t('answers.found', count: 3)
-save_page
     click_on "delete_answer_#{ answer.id }"
     expect(page).to have_content I18n.t('answer.destroyed')
     expect(page).to have_content I18n.t('answers.found', count: 2)
