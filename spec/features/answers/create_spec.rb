@@ -11,7 +11,7 @@ feature 'Create answer', %q{
   scenario 'User creates an answer to the question' do
     log_in user
 
-    answer = attributes_for(:answer, question: question.id, user: user.id)
+    answer = attributes_for(:answer)
 
     visit question_path(question.id)
     click_on 'Add answer'
