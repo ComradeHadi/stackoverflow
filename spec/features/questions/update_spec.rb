@@ -7,8 +7,7 @@ feature 'Update question', %q{
 
   given(:author) { create(:user) }
   given(:other_user) { create(:user) }
-  given(:question) { create(:question, user: author) }
-  before { question }
+  given!(:question) { create(:question, user: author) }
 
   scenario 'Author can edit his question' do
     log_in author

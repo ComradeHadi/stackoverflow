@@ -7,10 +7,9 @@ feature 'Delete answer', %q{
 
   given(:author) { create(:user) }
   given(:other_user) { create(:user) }
-  given(:question) { create(:question, user: author) }
-  given(:answers) { create_list(:answer, 3, question: question, user: author) }
-  given(:answer) { answers.at(1) }
-  before { answer  }
+  given!(:question) { create(:question, user: author) }
+  given!(:answers) { create_list(:answer, 3, question: question, user: author) }
+  given!(:answer) { answers.at(1) }
 
   scenario 'Author can delete his answer' do
     log_in author

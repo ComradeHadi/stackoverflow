@@ -6,9 +6,8 @@ feature 'View answers', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:question) { create(:question, user: user) }
-  given(:answers) { create_list(:answer, 2, question: question)}
-  before { answers }
+  given!(:question) { create(:question, user: user) }
+  given!(:answers) { create_list(:answer, 2, question: question)}
 
   scenario 'User can view answers' do
     log_in user

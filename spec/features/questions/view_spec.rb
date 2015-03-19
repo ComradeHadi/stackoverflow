@@ -6,8 +6,7 @@ feature 'View questions', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:questions) { create_list(:question, 3) }
-  before { questions }
+  given!(:questions) { create_list(:question, 3) }
 
   scenario 'Any guest can view questions' do
     visit questions_path
