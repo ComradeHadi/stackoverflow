@@ -1,20 +1,22 @@
-#title
+#question_title
   = @question.title
-#body
+#question_body
   = @question.body
-#edit
+#question_edit
   = link_to 'Edit question', edit_question_path(@question)
-#delete
+#question_delete
   = link_to 'Delete question', question_path(@question), method: :delete
 
 #answers
   = render 'answers'
 
-/ #answer#new (add answer with ajax without page reload)
-= form_for [@question, @question.answers.build], remote: true do |f|
-  = f.label :body, 'Your answer'
-  = f.text_area :body
-  = f.submit 'Save answer'
+/ #(add answer with ajax without page reload)
+#answer_new_ajax
+  = form_for [@question, @question.answers.build], remote: true do |f|
+    = f.label :body, 'Your answer'
+    #new_answer_body = f.text_area :body
+    = f.submit 'Save answer'
 
-= link_to 'Add answer', new_question_answer_path(@question)
+#answer_new
+  = link_to 'Add answer', new_question_answer_path(@question)
 
