@@ -12,8 +12,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new(strong_params)
-    @answer.save
+    @answer = @question.answers.create(strong_params)
   end
 
   def update
