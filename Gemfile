@@ -58,6 +58,8 @@ group :test do
   # requires qt5-default libqt5webkit5-dev
   gem 'capybara-webkit'
 
+  gem 'headless'
+
   # Capybara-webkit runs separately from your RSpec code,
   # which means that the database transaction test strategy used by Rails leads to problems.
   # The database_cleaner gem provides a nice workaround,

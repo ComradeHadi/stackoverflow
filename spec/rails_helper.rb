@@ -85,3 +85,10 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 end
 
+if ENV['HEADLESS']
+  require 'headless'
+  headless = Headless.new
+  headless.start
+  at_exit { headless.stop }
+end
+
