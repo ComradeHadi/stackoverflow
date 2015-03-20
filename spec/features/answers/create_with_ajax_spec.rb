@@ -18,9 +18,6 @@ feature 'Create answer on the question page', %q{
     click_on 'Save answer'
     expect(current_path).to eq question_path(question.id)
 
-    # adding answer with ajax does not set page.notice!
-    expect(page).not_to have_content I18n.t('answer.created')
-
     within '#answers' do
       expect(page).to have_content answer[:body]
     end
