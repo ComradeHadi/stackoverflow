@@ -1,6 +1,7 @@
 en:
   answers:
     found: "Answers found: %{count}"
+    not_found: "No answers yet."
   answer:
     created: "Your answer was successfully created."
     updated: "Your answer was updated."

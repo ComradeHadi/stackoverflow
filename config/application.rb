@@ -30,7 +30,7 @@ module Stackoverflow
                        helper_specs: false,
                        routing_specs: false,
                        request_specs: false,
-                       controller_spec: true
+                       controller_specs: true
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
   end

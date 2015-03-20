@@ -24,16 +24,11 @@ feature 'Update answer', %q{
   scenario 'Users can not edit answers of another user' do
     log_in other_user
     visit question_path(question)
-    click_on 'Edit answer'
-    expect(current_path).to eq question_path(question)
-    expect(page).to have_content I18n.t('answer.failure.not_an_author')
-    expect(page).not_to have_content 'Updated body'
+    expect(page).not_to have_link 'Edit answer'
   end
   scenario 'Guest can not edit any questions' do
     visit question_path(question)
-    click_on 'Edit answer'
-    expect(current_path).to eq new_user_session_path
-    expect(page).to have_content I18n.t('devise.failure.unauthenticated')
+    expect(page).not_to have_link 'Edit answer'
   end
 end
 

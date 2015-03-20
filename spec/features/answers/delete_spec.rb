@@ -24,18 +24,12 @@ feature 'Delete answer', %q{
   end
   scenario 'Users can not delete answer of another user' do
     log_in other_user
-
-    # answers are listed only under question page
     visit question_path(question)
-    click_on "delete_answer_#{ answer.id }"
-    expect(page).to have_content I18n.t('answer.failure.not_an_author')
-    expect(current_path).to eq question_path(question)
+    expect(page).not_to have_link('Delete answer')
   end
   scenario 'Guest can not delete any questions' do
     visit question_path(question)
-    click_on "delete_answer_#{ answer.id }"
-    expect(current_path).to eq new_user_session_path
-    expect(page).to have_content I18n.t('devise.failure.unauthenticated')
+    expect(page).not_to have_link('Delete answer')
   end
 end
 

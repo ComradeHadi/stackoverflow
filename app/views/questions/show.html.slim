@@ -1,23 +1,20 @@
-#title
+#question_title
   = @question.title
-#body
+#question_body
   = @question.body
-#edit
-  = link_to 'Edit question', edit_question_path(@question)
-#delete
-  = link_to 'Delete question', question_path(@question), method: :delete
 
-- unless @answers.empty?
-  p= I18n.t('answers.found', count: @answers.count)
+- if user_signed_in? and (@question.user_id == current_user.id)
+  #question_edit
+    = link_to 'Edit question', edit_question_path(@question)
+  #question_delete
+    = link_to 'Delete question', question_path(@question), method: :delete
 
-  table id="answers"
-    - for answer in @answers do
-      tr
-        td.body = answer.body
-        td.edit = link_to 'Edit answer', edit_answer_path(answer), id: "edit_answer_#{ answer.id }"
-        td.delete = link_to 'Delete answer', answer_path(answer), id: "delete_answer_#{ answer.id }", method: :delete
-- else
-  p No answers yet.
+#answers
+  = render 'answers'
 
-= link_to 'Add answer', new_question_answer_path(@question)
+- if user_signed_in?
+  = form_for [@question, @question.answers.build], remote: true do |f|
+    = f.label :body, 'Your answer'
+    = f.text_area :body
+    = f.submit 'Save answer'
 
