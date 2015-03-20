@@ -3,7 +3,7 @@
 #question_body
   = @question.body
 
-- if @question.user == current_user
+- if user_signed_in? and (@question.user_id == current_user.id)
   #question_edit
     = link_to 'Edit question', edit_question_path(@question)
   #question_delete
@@ -12,7 +12,7 @@
 #answers
   = render 'answers'
 
-- if current_user
+- if user_signed_in?
   = form_for [@question, @question.answers.build], remote: true do |f|
     = f.label :body, 'Your answer'
     = f.text_area :body
