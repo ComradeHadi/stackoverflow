@@ -36,6 +36,14 @@ gem 'devise'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+
+  gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'headless'
+  gem 'database_cleaner'
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 
@@ -44,25 +52,8 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-
-  gem 'rspec-rails'
-  gem 'factory_girl_rails'
-
-  # gem 'selenium-webdriver'
 end
 
 group :test do
   gem 'shoulda-matchers'
-  gem 'capybara'
-  
-  # requires qt5-default libqt5webkit5-dev
-  gem 'capybara-webkit'
-
-  gem 'headless'
-
-  # Capybara-webkit runs separately from your RSpec code,
-  # which means that the database transaction test strategy used by Rails leads to problems.
-  # The database_cleaner gem provides a nice workaround,
-  # which is why we need it in addition to the capybara gems.
-  gem 'database_cleaner'
 end
