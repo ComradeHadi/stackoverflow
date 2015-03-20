@@ -5,6 +5,10 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
+require 'capybara/rspec'
+require 'capybara/webkit/matchers'
+Capybara.javascript_driver = :webkit
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -28,6 +32,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::TestHelpers, type: :controller
   config.include FeatureHelpers #, type: :controller
+  config.include Capybara::Webkit::RspecMatchers, :type => :feature
 
   config.backtrace_exclusion_patterns = [
     /actionpack-/,
@@ -52,7 +57,17 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+
+  # capybara-webkit
+  config.use_transactional_fixtures = false
+
+  # Database cleaner config
+  config.before(:suite) { DatabaseCleaner.clean_with :truncation }
+  config.before(:each) { DatabaseCleaner.strategy = :transaction }
+  config.before(:each, js: true) { DatabaseCleaner.strategy = :truncation }
+
+  config.before(:each) { DatabaseCleaner.start }
+  config.after(:each) { DatabaseCleaner.clean }
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
@@ -69,3 +84,4 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
 end
+

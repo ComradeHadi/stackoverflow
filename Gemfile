@@ -48,11 +48,19 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
 
-  gem 'selenium-webdriver'
+  # gem 'selenium-webdriver'
 end
 
 group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
-  # gem 'launchy'
+  
+  # requires qt5-default libqt5webkit5-dev
+  gem 'capybara-webkit'
+
+  # Capybara-webkit runs separately from your RSpec code,
+  # which means that the database transaction test strategy used by Rails leads to problems.
+  # The database_cleaner gem provides a nice workaround,
+  # which is why we need it in addition to the capybara gems.
+  gem 'database_cleaner'
 end
