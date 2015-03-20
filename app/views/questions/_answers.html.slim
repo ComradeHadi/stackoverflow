@@ -5,8 +5,13 @@
     - @question.answers.each do |answer|
       tr
         td.body = answer.body
-        td.edit = link_to 'Edit answer', edit_answer_path(answer), id: "edit_answer_#{ answer.id }"
-        td.delete = link_to 'Delete answer', answer_path(answer), id: "delete_answer_#{ answer.id }", method: :delete
+        td.edit
+          - if answer.user == current_user
+           = link_to 'Edit answer', edit_answer_path(answer), id: "edit_answer_#{ answer.id }"
+          
+        td.delete
+          - if answer.user == current_user
+            = link_to 'Delete answer', answer_path(answer), id: "delete_answer_#{ answer.id }", method: :delete
 - else
   p No answers yet.
 

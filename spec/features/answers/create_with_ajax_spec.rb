@@ -28,12 +28,7 @@ feature 'Create answer on the question page', %q{
 
   scenario 'Guest can not answer a question' do
     visit question_path(question.id)
-
-    fill_in 'Your answer', with: answer[:body]
-    click_on 'Save answer'
-
-    expect(current_path).to eq new_user_session_path
-    expect(page).to have_content I18n.t('devise.failure.unauthenticated')
+    expect(page).not_to have_field 'Your answer'
   end
 end
 

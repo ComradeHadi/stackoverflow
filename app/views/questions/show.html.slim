@@ -2,18 +2,19 @@
   = @question.title
 #question_body
   = @question.body
-#question_edit
-  = link_to 'Edit question', edit_question_path(@question)
-#question_delete
-  = link_to 'Delete question', question_path(@question), method: :delete
+
+- if @question.user == current_user
+  #question_edit
+    = link_to 'Edit question', edit_question_path(@question)
+  #question_delete
+    = link_to 'Delete question', question_path(@question), method: :delete
 
 #answers
   = render 'answers'
 
-/ #(add answer with ajax without page reload)
-#answer_new_ajax
+- if current_user
   = form_for [@question, @question.answers.build], remote: true do |f|
     = f.label :body, 'Your answer'
-    #new_answer_body = f.text_area :body
+    = f.text_area :body
     = f.submit 'Save answer'
 
