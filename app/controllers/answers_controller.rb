@@ -14,12 +14,6 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(strong_params)
     @answer.save
-    #if @answer.save
-    #  redirect_to question_path(@question), notice: I18n.t('answer.created')
-    #else
-    #  flash[:alert] = I18n.t('answer.failure.not_created')
-    #  render :new
-    #end
   end
 
   def update
