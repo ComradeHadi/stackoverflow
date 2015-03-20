@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'features/helper'
 
 feature 'Update question', %q{
   As an author

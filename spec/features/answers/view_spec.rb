@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'features/helper'
 
 feature 'View answers', %q{
   As a guest or a user

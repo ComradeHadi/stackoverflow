@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'features/helper'
 
 feature 'Delete question', %q{
   As an author

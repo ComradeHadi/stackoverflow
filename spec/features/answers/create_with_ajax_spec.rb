@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'features/helper'
 
 feature 'Create answer on the question page', %q{
   As an authenticated user
