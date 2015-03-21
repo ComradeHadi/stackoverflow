@@ -40,7 +40,10 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question.destroy
-    redirect_to questions_path, notice: I18n.t('question.destroyed')
+    respond_to do |format|
+      format.html { redirect_to questions_path, notice: I18n.t('question.destroyed') }
+      format.js { render "destroy", locals: {questions_count: Question.all.count} }
+    end
   end
 
   private
