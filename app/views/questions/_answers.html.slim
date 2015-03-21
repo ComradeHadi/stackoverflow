@@ -1,9 +1,9 @@
 - unless @question.answers.empty?
-  p= I18n.t('answers.found', count: @question.answers.count)
+  p#answers_count= I18n.t('answers.found', count: @question.answers.count)
 
   table
     - @question.answers.each do |answer|
-      tr
+      tr id="answer_#{answer.id}"
         td.body = answer.body
         td.edit
           - if user_signed_in? and (answer.user_id == current_user.id)
@@ -11,7 +11,7 @@
           
         td.delete
           - if user_signed_in? and (answer.user_id == current_user.id)
-            = link_to 'Delete answer', answer_path(answer), id: "delete_answer_#{ answer.id }", method: :delete
+            = link_to 'Delete answer', answer_path(answer), id: "delete_answer_#{ answer.id }", method: :delete, remote: true
 - else
   p= I18n.t('answers.not_found')
 

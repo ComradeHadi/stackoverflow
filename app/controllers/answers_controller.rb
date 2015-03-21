@@ -26,7 +26,10 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    redirect_to question_path(@answer.question), notice: I18n.t('answer.destroyed')
+    respond_to do |format|
+      format.html { redirect_to question_path(@answer.question), notice: I18n.t('answer.destroyed') }
+      format.js { render "destroy", locals: {answers_count: @answer.question.answers.count} }
+    end
   end
 
   private

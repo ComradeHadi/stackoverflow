@@ -1,6 +1,6 @@
 require 'features/helper'
 
-feature 'Delete answer', %q{
+feature 'Delete answer without page reload', %q{
   As an author
   I want to be able to delete my answer
 } do
