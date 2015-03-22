@@ -12,6 +12,16 @@
         td.delete
           - if user_signed_in? and (answer.user_id == current_user.id)
             = link_to 'Delete answer', answer_path(answer), id: "delete_answer_#{ answer.id }", method: :delete, remote: true
+
+        td.is_best id="is_best_#{ answer.id }"
+          - if user_signed_in? and (@question.user_id == current_user.id)
+            - if answer.is_best
+              = I18n.t('answer.is_best')
+            - else
+              = link_to I18n.t('answer.accept_as_best'), answer_path(answer, answer: {is_best: true}), id: "best_answer_#{ answer.id }", method: :put, remote: true, class: "accept_as_best"
+
+          - else
+            = I18n.t('answer.is_best') if answer.is_best
 - else
   p= I18n.t('answers.not_found')
 
