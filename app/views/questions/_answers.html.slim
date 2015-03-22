@@ -1,7 +1,7 @@
 - unless @question.answers.empty?
   p#answers_count= I18n.t('answers.found', count: @question.answers.count)
 
-  table
+  table id="answers_list"
     - @question.answers.each do |answer|
       tr id="answer_#{answer.id}"
         td.body = answer.body

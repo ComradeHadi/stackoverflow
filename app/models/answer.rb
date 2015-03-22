@@ -1,7 +1,7 @@
 class Answer < ActiveRecord::Base
   before_save :ensure_single_best_answer, if: :is_best
 
-  default_scope { order(:created_at) }
+  default_scope { order(is_best: :desc, created_at: :asc) }
 
   belongs_to :question
   belongs_to :user

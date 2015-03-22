@@ -51,6 +51,28 @@ feature 'Accept answer as the best answer', %q{
     end
   end
 
+  scenario "Best answer should be the first in answers list", type: :feature, js: :true do
+    log_in question_author
+    visit question_path(question.id)
+
+    oldest_answer = answers.at(0) # is first by default
+    good_answer = answers.at(1)   # will be accepted as best answer
+
+    first_answer_selector = 'table#answers_list tr:first-child'
+
+    # ensure, that good answer is not already the first answer
+    first_answer_in_list = page.find(first_answer_selector)
+    expect( first_answer_in_list ).not_to have_content I18n.t('answer.is_best')
+    expect( first_answer_in_list ).not_to have_content good_answer.body
+
+    click_on "best_answer_#{ good_answer.id }"
+
+    # if answer is accepted as the best answer, it should be first in answers list
+    first_answer_in_list = page.find(first_answer_selector)
+    expect( first_answer_in_list ).to have_content I18n.t('answer.is_best')
+    expect( first_answer_in_list ).to have_content good_answer.body
+  end
+
   scenario 'Other user can not accept answer as the best answer', js: :true do
     log_in other_user
 
