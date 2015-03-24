@@ -2,18 +2,18 @@ require 'features/helper'
 
 feature 'Update question', %q{
   As an author
-  I want to be able to edit my question
+  I want to be able to edit my question without page reload
 } do
 
   given(:author) { create(:user) }
   given(:other_user) { create(:user) }
   given!(:question) { create(:question, user: author) }
 
-  scenario 'Author can edit his question' do
+  scenario 'Author can edit his question without page reload', type: feature, js: true do
     log_in author
     visit question_path(question)
     click_on 'Edit question'
-    expect(current_path).to eq edit_question_path(question)
+    expect(current_path).to eq question_path(question)
     fill_in 'Title', with: 'Updated title'
     fill_in 'Body', with: 'Updated body'
     click_on 'Update'

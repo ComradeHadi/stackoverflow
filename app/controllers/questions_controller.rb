@@ -30,11 +30,10 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.update(strong_params)
-      redirect_to @question, notice: I18n.t('question.updated')
-    else
-      flash[:alert] = I18n.t('question.failure.update.not_an_author')
-      render :edit
+    @question.update(strong_params)
+    respond_to do |format|
+      format.html { redirect_to @question, notice: I18n.t('question.updated') }
+      format.js { render "update" }
     end
   end
 

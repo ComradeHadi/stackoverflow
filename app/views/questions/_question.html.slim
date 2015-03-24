@@ -1,0 +1,20 @@
+#question_item
+  #question_title
+    = @question.title
+  #question_body
+    = @question.body
+
+= form_for @question, remote: true, html: { id: "for_question_edit", style: "display: none" } do |f|
+  = f.label :title
+  = f.text_field :title
+  = f.label :body
+  = f.text_area :body
+  = f.submit 'Update'
+
+- if user_signed_in? and (@question.user_id == current_user.id)
+  #question_edit_link
+    = link_to 'Edit question', '', data: { question_id: @question.id }
+
+  #question_delete_link
+    = link_to 'Delete question', question_path(@question), method: :delete
+

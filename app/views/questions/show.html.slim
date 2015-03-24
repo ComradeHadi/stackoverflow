@@ -1,13 +1,5 @@
-#question_title
-  = @question.title
-#question_body
-  = @question.body
-
-- if user_signed_in? and (@question.user_id == current_user.id)
-  #question_edit
-    = link_to 'Edit question', edit_question_path(@question)
-  #question_delete
-    = link_to 'Delete question', question_path(@question), method: :delete
+#question
+  = render 'question'
 
 #answers
   = render 'answers'
