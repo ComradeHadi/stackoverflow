@@ -4,7 +4,8 @@
     $('#notice').html('<%= j message %>')
   <% end %>
 <% else %>
+  $('#alert').html('')
   $('#notice').html('<%= I18n.t('answer.updated') %>')
-  $('#answers').html('<%= j render 'questions/answers' %>');
+  $('#answers').html('<%= j render 'questions/answers' %>')
 <% end %>
 
