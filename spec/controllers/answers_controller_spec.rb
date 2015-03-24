@@ -77,7 +77,7 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).not_to eq nil
       end
       it 're-renders edit view' do
-        expect(response).to render_template :edit
+        expect(response).to redirect_to question_path( answer.question_id )
       end
     end
   end

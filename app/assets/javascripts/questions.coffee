@@ -1,3 +1,14 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+window.App ?= {}
+
+# show answer#edit form
+App.edit_answer = (event) ->
+  answer_id = $(@).data('answerId')
+  event.preventDefault()
+  $(@).hide()
+  $("#answer_body_" + answer_id).hide()
+  $("form#for_answer_edit_" + answer_id).show()
+
+# live binding
+# still works after answer#update and reloading answers list
+$(document).on 'click', '#answers .edit_answer_link', App.edit_answer
+

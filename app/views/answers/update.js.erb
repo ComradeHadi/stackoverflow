@@ -1,1 +1,10 @@
-$('#answers').html('<%= j render 'questions/answers' %>');
+<% if @answer.errors.present? %>
+  <% @answer.errors.full_messages.each do |message| %>
+    $('#alert').html('<%= I18n.t('answer.failure.not_updated') %>')
+    $('#notice').html('<%= j message %>')
+  <% end %>
+<% else %>
+  $('#notice').html('<%= I18n.t('answer.updated') %>')
+  $('#answers').html('<%= j render 'questions/answers' %>');
+<% end %>
+

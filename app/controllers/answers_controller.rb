@@ -17,15 +17,11 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if @answer.update(strong_params)
-      @question = @answer.question
-      respond_to do |format|
-        format.html { redirect_to question_path(@answer.question), notice: I18n.t('answer.updated') }
-        format.js { render "update" }
-      end
-    else
-      flash[:alert] = I18n.t('answer.failure.not_updated')
-      render :edit
+    @answer.update(strong_params)
+    @question = @answer.question
+    respond_to do |format|
+      format.html { redirect_to question_path(@question), notice: I18n.t('answer.updated') }
+      format.js { render "update" }
     end
   end
 
