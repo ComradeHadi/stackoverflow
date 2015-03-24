@@ -54,7 +54,6 @@ class AnswersController < ApplicationController
   end
 
   def authorize_set_best
-# puts "answer: #{ @answer.id }"
     user_is_question_author = (@answer.question.user_id == current_user.id)
     unless (strong_params.has_key?(:is_best) and user_is_question_author)
       authors_only
