@@ -1,3 +1,3 @@
 $('#notice').html('<%= I18n.t('answer.destroyed') %>')
 $('#answer_<%= @answer.id %>').fadeOut();
-$('#answers_count').html('<%= I18n.t('answers.found', count: answers_count) %>');
+$('#answers_count').html('<%= I18n.t('answers.found', count: @answer.question.answers.count) %>');

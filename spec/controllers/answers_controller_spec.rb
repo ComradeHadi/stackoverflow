@@ -3,24 +3,27 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:answer) { create(:answer, question: question) }
-  let(:answers) { create_list(:answer, 2, question: question) }
+  let(:answer_by_another_user) { create(:answer) }
+  before { sign_in answer.user }
 
   describe 'POST #create' do
-    before { sign_in answer.user }
     context 'with valid attributes' do
       it 'saves new answer in db' do
         expect { post :create, answer: build_attributes(:answer), question_id: question, format: :js }.to change(question.answers, :count).by(1)
       end
-      it 'render create template' do
+
+      it 'renders create template' do
         post :create, answer: build_attributes(:answer), question_id: question, format: :js
         expect(response).to render_template :create
       end
     end
+
     context 'with invalid attributes' do
-      it 'saves new answer in db' do
+      it 'does not save new answer in db' do
         expect { post :create, answer: build_attributes(:invalid_answer), question_id: question, format: :js }.to_not change(question.answers, :count)
       end
-      it 'render create template' do
+
+      it 'renders create template' do
         post :create, answer: build_attributes(:invalid_answer), question_id: question, format: :js
         expect(response).to render_template :create
       end
@@ -28,44 +31,54 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    before { sign_in answer.user }
     context 'with valid attributes' do
       it 'assigns the requested answer to @answer' do
-        patch :update, id: answer, answer: build_attributes(:answer)
+        patch :update, id: answer, answer: build_attributes(:answer), format: :js
         expect(assigns(:answer)).to eq answer
       end
+
       it 'changes answer attributes' do
-        patch :update, id: answer, answer: { body: 'new body' }
+        patch :update, id: answer, answer: { body: 'new body' }, format: :js
         answer.reload
         expect(answer.body).to eq 'new body'
       end
-      it 'redirects to question page with updated answer' do
-        patch :update, id: answer, answer: { body: 'new body' }
+
+      it 'renders template update' do
+        patch :update, id: answer, answer: { body: 'new body' }, format: :js
         answer.reload
-        expect(response).to redirect_to question_path( answer.question_id )
+        expect(response).to render_template :update
       end
     end
+
     context 'with invalid attributes' do
-      before { patch :update, id: answer, answer: { body: nil } }
+      before { patch :update, id: answer, answer: { body: nil }, format: :js }
       it 'does not change answer attributes' do
         answer.reload
         expect(answer.body).not_to eq nil
       end
-      it 're-renders edit view' do
-        expect(response).to redirect_to question_path( answer.question_id )
+
+      it 'renders template update' do
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'unauthorized update' do
+      it 'does not update answer of another user' do
+        patch :update, id: answer_by_another_user, answer: { body: 'new body' }, format: :js
+        answer.reload
+        expect(answer.body).not_to eq 'new body'
       end
     end
   end
 
   describe 'DELETE #destroy' do
-    before { sign_in answer.user }
-    before { answer; question }
     it 'deletes answer' do
-      expect { delete :destroy, id: answer }.to change(Answer, :count).by(-1)
+      expect{ delete :destroy, id: answer, format: :js }.to change(Answer, :count).by(-1)
     end
-    it 'redirects to index view' do
-      delete :destroy, id: answer
-      expect(response).to redirect_to question_path(question)
+
+    it 'renders template destroy' do
+      delete :destroy, id: answer, format: :js
+      expect(response).to render_template :destroy
     end
   end
 end

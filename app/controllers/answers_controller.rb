@@ -12,18 +12,10 @@ class AnswersController < ApplicationController
   def update
     @answer.update(strong_params)
     @question = @answer.question
-    respond_to do |format|
-      format.html { redirect_to question_path(@question), notice: I18n.t('answer.updated') }
-      format.js { render "update" }
-    end
   end
 
   def destroy
     @answer.destroy
-    respond_to do |format|
-      format.html { redirect_to question_path(@answer.question), notice: I18n.t('answer.destroyed') }
-      format.js { render "destroy", locals: {answers_count: @answer.question.answers.count} }
-    end
   end
 
   private
