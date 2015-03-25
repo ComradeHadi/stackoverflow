@@ -1,9 +1,9 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_answer, only: [:update, :destroy]
+  before_action :load_answer, except: [:create]
   before_action :load_question, only: [:create]
-  before_action :authors_only, only: [:destroy]
-  before_action :authorize_set_best, only: [:update]
+  before_action :answer_author_only, only: [:update, :destroy]
+  before_action :question_author_only, only: [:accept_as_best]
 
   def create
     @answer = @question.answers.create(strong_params)
@@ -18,6 +18,11 @@ class AnswersController < ApplicationController
     @answer.destroy
   end
 
+  def accept_as_best
+    @answer.accept_as_best
+    @question = @answer.question
+  end
+
   private
 
   def load_question
@@ -28,21 +33,20 @@ class AnswersController < ApplicationController
     @answer = Answer.find(params[:id])
   end
 
-  def authors_only
-    unless @answer.user_id == current_user.id
-      redirect_to @answer.question, alert: I18n.t('answer.failure.not_an_author')
+  def answer_author_only
+    if @answer.user_id != current_user.id
+      render status: 403, text: I18n.t('answer.failure.not_an_author')
     end
   end
 
-  def authorize_set_best
-    user_is_question_author = (@answer.question.user_id == current_user.id)
-    unless (strong_params.has_key?(:is_best) and user_is_question_author)
-      authors_only
+  def question_author_only
+    if @answer.question.user_id != current_user.id
+      render status: 403, text: I18n.t('question.failure.not_an_author') 
     end
   end
 
   def strong_params
-    strong_params = params.require(:answer).permit(:title, :body, :question_id, :user_id, :is_best)
+    strong_params = params.require(:answer).permit(:title, :body, :question_id, :user_id)
     strong_params.merge( user_id: current_user.id ) if user_signed_in?
   end
 end

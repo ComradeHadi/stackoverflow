@@ -1,6 +1,4 @@
 class Answer < ActiveRecord::Base
-  before_save :ensure_single_best_answer, if: :is_best
-
   default_scope { order(is_best: :desc, created_at: :asc) }
 
   belongs_to :question
@@ -10,8 +8,11 @@ class Answer < ActiveRecord::Base
   validates :question, presence: true
   validates :user, presence: true
 
-  def ensure_single_best_answer
-    Answer.where(question: question_id, is_best: true).update_all(is_best: false)
+  def accept_as_best
+    Answer.transaction do
+      Answer.where(question: question_id, is_best: true).update_all(is_best: false)
+      update(is_best: true)
+    end
   end
 end
 

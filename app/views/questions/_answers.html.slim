@@ -27,7 +27,7 @@
             - if answer.is_best
               = I18n.t('answer.is_best')
             - else
-              = link_to I18n.t('answer.accept_as_best'), answer_path(answer, answer: {is_best: true}), id: "best_answer_#{ answer.id }", method: :put, remote: true, class: "accept_as_best"
+              = link_to I18n.t('answer.accept_as_best'), accept_as_best_answer_path(answer), id: "best_answer_#{ answer.id }", method: :patch, remote: true, class: "accept_as_best"
 
           - else
             = I18n.t('answer.is_best') if answer.is_best
