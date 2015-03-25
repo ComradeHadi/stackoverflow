@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_answer, except: [:create]
-  before_action :load_question, only: [:create]
+  before_action :load_question, except: [:destroy]
   before_action :answer_author_only, only: [:update, :destroy]
   before_action :question_author_only, only: [:accept_as_best]
 
@@ -11,7 +11,6 @@ class AnswersController < ApplicationController
 
   def update
     @answer.update(strong_params)
-    @question = @answer.question
   end
 
   def destroy
@@ -20,13 +19,16 @@ class AnswersController < ApplicationController
 
   def accept_as_best
     @answer.accept_as_best
-    @question = @answer.question
   end
 
   private
 
   def load_question
-    @question = Question.find(params[:question_id])
+    @question = if params.has_key?(:question_id)
+      Question.find(params[:question_id])
+    else
+      @answer.question
+    end
   end
 
   def load_answer
