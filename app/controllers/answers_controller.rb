@@ -1,16 +1,9 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_answer, only: [:edit, :update, :destroy]
-  before_action :load_question, only: [:new, :create]
-  before_action :authors_only, only: [:edit, :destroy]
+  before_action :load_answer, only: [:update, :destroy]
+  before_action :load_question, only: [:create]
+  before_action :authors_only, only: [:destroy]
   before_action :authorize_set_best, only: [:update]
-
-  def new
-    @answer = @question.answers.new
-  end
-
-  def edit
-  end
 
   def create
     @answer = @question.answers.create(strong_params)

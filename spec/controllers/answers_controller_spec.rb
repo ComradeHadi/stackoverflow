@@ -5,31 +5,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer, question: question) }
   let(:answers) { create_list(:answer, 2, question: question) }
 
-  describe 'GET #new' do
-    before { sign_in question.user }
-    before { get :new, question_id: question }
-
-    it 'assigns new answer to @answer' do
-      expect(assigns(:answer)).to be_a_new Answer
-    end
-    it 'renders new view' do
-      expect(response).to render_template :new
-    end
-  end
-
-  describe 'GET #edit' do
-    before { sign_in answer.user }
-    before { get :edit, id: answer }
-
-    it 'assigns the requested answer to @answer' do
-      expect(assigns(:answer)).to eq answer
-    end
-
-    it 'renders edit view' do
-      expect(response).to render_template :edit
-    end
-  end
-
   describe 'POST #create' do
     before { sign_in answer.user }
     context 'with valid attributes' do
