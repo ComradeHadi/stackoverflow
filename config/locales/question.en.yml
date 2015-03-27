@@ -6,5 +6,6 @@ en:
     updated: "Your question was updated"
     destroyed: "Your question was deleted"
     failure:
+      not_updated: "An error occured while updating your question"
       not_an_author: "Only an author can edit or delete his questions"
 

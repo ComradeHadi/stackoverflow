@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   root to: "questions#index"
 
   resources :questions do
-    resources :answers, except: [:index, :show], shallow: true
+    resources :answers, except: [:index, :show, :edit], shallow: true do
+      patch :accept_as_best, on: :member
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

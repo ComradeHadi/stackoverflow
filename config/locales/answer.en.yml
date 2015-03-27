@@ -6,6 +6,10 @@ en:
     created: "Your answer was successfully created."
     updated: "Your answer was updated."
     destroyed: "Your answer was deleted"
+    accept_as_best: "Accept as best answer"
+    accepted_as_best: "Answer was accepted as the best answer"
+    is_best: "This was accepted as best answer"
     failure:
+      not_updated: "An error occured while updating your answer"
       not_an_author: "Only an author can edit or delete his answers"
 

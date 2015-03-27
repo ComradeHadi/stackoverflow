@@ -1,2 +1,11 @@
-$('#answers').html('<%= j render 'questions/answers' %>');
-$('#answer_body').val('');
+<% if @answer.errors.present? %>
+  <% @answer.errors.full_messages.each do |message| %>
+    $('#alert').html('<%= I18n.t('answer.failure.not_created') %>')
+    $('#notice').html('<%= j message %>')
+  <% end %>
+<% else %>
+  $('#notice').html('<%= I18n.t('answer.created') %>')
+  $('#answers').html('<%= j render 'questions/answers' %>');
+  $('#answer_body').val('');
+<% end %>
+

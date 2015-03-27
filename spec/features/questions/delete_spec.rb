@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'features/helper'
 
 feature 'Delete question', %q{
   As an author
@@ -7,9 +7,17 @@ feature 'Delete question', %q{
 
   given(:author) { create(:user) }
   given(:other_user) { create(:user) }
-  given(:question) { create(:question, user: author) }
+  given(:questions) { create_list(:question, 3, user: author) }
+  given!(:question) { questions.at(2) }
 
-  scenario 'Author can delete his question' do
+  scenario 'Author can delete his question from index page (with ajax)' do
+    log_in author
+    visit questions_path
+    click_on "delete_question_#{ question.id }"
+    expect(current_path).to eq questions_path
+    expect(page).not_to have_content question.title
+  end
+  scenario 'Author can delete his question from show page' do
     log_in author
     visit question_path(question)
     click_on 'Delete question'

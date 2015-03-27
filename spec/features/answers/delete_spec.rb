@@ -1,6 +1,6 @@
-require 'rails_helper'
+require 'features/helper'
 
-feature 'Delete answer', %q{
+feature 'Delete answer without page reload', %q{
   As an author
   I want to be able to delete my answer
 } do
@@ -11,7 +11,7 @@ feature 'Delete answer', %q{
   given!(:answers) { create_list(:answer, 3, question: question, user: author) }
   given!(:answer) { answers.at(1) }
 
-  scenario 'Author can delete his answer' do
+  scenario 'Author can delete his answer', type: feature, js: true do
     log_in author
 
     # answers are listed only under question page

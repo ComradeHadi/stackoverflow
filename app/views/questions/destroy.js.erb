@@ -1,0 +1,2 @@
+$('#question_<%= @question.id %>').fadeOut();
+$('#questions_count').html('<%= I18n.t('questions.found', count: questions_count) %>');
