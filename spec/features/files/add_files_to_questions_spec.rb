@@ -20,7 +20,6 @@ feature 'Add files to question', %q{
     click_on 'Create'
 
     expect(page).to have_content I18n.t('question.created')    
-    expect(page).to have_content question.title
-    expect(page).to have_content "helper.rb"
+    expect(page).to have_link "helper.rb", href: "/uploads/attachment/file/1/helper.rb"
   end
 end

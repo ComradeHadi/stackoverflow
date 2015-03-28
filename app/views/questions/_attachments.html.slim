@@ -1,5 +1,5 @@
 - unless @question.attachments.empty?
   ul
     - @question.attachments.each do |a|
-      li= a.file.file.filename
+      li= link_to a.file.filename, a.file.url
 
