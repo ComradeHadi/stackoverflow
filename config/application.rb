@@ -33,5 +33,7 @@ module Stackoverflow
                        controller_specs: true
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
+
+    config.web_console.whitelisted_ips = '192.168.0.0/16'
   end
 end

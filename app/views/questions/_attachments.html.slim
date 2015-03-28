@@ -1,0 +1,5 @@
+- unless @question.attachments.empty?
+  ul
+    - @question.attachments.each do |a|
+      li= a.file.file.filename
+
