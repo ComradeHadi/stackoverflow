@@ -4,9 +4,13 @@ class Answer < ActiveRecord::Base
   belongs_to :question
   belongs_to :user
 
+  has_many :attachments, as: :attachmentable, dependent: :destroy
+
   validates :body, presence: true
   validates :question, presence: true
   validates :user, presence: true
+
+  accepts_nested_attributes_for :attachments
 
   def accept_as_best
     Answer.transaction do
