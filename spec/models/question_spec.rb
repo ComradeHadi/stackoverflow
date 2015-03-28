@@ -7,6 +7,8 @@ RSpec.describe Question, type: :model do
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:attachments).dependent(:destroy) }
 
+  it { should accept_nested_attributes_for :attachments }
+
   describe "destroy question" do
     it "should destroy dependent answers" do
       question = create(:question)
