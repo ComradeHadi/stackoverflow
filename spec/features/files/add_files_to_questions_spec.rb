@@ -19,7 +19,7 @@ feature 'Add files to question', %q{
     attach_file 'File', "#{Rails.root}/spec/features/helper.rb"
     click_on 'Create'
 
-    expect(page).to have_content I18n.t('question.created')    
+    expect(page).to have_content I18n.t('question.created')
     expect(page).to have_link "helper.rb", href: "/uploads/attachment/file/1/helper.rb"
   end
 end
