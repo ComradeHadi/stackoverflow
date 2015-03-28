@@ -10,7 +10,7 @@ feature 'Update answer', %q{
   given!(:question) { create(:question, user: author) }
   given!(:answer) { create(:answer, question: question, user: author)}
 
-  scenario 'Author can edit his answer', type: feature, js: true do
+  scenario 'Author can edit his answer', js: true do
     log_in author
     visit question_path(question)
     click_on 'Edit answer'

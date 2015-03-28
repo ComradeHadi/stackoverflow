@@ -11,7 +11,7 @@ feature 'Accept answer as the best answer', %q{
   given!(:question) { create(:question, user: question_author) }
   given!(:answers) { create_list(:answer, 3, question: question, user: other_user) }
 
-  scenario 'Question author can accept any answer as the best answer', type: :feature, js: :true do
+  scenario 'Question author can accept any answer as the best answer', js: :true do
     log_in question_author
     answer = answers.at(0)
 
@@ -27,7 +27,7 @@ feature 'Accept answer as the best answer', %q{
     end
   end
 
-  scenario 'Only one answer can be the best answer', type: :feature, js: :true do
+  scenario 'Only one answer can be the best answer', js: :true do
     log_in question_author
     first_best_answer = answers.at(1)
 
@@ -51,7 +51,7 @@ feature 'Accept answer as the best answer', %q{
     end
   end
 
-  scenario "Best answer should be the first in answers list", type: :feature, js: :true do
+  scenario "Best answer should be the first in answers list", js: :true do
     log_in question_author
     visit question_path(question.id)
 

@@ -10,7 +10,7 @@ feature 'Create answer on the question page', %q{
   given(:question) { create(:question) }
   given(:answer) { attributes_for(:answer) }
 
-  scenario 'User creates an answer to the question', type: :feature, js: :true do
+  scenario 'User creates an answer to the question', js: :true do
     log_in user
 
     visit question_path(question.id)
@@ -23,7 +23,7 @@ feature 'Create answer on the question page', %q{
     end
   end
 
-  scenario 'User tries to create invalid answer', type: :feature, js: :true do
+  scenario 'User tries to create invalid answer', js: :true do
     log_in user
 
     visit question_path(question.id)

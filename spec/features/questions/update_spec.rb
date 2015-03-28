@@ -9,7 +9,7 @@ feature 'Update question', %q{
   given(:other_user) { create(:user) }
   given!(:question) { create(:question, user: author) }
 
-  scenario 'Author can edit his question without page reload', type: feature, js: true do
+  scenario 'Author can edit his question without page reload', js: true do
     log_in author
     visit question_path(question)
     click_on 'Edit question'

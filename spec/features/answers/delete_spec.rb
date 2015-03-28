@@ -11,7 +11,7 @@ feature 'Delete answer without page reload', %q{
   given!(:answers) { create_list(:answer, 3, question: question, user: author) }
   given!(:answer) { answers.at(1) }
 
-  scenario 'Author can delete his answer', type: feature, js: true do
+  scenario 'Author can delete his answer', js: true do
     log_in author
 
     # answers are listed only under question page
