@@ -38,7 +38,12 @@ group :development, :test do
   gem 'factory_girl_rails'
 
   gem 'capybara'
+
+  # requires qt5-default libqt5webkit5-dev
+  # requires JavaScript runtime (nodejs, therubyracer)
   gem 'capybara-webkit'
+
+  # requires xvfb
   gem 'headless'
   gem 'database_cleaner'
 
