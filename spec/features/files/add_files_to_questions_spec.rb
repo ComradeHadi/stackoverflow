@@ -16,10 +16,12 @@ feature 'Add files to question', %q{
   scenario 'Author adds file when asking question', js: :true do
     fill_in 'Title', with: question.title
     fill_in 'Body', with: question.body
+    click_on 'Add a file'
     attach_file 'File', "#{Rails.root}/spec/features/helper.rb"
     click_on 'Create'
 
     expect(page).to have_content I18n.t('question.created')
     expect(page).to have_link "helper.rb", href: "/uploads/attachment/file/1/helper.rb"
   end
+
 end

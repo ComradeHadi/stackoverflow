@@ -9,12 +9,10 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = Answer.new # @question.answers.build
-    @answer.attachments.build
   end
 
   def new
     @question = Question.new
-    @question.attachments.build
   end
 
   def edit
@@ -59,7 +57,7 @@ class QuestionsController < ApplicationController
   end
 
   def strong_params
-    strong_params = params.require(:question).permit(:title, :body, :user_id, attachments_attributes: [:file])
+    strong_params = params.require(:question).permit(:title, :body, :user_id, attachments_attributes: [:id, :file, :_destroy])
     strong_params.merge( user_id: current_user.id ) if user_signed_in?
   end
 end
