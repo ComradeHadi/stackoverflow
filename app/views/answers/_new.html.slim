@@ -1,5 +1,5 @@
 - if user_signed_in?
-  = form_for [@question, @answer], remote: true do |f|
+  = nested_form_for [@question, @answer], remote: true do |f|
     p
       = f.label :body, 'Your answer'
       = f.text_area :body
@@ -8,6 +8,8 @@
       = f.fields_for :attachments do |a|
         = a.label :file
         = a.file_field :file
+        = a.link_to_remove "Remove"
+      = f.link_to_add "Add a file", :attachments
 
     p = f.submit 'Save answer'
 

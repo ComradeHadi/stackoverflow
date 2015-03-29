@@ -16,6 +16,7 @@ feature 'Add files to answer', %q{
 
   scenario 'Author adds file when asking question', js: :true do
     fill_in 'Your answer', with: answer.body
+    click_on 'Add a file'
     attach_file 'File', "#{Rails.root}/spec/features/helper.rb"
     click_on 'Save answer'
 
