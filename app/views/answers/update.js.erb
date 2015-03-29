@@ -4,8 +4,8 @@
     $('#notice').html('<%= j message %>')
   <% end %>
 <% else %>
-  $('#alert').html('')
+  $('#alert').empty()
   $('#notice').html('<%= I18n.t('answer.updated') %>')
-  $('#answers').html('<%= j render 'answers' %>')
+  $('#answer_<%= @answer.id %>').replaceWith('<%= j render @answer %>')
 <% end %>
 
