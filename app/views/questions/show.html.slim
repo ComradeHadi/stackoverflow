@@ -5,12 +5,11 @@
   = render 'attachments'
 
 #answers
-  = render 'answers'
+  = render 'answers/answers'
 
 - if user_signed_in?
   = form_for [@question, @question.answers.build], remote: true do |f|
     = f.label :body, 'Your answer'
-    #answer_errors
     = f.text_area :body
     = f.submit 'Save answer'
 

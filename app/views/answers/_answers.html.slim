@@ -5,7 +5,6 @@
     - @question.answers.each do |answer|
 
       tr id="answer_#{answer.id}"
-
         td.body
           div id="answer_body_#{answer.id}" = answer.body
 
@@ -31,6 +30,6 @@
 
           - else
             = I18n.t('answer.is_best') if answer.is_best
+
 - else
   p= I18n.t('answers.not_found')
-

@@ -5,7 +5,7 @@
   <% end %>
 <% else %>
   $('#notice').html('<%= I18n.t('answer.created') %>')
-  $('#answers').html('<%= j render 'questions/answers' %>');
+  $('#answers').html('<%= j render 'answers' %>');
   $('#answer_body').val('');
 <% end %>
 
