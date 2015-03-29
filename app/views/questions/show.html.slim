@@ -1,15 +1,4 @@
-#question
-  = render 'question'
-
-#attachmets
-  = render 'attachments'
-
-#answers
-  = render 'answers/answers'
-
-- if user_signed_in?
-  = form_for [@question, @question.answers.build], remote: true do |f|
-    = f.label :body, 'Your answer'
-    = f.text_area :body
-    = f.submit 'Save answer'
-
+#question    = render 'question'
+#attachmets  = render 'attachments'
+#answers     = render 'answers/answers'
+#answers_new = render 'answers/new'
