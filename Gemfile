@@ -51,6 +51,8 @@ group :development, :test do
   gem 'headless'
   gem 'database_cleaner'
 
+  gem 'guard-rspec'
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 
