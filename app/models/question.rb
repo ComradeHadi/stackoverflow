@@ -1,6 +1,6 @@
 class Question < ActiveRecord::Base
   has_many :answers, dependent: :destroy
-  has_many :attachments, as: :attachmentable, dependent: :destroy
+  has_many :attachments, as: :attachable, dependent: :destroy
 
   belongs_to :user
 

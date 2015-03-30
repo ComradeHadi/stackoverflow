@@ -13,7 +13,7 @@ FactoryGirl.define do
       end
 
       after(:create) do |question, evaluator|
-        create_list(:attachment, evaluator.files_count, attachmentable: question)
+        create_list(:attachment, evaluator.files_count, attachable: question)
       end
     end
 
