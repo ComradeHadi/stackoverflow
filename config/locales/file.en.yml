@@ -1,0 +1,6 @@
+en:
+  file:
+    destroyed: "File was deleted"
+    failure:
+      not_an_author: "Only an author can delete his attachments"
+

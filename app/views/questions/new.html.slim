@@ -1,7 +1,15 @@
-= form_for @question do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Create'
+= nested_form_for @question do |f|
+  p
+    = f.label :title
+    = f.text_field :title
+
+  p
+    = f.label :body
+    = f.text_area :body
+
+  p Attachments:
+  p = render 'layouts/attachments/new', form: f
+
+  p
+    = f.submit 'Create'
 

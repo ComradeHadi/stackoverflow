@@ -1,0 +1,12 @@
+- if container.attachments.any?
+
+  .attachments
+    - container.attachments.each do |attachment|
+
+      div id="file_#{ attachment.id }"
+
+        = link_to attachment.file_identifier, attachment.file.url
+
+        - if user_signed_in? and (container.user_id == current_user.id)
+          = link_to 'Delete file', file_path(attachment), method: :delete, id: "delete_file_#{ attachment.id }", remote: true
+

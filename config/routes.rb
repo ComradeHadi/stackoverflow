@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   devise_for :users
   root to: "questions#index"
 
+  resources :files, only: [:destroy]
+
   resources :questions do
     resources :answers, except: [:index, :show, :edit], shallow: true do
       patch :accept_as_best, on: :member

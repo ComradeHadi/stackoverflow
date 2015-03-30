@@ -37,18 +37,18 @@ class AnswersController < ApplicationController
 
   def answer_author_only
     if @answer.user_id != current_user.id
-      render status: 403, text: I18n.t('answer.failure.not_an_author')
+      render status: :forbidden, text: I18n.t('answer.failure.not_an_author')
     end
   end
 
   def question_author_only
     if @answer.question.user_id != current_user.id
-      render status: 403, text: I18n.t('question.failure.not_an_author') 
+      render status: :forbidden, text: I18n.t('question.failure.not_an_author') 
     end
   end
 
   def strong_params
-    strong_params = params.require(:answer).permit(:title, :body, :question_id, :user_id)
+    strong_params = params.require(:answer).permit(:title, :body, :question_id, :user_id, attachments_attributes: [:file])
     strong_params.merge( user_id: current_user.id ) if user_signed_in?
   end
 end

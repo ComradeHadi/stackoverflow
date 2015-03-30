@@ -1,0 +1,8 @@
+- if @question.answers.any?
+  p#answers_count= I18n.t('answers.found', count: @question.answers.count)
+
+  table id="answers_list"
+    = render @question.answers
+
+- else
+  p= I18n.t('answers.not_found')

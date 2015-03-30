@@ -1,0 +1,11 @@
+- if user_signed_in?
+  = nested_form_for [@question, @answer], remote: true do |f|
+    p
+      = f.label :body, 'Your answer'
+      = f.text_area :body
+
+    p Attachments:
+    p = render 'layouts/attachments/new', form: f
+
+    p = f.submit 'Save answer'
+

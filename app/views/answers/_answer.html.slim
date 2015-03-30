@@ -1,0 +1,30 @@
+tr id="answer_#{answer.id}"
+  td.body
+    div id="answer_body_#{answer.id}" = answer.body
+
+    = form_for answer, remote: true, html: { id: "for_answer_edit_#{ answer.id }", style: "display: none" } do |f|
+      = f.label :body, 'Answer'
+      = f.text_area :body
+      = f.submit 'Update'
+
+  td.attachments
+    = render 'layouts/attachments/index', container: answer
+
+  td.edit
+    - if user_signed_in? and (answer.user_id == current_user.id)
+     = link_to 'Edit answer', '', id: "edit_answer_#{ answer.id }", class: 'edit_answer_link', data: { answer_id: answer.id }
+
+  td.delete
+    - if user_signed_in? and (answer.user_id == current_user.id)
+      = link_to 'Delete answer', answer_path(answer), id: "delete_answer_#{ answer.id }", method: :delete, remote: true
+
+  td.is_best id="is_best_#{ answer.id }"
+    - if user_signed_in? and (@question.user_id == current_user.id)
+      - if answer.is_best
+        = I18n.t('answer.is_best')
+      - else
+        = link_to I18n.t('answer.accept_as_best'), accept_as_best_answer_path(answer), id: "best_answer_#{ answer.id }", method: :patch, remote: true, class: "accept_as_best"
+
+    - else
+      = I18n.t('answer.is_best') if answer.is_best
+
