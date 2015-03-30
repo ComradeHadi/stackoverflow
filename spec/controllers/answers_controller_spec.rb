@@ -62,7 +62,7 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context 'unauthorized update' do
+    context 'when unauthorized' do
       it 'does not update answer of another user' do
         patch :update, id: answer_by_another_user, answer: { body: 'new body' }, format: :js
         answer.reload
@@ -72,7 +72,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #accept_as_best' do
-    context 'authorized' do
+    context 'when authorized' do
       before { sign_in question.user }
       before { answer; answer_by_another_user }
       before { patch :accept_as_best, id: answer, format: :js }
@@ -91,7 +91,7 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context 'unauthorized' do
+    context 'when unauthorized' do
       before { sign_in answer.user }
       before { question; answer; answer_by_another_user }
       before { patch :accept_as_best, id: answer, format: :js }
