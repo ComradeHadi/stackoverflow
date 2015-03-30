@@ -1,17 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe FilesController, type: :controller do
-  let(:question) { create(:question_with_attachment) }
-  let(:file) { question.attachments.first }
+  let(:question) { create(:question, :with_files, files_count: 2) }
+  let(:files) { question.attachments }
   before { sign_in question.user }
 
   describe 'DELETE #destroy' do
-    it 'deletes file' do
-      expect{ delete :destroy, id: file, format: :js }.to change(Attachment, :count).by(-1)
+    it 'deletes files' do
+      expect{files.each {|file| delete :destroy, id: file, format: :js}}.to change(Attachment, :count).by(-2)
     end
 
     it 'renders template destroy' do
-      delete :destroy, id: file, format: :js
+      delete :destroy, id: files.first, format: :js
       expect(response).to render_template :destroy
     end
   end
