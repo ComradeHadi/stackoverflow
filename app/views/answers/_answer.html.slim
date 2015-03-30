@@ -8,7 +8,7 @@ tr id="answer_#{answer.id}"
       = f.submit 'Update'
 
   td.attachments
-    = render 'layouts/attachments', container: answer
+    = render 'layouts/attachments/index', container: answer
 
   td.edit
     - if user_signed_in? and (answer.user_id == current_user.id)
