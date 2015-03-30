@@ -8,6 +8,7 @@ feature 'Add files to answer', %q{
   given(:user) { create(:user) }
   given(:question) { create(:question) }
   given(:answer) { build(:answer, question: question) }
+  given(:test_file) { "#{Rails.root}/spec/features/helper.rb" }
 
   background do
     log_in user
@@ -16,13 +17,18 @@ feature 'Add files to answer', %q{
 
   scenario 'Author adds file when asking question', js: :true do
     fill_in 'Your answer', with: answer.body
-    click_on 'Add a file'
-    attach_file 'File', "#{Rails.root}/spec/features/helper.rb"
+
+    2.times do |n|
+      click_link 'Add a file'
+      within ".attachments_new .fields:nth-child(#{ n + 1 })" do
+        attach_file 'File', test_file
+      end
+    end
     click_on 'Save answer'
 
     expect(page).to have_content I18n.t('answer.created')
     within '#answers_list' do
-      expect(page).to have_link "helper.rb", href: "/uploads/attachment/file/1/helper.rb"
+      expect(page).to have_link "helper.rb", count: 2
     end
   end
 end
