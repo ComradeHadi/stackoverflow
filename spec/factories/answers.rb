@@ -7,14 +7,18 @@ FactoryGirl.define do
     user
     is_best false
 
-    factory :invalid_answer do
-      body nil
+    trait :with_files do
+      transient do
+        files_count 1
+      end
+
+      after(:create) do |question, evaluator|
+        create_list(:attachment, evaluator.files_count, attachmentable: answer)
+      end
     end
 
-    factory :answer_with_attachment do
-      after(:create) do |answer, evaluator|
-        answer.attachments << FactoryGirl.build(:attachment_to_answer, attachmentable_id: answer.id)
-      end
+    factory :invalid_answer do
+      body nil
     end
   end
 end
