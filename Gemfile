@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
 # Use postgresql as the database for Active Record
+# requires libpq-dev
 gem 'pg'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -51,7 +52,11 @@ group :development, :test do
   gem 'headless'
   gem 'database_cleaner'
 
+  # automatically run your specs (much like autotest)
   gem 'guard-rspec'
+
+  # mutes assets pipeline log messages.
+  gem 'quiet_assets'
 
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
