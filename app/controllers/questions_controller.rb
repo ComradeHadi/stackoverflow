@@ -23,17 +23,12 @@ class QuestionsController < ApplicationController
     if @question.save
       redirect_to @question, notice: I18n.t('question.created')
     else
-      flash[:alert] = 'ERROR: Question not created'
-      render :new
+      render :new, alert: I18n.t('question.failure.not_created')
     end
   end
 
   def update
     @question.update(strong_params)
-    respond_to do |format|
-      format.html { redirect_to @question, notice: I18n.t('question.updated') }
-      format.js { render "update" }
-    end
   end
 
   def destroy
