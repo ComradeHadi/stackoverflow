@@ -1,0 +1,36 @@
+window.App ?= {}
+
+# show question#edit form
+App.question_edit = (event) ->
+  event.preventDefault()
+  question_id = $(@).data('questionId')
+  $(@).hide()
+  $("#question_item").hide()
+  $("form#for_question_edit").show()
+
+# show answer#edit form
+App.answer_edit = (event) ->
+  event.preventDefault()
+  answer_id = $(@).data('answerId')
+  $(@).hide()
+  $("#answer_body_" + answer_id).hide()
+  $("form#for_answer_edit_" + answer_id).show()
+
+# update #answers after answer#create
+App.answer_create = (e, date, status, xhr) ->
+  answer = $.parseJSON(xhr.responseText)
+  $('#alert').empty()
+  $('#notice').html('<%= I18n.t('answer.created') %>')
+  $('#answers_list').append('<tr id="answer_' + answer.id + '>"><td class="body"><div id="answer_body_' + answer.id + '">' + answer.body + '</div></td></tr>')
+
+App.answer_create_error = (e, xhr, status, error) ->
+  errors = $.parseJSON(xhr.responseText)
+  $('#notice').empty()
+  $('#alert').empty()
+  $.each errors, (index, value) ->
+    $('#alert').append(value)
+
+$(document).on 'click', '#question_edit_link', App.question_edit
+$(document).on 'click', '#answers .edit_answer_link', App.answer_edit
+$(document).on 'ajax:success', 'form#new_answer', App.answer_create
+$(document).on 'ajax:error', 'form#new_answer', App.answer_create_error
