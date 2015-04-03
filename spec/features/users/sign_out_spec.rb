@@ -11,7 +11,7 @@ feature 'User sign out', %q{
     log_in user
     expect(current_path).to eq root_path
     log_out user
-    expect(page).to have_content I18n.t('devise.sessions.signed_out')
+    expect(page).to have_content t('devise.sessions.signed_out')
   end
 end
 

@@ -13,13 +13,13 @@ feature 'View answers', %q{
     log_in user
     visit question_path(question.id)
     expect(page).to have_content question.title
-    expect(page).to have_content I18n.t('answers.found', count: 2)
+    expect(page).to have_content t('answers.found', count: 2)
   end
 
   scenario 'Guest can view answers' do
     visit question_path(question.id)
     expect(page).to have_content question.title
-    expect(page).to have_content I18n.t('answers.found', count: 2)
+    expect(page).to have_content t('answers.found', count: 2)
   end
 end
 

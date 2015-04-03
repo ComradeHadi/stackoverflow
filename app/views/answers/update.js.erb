@@ -1,11 +1,11 @@
 <% if @answer.errors.present? %>
   <% @answer.errors.full_messages.each do |message| %>
-    $('#alert').html('<%= I18n.t('answer.failure.not_updated') %>')
+    $('#alert').html('<%= t 'answer.failure.not_updated' %>')
     $('#notice').html('<%= j message %>')
   <% end %>
 <% else %>
   $('#alert').empty()
-  $('#notice').html('<%= I18n.t('answer.updated') %>')
+  $('#notice').html('<%= t 'answer.updated' %>')
   $('#answer_<%= @answer.id %>').replaceWith('<%= j render @answer %>')
 <% end %>
 

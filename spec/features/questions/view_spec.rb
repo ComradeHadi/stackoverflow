@@ -11,13 +11,13 @@ feature 'View questions', %q{
   scenario 'Any guest can view questions' do
     visit questions_path
     expect(current_path).to eq questions_path
-    expect(page).to have_content I18n.t('questions.found', count: questions.count)
+    expect(page).to have_content t('questions.found', count: questions.count)
   end
 
   scenario 'Authenticated user can view questions' do
     log_in user
     visit questions_path
-    expect(page).to have_content I18n.t('questions.found', count: questions.count)
+    expect(page).to have_content t('questions.found', count: questions.count)
   end
 end
 

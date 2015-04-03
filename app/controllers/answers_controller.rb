@@ -37,13 +37,13 @@ class AnswersController < ApplicationController
 
   def answer_author_only
     if @answer.user_id != current_user.id
-      render status: :forbidden, text: I18n.t('answer.failure.not_an_author')
+      render status: :forbidden, text: t('answer.failure.not_an_author')
     end
   end
 
   def question_author_only
     if @answer.question.user_id != current_user.id
-      render status: :forbidden, text: I18n.t('question.failure.not_an_author') 
+      render status: :forbidden, text: t('question.failure.not_an_author') 
     end
   end
 

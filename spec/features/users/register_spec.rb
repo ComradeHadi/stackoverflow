@@ -14,7 +14,7 @@ feature 'Register', %q{
     fill_in 'Password confirmation', with: user.password
     click_on 'Sign up'
     expect(current_path).to eq root_path
-    expect(page).to have_content I18n.t('devise.registrations.signed_up')
+    expect(page).to have_content t('devise.registrations.signed_up')
   end
 end
 

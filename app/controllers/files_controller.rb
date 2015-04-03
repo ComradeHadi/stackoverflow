@@ -15,7 +15,7 @@ class FilesController < ApplicationController
 
   def author_only
     if @attachment.attachable.user_id != current_user.id
-      render status: :forbidden, text: I18n.t('file.failure.not_an_author')
+      render status: :forbidden, text: t('file.failure.not_an_author')
     end
   end
 end

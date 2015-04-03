@@ -17,7 +17,7 @@ feature 'Create question', %q{
     fill_in 'Body', with: question.body
     click_on 'Create'
 
-    expect(page).to have_content I18n.t('question.created')
+    expect(page).to have_content t('question.created')
     expect(page).to have_content question.title
     expect(page).to have_content question.body
   end
@@ -26,7 +26,7 @@ feature 'Create question', %q{
     visit questions_path
     click_on 'Ask question'
     expect(current_path).to eq new_user_session_path
-    expect(page).to have_content I18n.t('devise.failure.unauthenticated')
+    expect(page).to have_content t('devise.failure.unauthenticated')
   end
 end
 

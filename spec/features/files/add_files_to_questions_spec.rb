@@ -26,7 +26,7 @@ feature 'Add files to question', %q{
     end
     click_on 'Create'
 
-    expect(page).to have_content I18n.t('question.created')
+    expect(page).to have_content t('question.created')
     expect(page).to have_content 'helper.rb', count: 2
   end
 end

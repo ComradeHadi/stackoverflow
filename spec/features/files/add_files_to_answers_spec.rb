@@ -26,7 +26,7 @@ feature 'Add files to answer', %q{
     end
     click_on 'Save answer'
 
-    expect(page).to have_content I18n.t('answer.created')
+    expect(page).to have_content t('answer.created')
     within '#answers_list' do
       expect(page).to have_link "helper.rb", count: 2
     end

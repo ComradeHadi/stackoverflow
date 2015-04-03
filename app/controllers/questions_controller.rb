@@ -21,9 +21,9 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new strong_params
     if @question.save
-      redirect_to @question, notice: I18n.t('question.created')
+      redirect_to @question, notice: t('question.created')
     else
-      render :new, alert: I18n.t('question.failure.not_created')
+      render :new, alert: t('question.failure.not_created')
     end
   end
 
@@ -34,7 +34,7 @@ class QuestionsController < ApplicationController
   def destroy
     @question.destroy
     respond_to do |format|
-      format.html { redirect_to questions_path, notice: I18n.t('question.destroyed') }
+      format.html { redirect_to questions_path, notice: t('question.destroyed') }
       format.js { render "destroy", locals: {questions_count: Question.all.count} }
     end
   end
@@ -47,7 +47,7 @@ class QuestionsController < ApplicationController
 
   def author_only
     if @question.user_id != current_user.id
-      render status: :forbidden, text: I18n.t('question.failure.not_an_author')
+      render status: :forbidden, text: t('question.failure.not_an_author')
     end
   end
 

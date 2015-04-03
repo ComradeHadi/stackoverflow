@@ -30,6 +30,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::TestHelpers, type: :controller
   config.include DeviseHelper
+  config.include ActionView::Helpers::TranslationHelper
 
   config.backtrace_exclusion_patterns = [
     /actionpack-/,

@@ -18,7 +18,7 @@ feature 'Update question', %q{
     fill_in 'Body', with: 'Updated body'
     click_on 'Update'
     expect(current_path).to eq question_path(question)
-    expect(page).to have_content I18n.t('question.updated')
+    expect(page).to have_content t('question.updated')
   end
   scenario 'Users can not edit question of another user' do
     log_in other_user
