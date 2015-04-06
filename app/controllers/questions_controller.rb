@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :load_question, only: [:edit, :update, :destroy]
   before_action :author_only, only: [:edit, :update, :destroy]
 
   def index
@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @question = Question.includes(:attachments, answers: [:attachments]).find(params[:id])
     @answer = Answer.new
   end
 
