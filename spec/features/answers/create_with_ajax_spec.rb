@@ -13,11 +13,11 @@ feature 'Create answer on the question page', %q{
   scenario 'User creates an answer to the question', js: :true do
     log_in user
 
-    visit question_path(question.id)
+    visit question_path question
     fill_in 'Your answer', with: answer[:body]
     click_on 'Save answer'
     expect(current_path).to eq question_path(question.id)
-
+save_page
     within '#answers' do
       expect(page).to have_content answer[:body]
     end

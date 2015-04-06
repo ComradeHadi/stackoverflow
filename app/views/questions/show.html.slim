@@ -2,3 +2,6 @@
 #attachmets  = render 'layouts/attachments/index', container: @question
 #answers     = render 'answers/answers'
 #answers_new = render 'answers/new'
+
+#log_out
+  = link_to 'log out', destroy_user_session_path, method: :delete

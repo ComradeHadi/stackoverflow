@@ -9,23 +9,23 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves new answer in db' do
-        expect { post :create, answer: build_attributes(:answer), question_id: question, format: :js }.to change(question.answers, :count).by(1)
+        expect { post :create, answer: build_attributes(:answer), question_id: question, format: :json }.to change(question.answers, :count).by(1)
       end
 
       it 'renders create template' do
-        post :create, answer: build_attributes(:answer), question_id: question, format: :js
-        expect(response).to render_template :create
+        post :create, answer: build_attributes(:answer), question_id: question, format: :json
+        expect(response.header['Content-Type']).to include 'application/json'
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save new answer in db' do
-        expect { post :create, answer: build_attributes(:invalid_answer), question_id: question, format: :js }.to_not change(question.answers, :count)
+        expect { post :create, answer: build_attributes(:invalid_answer), question_id: question, format: :json }.to_not change(question.answers, :count)
       end
 
       it 'renders create template' do
-        post :create, answer: build_attributes(:invalid_answer), question_id: question, format: :js
-        expect(response).to render_template :create
+        post :create, answer: build_attributes(:invalid_answer), question_id: question, format: :json
+        expect(response.header['Content-Type']).to include 'application/json'
       end
     end
   end
