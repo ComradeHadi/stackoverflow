@@ -6,7 +6,6 @@ class AnswersController < ApplicationController
   before_action :question_author_only, only: [:accept_as_best]
 
   def create
-    # @answer = @question.answers.create(strong_params)
     @answer = @question.answers.build(strong_params)
     
     respond_to do |format|

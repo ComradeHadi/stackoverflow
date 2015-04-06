@@ -2,7 +2,7 @@ require 'features/helper'
 
 feature 'Add files to answer', %q{
   As answer author
-  I want to be able to add files to question
+  I want to be able to add files to answer
 } do
 
   given(:user) { create(:user) }
@@ -15,7 +15,7 @@ feature 'Add files to answer', %q{
     visit question_path(question)
   end
 
-  scenario 'Author adds file when asking question', js: :true do
+  scenario 'Author adds files when posting an answer', js: :true do
     fill_in 'Your answer', with: answer.body
 
     2.times do |n|
