@@ -13,17 +13,17 @@ feature 'Accept answer as the best answer', %q{
 
   scenario 'Question author can accept any answer as the best answer', js: :true do
     log_in question_author
-    answer = answers.at(0)
+    answer = answers.first
 
-    visit question_path(question.id)
+    visit question_path question
 
     # any answer can be accepted as best
     expect(page).to have_selector('.accept_as_best', question.answers.count)
 
     click_on "best_answer_#{ answer.id }"
-    expect(current_path).to eq question_path(question.id)
+    expect(current_path).to eq question_path question
     within "#answer_#{ answer.id }" do
-      expect(page).to have_content t('answer.is_best')
+      expect(page).to have_content t 'answer.is_best'
     end
   end
 
