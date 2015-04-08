@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  include Votable
+
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:edit, :update, :destroy]
   before_action :author_only, only: [:edit, :update, :destroy]
@@ -8,7 +10,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = Question.includes(:attachments, answers: [:attachments]).find(params[:id])
+    @question = Question.includes(:attachments, :votes, answers: [:attachments, :votes]).find(params[:id])
     @answer = Answer.new
   end
 

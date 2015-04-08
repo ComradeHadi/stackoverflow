@@ -5,4 +5,5 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   has_many :questions, dependent: :restrict_with_exception
   has_many :answers, dependent: :restrict_with_exception
+  has_many :votes, dependent: :restrict_with_exception
 end
