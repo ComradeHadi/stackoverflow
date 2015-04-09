@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  include Votable
+#  include Votable
 
   before_action :authenticate_user!
   before_action :load_answer, except: [:create]
