@@ -1,0 +1,6 @@
+en:
+  vote:
+    accepted: "Thank you for your vote!"
+    withdraw: "Your vote has been withdrawn"
+    failure:
+      not_allowed_to_vote: "Sorry, you are not allowed to vote"

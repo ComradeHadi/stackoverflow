@@ -1,0 +1,23 @@
+div id="vote_#{ votable_model_id }"
+  div id="rating_#{ votable_model_id }"
+
+    - if votable.rating
+      p= "Rating is: #{ votable.rating }"
+
+  - if user_signed_in?
+    - if votable.has_vote_by current_user
+
+      p Your vote:
+      p id="my_vote_#{ votable_model_id }"
+        = votable.vote_by current_user
+      p link_to "withdraw", withdraw_vote_polymorphic_path(votable), remote: true, method: :patch
+
+    - else
+      - if user_can_vote?
+
+        p id="like_#{ votable.class.to_s.underscore }_#{votable.id}"
+          = link_to "Like", like_polymorphic_path(votable), remote: true, method: :patch
+
+        p id="dislike_#{ votable.class.to_s.underscore }_#{votable.id}"
+          = link_to "Dislike", dislike_polymorphic_path(votable), remote: true, method: :patch
+

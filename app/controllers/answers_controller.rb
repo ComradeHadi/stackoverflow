@@ -1,11 +1,11 @@
 class AnswersController < ApplicationController
-#  include Votable
-
   before_action :authenticate_user!
   before_action :load_answer, except: [:create]
   before_action :load_question, except: [:destroy]
   before_action :answer_author_only, only: [:update, :destroy]
   before_action :question_author_only, only: [:accept_as_best]
+
+  include VotableController
 
   def create
     @answer = @question.answers.build(strong_params)

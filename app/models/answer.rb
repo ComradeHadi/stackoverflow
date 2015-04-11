@@ -1,4 +1,6 @@
 class Answer < ActiveRecord::Base
+  include Votable
+
   default_scope { order(is_best: :desc, created_at: :asc) }
 
   belongs_to :question
