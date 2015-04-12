@@ -5,8 +5,14 @@ class AnswersController < ApplicationController
   before_action :answer_author_only, only: [:update, :destroy]
   before_action :question_author_only, only: [:accept_as_best]
 
+  include VotableController
+
   def create
-    @answer = @question.answers.create(strong_params)
+    @answer = @question.answers.build(strong_params)
+    
+    unless @answer.save
+      render status: :unprocessable_entity
+    end
   end
 
   def update
@@ -37,18 +43,18 @@ class AnswersController < ApplicationController
 
   def answer_author_only
     if @answer.user_id != current_user.id
-      render status: :forbidden, text: I18n.t('answer.failure.not_an_author')
+      render status: :forbidden, text: t('answer.failure.not_an_author')
     end
   end
 
   def question_author_only
     if @answer.question.user_id != current_user.id
-      render status: :forbidden, text: I18n.t('question.failure.not_an_author') 
+      render status: :forbidden, text: t('question.failure.not_an_author') 
     end
   end
 
   def strong_params
-    strong_params = params.require(:answer).permit(:title, :body, :question_id, :user_id, attachments_attributes: [:file])
+    strong_params = params.require(:answer).permit(:title, :body, attachments_attributes: [:file])
     strong_params.merge( user_id: current_user.id ) if user_signed_in?
   end
 end

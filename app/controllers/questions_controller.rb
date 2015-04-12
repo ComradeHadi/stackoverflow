@@ -1,13 +1,16 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :load_question, only: [:edit, :update, :destroy]
   before_action :author_only, only: [:edit, :update, :destroy]
+
+  include VotableController
 
   def index
     @questions = Question.all
   end
 
   def show
+    @question = Question.includes(:attachments, :votes, answers: [:attachments, :votes]).find(params[:id])
     @answer = Answer.new
   end
 
@@ -21,25 +24,20 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new strong_params
     if @question.save
-      redirect_to @question, notice: I18n.t('question.created')
+      redirect_to @question, notice: t('question.created')
     else
-      flash[:alert] = 'ERROR: Question not created'
-      render :new
+      render :new, alert: t('question.failure.not_created')
     end
   end
 
   def update
     @question.update(strong_params)
-    respond_to do |format|
-      format.html { redirect_to @question, notice: I18n.t('question.updated') }
-      format.js { render "update" }
-    end
   end
 
   def destroy
     @question.destroy
     respond_to do |format|
-      format.html { redirect_to questions_path, notice: I18n.t('question.destroyed') }
+      format.html { redirect_to questions_path, notice: t('question.destroyed') }
       format.js { render "destroy", locals: {questions_count: Question.all.count} }
     end
   end
@@ -52,12 +50,12 @@ class QuestionsController < ApplicationController
 
   def author_only
     if @question.user_id != current_user.id
-      render status: :forbidden, text: I18n.t('question.failure.not_an_author')
+      render status: :forbidden, text: t('question.failure.not_an_author')
     end
   end
 
   def strong_params
-    strong_params = params.require(:question).permit(:title, :body, :user_id, attachments_attributes: [:id, :file, :_destroy])
+    strong_params = params.require(:question).permit(:title, :body, attachments_attributes: [:id, :file, :_destroy])
     strong_params.merge( user_id: current_user.id ) if user_signed_in?
   end
 end

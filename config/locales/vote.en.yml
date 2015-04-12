@@ -1,0 +1,5 @@
+en:
+  vote:
+    accepted: "Thank you for your vote!"
+    failure:
+      not_allowed_to_vote: "Sorry, you are not allowed to vote"

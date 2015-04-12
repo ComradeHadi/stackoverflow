@@ -10,6 +10,9 @@ tr id="answer_#{answer.id}"
   td.attachments
     = render 'layouts/attachments/index', container: answer
 
+  td.answer_votes
+    = render 'layouts/votes/show', votable: answer
+
   td.edit
     - if user_signed_in? and (answer.user_id == current_user.id)
      = link_to 'Edit answer', '', id: "edit_answer_#{ answer.id }", class: 'edit_answer_link', data: { answer_id: answer.id }
@@ -21,10 +24,10 @@ tr id="answer_#{answer.id}"
   td.is_best id="is_best_#{ answer.id }"
     - if user_signed_in? and (@question.user_id == current_user.id)
       - if answer.is_best
-        = I18n.t('answer.is_best')
+        = t('answer.is_best')
       - else
-        = link_to I18n.t('answer.accept_as_best'), accept_as_best_answer_path(answer), id: "best_answer_#{ answer.id }", method: :patch, remote: true, class: "accept_as_best"
+        = link_to t('answer.accept_as_best'), accept_as_best_answer_path(answer), id: "best_answer_#{ answer.id }", method: :patch, remote: true, class: "accept_as_best"
 
     - else
-      = I18n.t('answer.is_best') if answer.is_best
+      = t('answer.is_best') if answer.is_best
 

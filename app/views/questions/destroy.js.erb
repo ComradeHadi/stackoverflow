@@ -1,2 +1,2 @@
 $('#question_<%= @question.id %>').remove();
-$('#questions_count').html('<%= I18n.t('questions.found', count: questions_count) %>');
+$('#questions_count').html('<%= t 'questions.found', count: questions_count %>');

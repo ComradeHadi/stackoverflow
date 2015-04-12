@@ -18,7 +18,7 @@ feature 'Update answer', %q{
     fill_in 'Answer', with: 'updated answer', :match => :prefer_exact
     click_on 'Update'
     expect(current_path).to eq question_path(question)
-    expect(page).to have_content I18n.t('answer.updated')
+    expect(page).to have_content t('answer.updated')
     expect(page).to have_content 'updated answer'
   end
 

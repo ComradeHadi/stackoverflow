@@ -16,10 +16,10 @@ feature 'Delete answer without page reload', %q{
 
     # answers are listed only under question page
     visit question_path(question)
-    expect(page).to have_content I18n.t('answers.found', count: 3)
+    expect(page).to have_content t('answers.found', count: 3)
     click_on "delete_answer_#{ answer.id }"
-    expect(page).to have_content I18n.t('answer.destroyed')
-    expect(page).to have_content I18n.t('answers.found', count: 2)
+    expect(page).to have_content t('answer.destroyed')
+    expect(page).to have_content t('answers.found', count: 2)
     expect(current_path).to eq question_path(question)
   end
   scenario 'Users can not delete answer of another user' do

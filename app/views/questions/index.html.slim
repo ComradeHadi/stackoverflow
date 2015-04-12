@@ -1,5 +1,5 @@
 - unless @questions.empty?
-  p#questions_count= I18n.t('questions.found', count: @questions.count)
+  p#questions_count = t 'questions.found', count: @questions.count
 
   table id="questions"
     - @questions.each do |question|

@@ -13,17 +13,17 @@ feature 'Accept answer as the best answer', %q{
 
   scenario 'Question author can accept any answer as the best answer', js: :true do
     log_in question_author
-    answer = answers.at(0)
+    answer = answers.first
 
-    visit question_path(question.id)
+    visit question_path question
 
     # any answer can be accepted as best
     expect(page).to have_selector('.accept_as_best', question.answers.count)
 
     click_on "best_answer_#{ answer.id }"
-    expect(current_path).to eq question_path(question.id)
+    expect(current_path).to eq question_path question
     within "#answer_#{ answer.id }" do
-      expect(page).to have_content I18n.t('answer.is_best')
+      expect(page).to have_content t 'answer.is_best'
     end
   end
 
@@ -35,7 +35,7 @@ feature 'Accept answer as the best answer', %q{
     click_on "best_answer_#{ first_best_answer.id }"
 
     within "#answer_#{ first_best_answer.id }" do
-      expect(page).to have_content I18n.t('answer.is_best')
+      expect(page).to have_content t('answer.is_best')
     end
 
     other_answer_accepted_as_best = answers.at(2)
@@ -43,11 +43,11 @@ feature 'Accept answer as the best answer', %q{
 
     # other answer is accepted as the best answer
     within "[id^='answer_#{ other_answer_accepted_as_best.id }']" do
-      expect(page).to have_content I18n.t('answer.is_best')
+      expect(page).to have_content t('answer.is_best')
     end
     # previous "best answer" is not marked as "best" anymore
     within "[id^='answer_#{ first_best_answer.id }']" do
-      expect(page).not_to have_content I18n.t('answer.is_best')
+      expect(page).not_to have_content t('answer.is_best')
     end
   end
 
@@ -62,14 +62,14 @@ feature 'Accept answer as the best answer', %q{
 
     # ensure, that good answer is not already the first answer
     first_answer_in_list = page.find(first_answer_selector)
-    expect( first_answer_in_list ).not_to have_content I18n.t('answer.is_best')
+    expect( first_answer_in_list ).not_to have_content t('answer.is_best')
     expect( first_answer_in_list ).not_to have_content good_answer.body
 
     click_on "best_answer_#{ good_answer.id }"
 
     # if answer is accepted as the best answer, it should be first in answers list
     first_answer_in_list = page.find(first_answer_selector)
-    expect( first_answer_in_list ).to have_content I18n.t('answer.is_best')
+    expect( first_answer_in_list ).to have_content t('answer.is_best')
     expect( first_answer_in_list ).to have_content good_answer.body
   end
 
@@ -77,12 +77,12 @@ feature 'Accept answer as the best answer', %q{
     log_in other_user
 
     visit question_path(question.id)
-    expect(page).not_to have_link I18n.t('answer.accept_as_best')
+    expect(page).not_to have_link t('answer.accept_as_best')
   end
 
   scenario 'Guest can not accept answer as the best answer' do
     visit question_path(question.id)
-    expect(page).not_to have_link I18n.t('answer.accept_as_best')
+    expect(page).not_to have_link t('answer.accept_as_best')
   end
 end
 

@@ -21,7 +21,7 @@ feature 'Delete question', %q{
     log_in author
     visit question_path(question)
     click_on 'Delete question'
-    expect(page).to have_content I18n.t('question.destroyed')
+    expect(page).to have_content t('question.destroyed')
     expect(current_path).to eq questions_path
   end
   scenario 'Users can not delete question of another user' do
