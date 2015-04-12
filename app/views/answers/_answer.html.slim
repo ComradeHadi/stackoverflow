@@ -10,6 +10,9 @@ tr id="answer_#{answer.id}"
   td.attachments
     = render 'layouts/attachments/index', container: answer
 
+  td.answer_votes
+    = render 'layouts/votes/show', votable: answer
+
   td.edit
     - if user_signed_in? and (answer.user_id == current_user.id)
      = link_to 'Edit answer', '', id: "edit_answer_#{ answer.id }", class: 'edit_answer_link', data: { answer_id: answer.id }
