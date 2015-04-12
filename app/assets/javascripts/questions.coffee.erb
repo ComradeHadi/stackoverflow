@@ -22,7 +22,7 @@ App.answer_create = (e, date, status, xhr) ->
   id = answer.id
   is_question_author = answer.is_question_author
   $('#alert').empty()
-  $('#notice').html('<%= I18n.t('answer.created') %>')
+  $('#notice').html(App.messages['answer.created'])
 
   attachments = ''
   for file in answer.attachments

@@ -6,7 +6,7 @@ module VotableController
     before_action :check_user_can_vote,   only: [:like, :dislike, :withdraw_vote]
     # after_action  :render_votes,          only: [:like, :dislike, :withdraw_vote]
 
-    helper_method :model_id, :user_can_vote_for
+    helper_method :user_can_vote_for
   end
 
   def like
@@ -24,16 +24,11 @@ module VotableController
     render_votes
   end
 
-  def model_id resource
-    "#{ resource.model_name.singular }_#{ resource.id }"
-  end
-
   def user_can_vote_for votable
     if user_signed_in?
       votable.user_id != current_user.id
     end
   end
-
 
   private
 
