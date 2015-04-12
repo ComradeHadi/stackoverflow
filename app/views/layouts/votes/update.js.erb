@@ -1,1 +1,2 @@
-$('.question').html('<%= j render partial: 'question', object:  @resource %>')
+$('#notice').html('<%= t 'vote.accepted' %>')
+$('#vote_<%= model_id @votable %>').replaceWith('<%= j render 'layouts/votes/show', votable: @votable %>')

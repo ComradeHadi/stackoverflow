@@ -4,6 +4,9 @@
   #question_body
     = @question.body
 
+#question_vote
+  = render 'layouts/votes/show', votable: @question
+
 = form_for @question, remote: true, html: { id: "for_question_edit", style: "display: none" } do |f|
   = f.label :title
   = f.text_field :title

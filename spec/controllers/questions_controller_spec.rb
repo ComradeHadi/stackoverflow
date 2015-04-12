@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
   let(:questions) { create_list(:question, 2) }
+  let(:user) { create(:user) }
 
   describe 'GET #index' do
     before { get :index }
@@ -119,4 +120,86 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to redirect_to questions_path
     end
   end
+
+  describe 'PATCH #like' do
+    context 'when authorized' do
+      before { sign_in user }
+      before { patch :like, id: question, format: :js }
+
+      it 'vote for question increase question rating' do
+        question.reload
+        expect( question.rating ).to eq 1
+      end
+      it 'renders partial votes/update' do
+        expect(response).to render_template 'layouts/votes/update'
+      end
+    end
+
+    context 'when unauthorized' do
+      before { sign_in question.user }
+      before { patch :like, id: question, format: :js }
+
+      it 'vote does not change rating' do
+        question.reload
+        expect( question.rating ).to eq 0
+      end
+      it 'renders status forbidden' do
+        expect(response).to be_forbidden
+      end
+    end
+  end
+
+  describe 'PATCH #dislike' do
+    context 'when authorized' do
+      before { sign_in user }
+      before { patch :dislike, id: question, format: :js }
+
+      it 'vote against question decrease question rating' do
+        question.reload
+        expect( question.rating ).to eq -1
+      end
+      it 'renders partial votes/update' do
+        expect(response).to render_template 'layouts/votes/update'
+      end
+    end
+
+    context 'when unauthorized' do
+      before { sign_in question.user }
+      before { patch :dislike, id: question, format: :js }
+
+      it 'vote does not change rating' do
+        question.reload
+        expect( question.rating ).to eq 0
+      end
+      it 'renders status forbidden' do
+        expect(response).to be_forbidden
+      end
+    end
+  end
+
+  describe 'PATCH #withdraw_vote' do
+    context 'when authorized' do
+      before { sign_in user }
+      before { patch :like, id: question, format: :js }
+      before { patch :withdraw_vote, id: question, format: :js }
+
+      it 'withdraw vote returns rating back to zero' do
+        question.reload
+        expect( question.rating ).to eq 0
+      end
+      it 'renders partial votes/update' do
+        expect(response).to render_template 'layouts/votes/update'
+      end
+    end
+
+    context 'when unauthorized' do
+      before { sign_in question.user }
+      before { patch :withdraw_vote, id: question, format: :js }
+
+      it 'renders status forbidden' do
+        expect(response).to be_forbidden
+      end
+    end
+  end
+
 end

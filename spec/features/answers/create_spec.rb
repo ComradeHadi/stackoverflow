@@ -17,7 +17,7 @@ feature 'Create answer on the question page', %q{
     fill_in 'Your answer', with: answer[:body]
     click_on 'Save answer'
     expect(current_path).to eq question_path(question.id)
-save_page
+
     within '#answers' do
       expect(page).to have_content answer[:body]
     end
