@@ -4,7 +4,6 @@ module VotableController
   included do
     before_action :load_votable_resource, only: [:like, :dislike, :withdraw_vote]
     before_action :check_user_can_vote,   only: [:like, :dislike, :withdraw_vote]
-    # after_action  :render_votes,          only: [:like, :dislike, :withdraw_vote]
 
     helper_method :user_can_vote_for
   end

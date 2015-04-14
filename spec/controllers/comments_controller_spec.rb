@@ -33,7 +33,7 @@ RSpec.describe CommentsController, type: :controller do
 
         context 'with invalid attributes' do
           it 'does not save new comment in db' do
-            expect { create_invalid_comment }.to_not change(@commentable.comments, :count)
+            expect{ create_invalid_comment }.to_not change(@commentable.comments, :count)
           end
 
           it 'renders create template' do
