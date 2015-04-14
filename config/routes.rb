@@ -12,6 +12,10 @@ Rails.application.routes.draw do
 
   resources :files, only: [:destroy]
 
+  resources :questions, :answers do
+    resources :comments, only: [:create, :destroy], shallow: true
+  end
+
   resources :questions, concerns: :votable do
     resources :answers, except: [:index, :show, :edit], shallow: true, concerns: :votable do
       patch :accept_as_best, on: :member

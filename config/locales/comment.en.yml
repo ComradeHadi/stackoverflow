@@ -1,0 +1,8 @@
+en:
+  comment:
+    new: "Add comment"
+    created: "Your comment was added"
+    destroy: "Delete comment"
+    destroyed: "Your comment was deleted"
+    failure:
+      not_an_author: "Only an author can delete his comments"

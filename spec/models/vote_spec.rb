@@ -14,9 +14,9 @@ RSpec.describe Vote, type: :model do
   let(:answer)     { create(:answer, question: question) }
 
   [:question, :answer].each do |votable_name|
-    before { @votable = send votable_name }
 
     describe "vote for #{votable_name}" do
+      before { @votable = send votable_name }
 
       it "like by user" do
         expect{ @votable.liked_by    user }.to change( @votable.votes, :count ).by(1)
@@ -46,6 +46,7 @@ RSpec.describe Vote, type: :model do
     end
 
     describe "#{ votable_name } rating" do
+      before { @votable = send votable_name }
 
       it "#{ votable_name } rating is 0 by default" do
         expect( @votable.rating ).to eq 0
