@@ -25,7 +25,7 @@ module VotableController
 
   def user_can_vote_for votable
     if user_signed_in?
-      votable.user_id != current_user.id
+      not current_user.is_author_of votable
     end
   end
 

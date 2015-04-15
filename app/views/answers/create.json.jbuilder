@@ -9,6 +9,6 @@ else
     json.url attachment.file.url
   end
 
-  json.is_author (user_signed_in? and (@answer.user_id == current_user.id))
-  json.is_question_author (user_signed_in? and (@question.user_id == current_user.id))
+  json.is_author (user_signed_in? and (current_user.is_author_of @answer))
+  json.is_question_author (user_signed_in? and (current_user.is_author_of @question))
 end

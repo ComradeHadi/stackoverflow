@@ -7,4 +7,8 @@ class User < ActiveRecord::Base
   has_many :answers, dependent: :restrict_with_exception
   has_many :votes, dependent: :restrict_with_exception
   has_many :comments, dependent: :restrict_with_exception
+
+  def is_author_of resource
+    resource.user_id == id
+  end
 end

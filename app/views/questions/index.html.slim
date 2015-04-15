@@ -6,7 +6,7 @@
       tr id="question_#{question.id}"
         td.title = question.title
         td.delete
-          - if user_signed_in? and (question.user_id == current_user.id)
+          - if current_user_is_author_of question
           = link_to 'Delete question', question_path(question), id: "delete_question_#{ question.id }", method: :delete, remote: true
 - else
   p No questions yet.

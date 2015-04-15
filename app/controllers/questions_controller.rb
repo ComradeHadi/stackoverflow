@@ -49,7 +49,7 @@ class QuestionsController < ApplicationController
   end
 
   def author_only
-    if @question.user_id != current_user.id
+    unless current_user.is_author_of @question
       render status: :forbidden, text: t('question.failure.not_an_author')
     end
   end

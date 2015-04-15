@@ -15,15 +15,15 @@ table id="answer_#{answer.id}"
       = render 'layouts/votes/show', votable: answer
 
     td.edit
-      - if user_signed_in? and (answer.user_id == current_user.id)
+      - if current_user_is_author_of answer
        = link_to 'Edit answer', '', id: "edit_answer_#{ answer.id }", class: 'edit_answer_link', data: { answer_id: answer.id }
 
     td.delete
-      - if user_signed_in? and (answer.user_id == current_user.id)
+      - if current_user_is_author_of answer
         = link_to 'Delete answer', answer_path(answer), id: "delete_answer_#{ answer.id }", method: :delete, remote: true
 
     td.is_best id="is_best_#{ answer.id }"
-      - if user_signed_in? and (@question.user_id == current_user.id)
+      - if current_user_is_author_of @question
         - if answer.is_best
           = t('answer.is_best')
         - else

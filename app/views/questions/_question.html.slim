@@ -14,7 +14,7 @@
   = f.text_area :body
   = f.submit 'Update'
 
-- if user_signed_in? and (@question.user_id == current_user.id)
+- if current_user_is_author_of @question
   #question_edit_link
     = link_to 'Edit question', '', data: { question_id: @question.id }
 

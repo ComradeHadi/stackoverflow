@@ -98,3 +98,7 @@ def models_with_association association_polymorphic_name
   Rails.application.eager_load!
   ActiveRecord::Base.send(:subclasses).select{ |model| model.reflect_on_all_associations.map { |assoc| assoc.options[:as] == association_polymorphic_name }.any? }.map{ |model| model.name.underscore } 
 end
+
+def current_user_is_author_of resource
+  user_signed_in? and (current_user.is_author_of resource)
+end

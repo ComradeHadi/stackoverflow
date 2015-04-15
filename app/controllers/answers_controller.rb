@@ -42,7 +42,7 @@ class AnswersController < ApplicationController
   end
 
   def answer_author_only
-    if @answer.user_id != current_user.id
+    unless current_user.is_author_of @answer
       render status: :forbidden, text: t('answer.failure.not_an_author')
     end
   end
