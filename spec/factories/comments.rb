@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :comment do
-    body "My comment"
+    body { Faker::Lorem.paragraph }
     user
     factory :invalid_comment do
       body ""

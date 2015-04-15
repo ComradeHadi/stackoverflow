@@ -58,7 +58,7 @@ feature 'Accept answer as the best answer', %q{
     oldest_answer = answers.at(0) # is first by default
     good_answer = answers.at(1)   # will be accepted as best answer
 
-    first_answer_selector = 'table#answers_list tr:first-child'
+    first_answer_selector = '#answers_list table:first-child tr'
 
     # ensure, that good answer is not already the first answer
     first_answer_in_list = page.find(first_answer_selector)

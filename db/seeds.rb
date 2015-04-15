@@ -6,6 +6,10 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-FactoryGirl.create(:question)
-FactoryGirl.create_list(:user, 3)
-
+author = FactoryGirl.create(:user, email: 'anatoly.cmdx@gmail.com', password: 'password')
+question = FactoryGirl.create(:question, user: author)
+answers  = FactoryGirl.create_list(:answer, 2, question: question)
+FactoryGirl.create(:comment, body: Faker::Lorem.paragraph, commentable: question)
+FactoryGirl.create(:comment, body: Faker::Lorem.paragraph, commentable: question)
+FactoryGirl.create(:comment, body: Faker::Lorem.paragraph, commentable: answers.at(0))
+FactoryGirl.create(:comment, body: Faker::Lorem.paragraph, commentable: answers.at(1))

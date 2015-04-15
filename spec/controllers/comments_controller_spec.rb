@@ -6,7 +6,7 @@ RSpec.describe CommentsController, type: :controller do
   let(:user) { create(:user) }
   before { sign_in user}
 
-  CommentsController.commentable_resources.each do |commentable|
+  models_with_association(:commentable).each do |commentable|
 
     describe "comments on #{commentable}" do
       before { @commentable = send commentable }

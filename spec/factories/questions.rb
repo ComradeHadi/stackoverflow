@@ -1,10 +1,7 @@
 FactoryGirl.define do
-  sequence(:title) {|n| "Question N#{n} title"}
-  sequence(:body)  {|n| "Body N#{n} text"}
-
   factory :question do
-    title
-    body
+    title { Faker::Lorem.sentence(3) }
+    body { Faker::Lorem.paragraph(1) }
     user
 
     trait :with_files do

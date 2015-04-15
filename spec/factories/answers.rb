@@ -1,8 +1,6 @@
 FactoryGirl.define do
-  sequence(:answer_body) {|n| "Answer N#{n}" }
-
   factory :answer do
-    body { generate(:answer_body) }
+    body { Faker::Lorem.paragraph(1) }
     question
     user
     is_best false

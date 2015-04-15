@@ -28,7 +28,7 @@ class CommentsController < ApplicationController
   end
 
   def commentable_resource_name
-    params.keys.map{|k| k[0..-4]}.select{|k| commentable_resources.include? k}.first
+    params.keys.map{|k| k[0..-4]}.detect{|k| commentable_resources.include? k}
   end
 
   def comment_params
