@@ -80,7 +80,7 @@ feature 'Vote for a answer', %q{
     end
   end
 
-  scenario 'User can not vote for answer', js: true do
+  scenario 'Guest can not vote for answer', js: true do
     visit question_path answer.question
 
     expect(page).not_to have_content 'Like'

@@ -99,3 +99,7 @@ def models_with_association association_polymorphic_name
   ActiveRecord::Base.send(:subclasses).select{ |model| model.reflect_on_all_associations.map { |assoc| assoc.options[:as] == association_polymorphic_name }.any? }.map{ |model| model.name.underscore } 
 end
 
+def model_id record
+  "#{ record.model_name.singular }_#{ record.id }"
+end
+
