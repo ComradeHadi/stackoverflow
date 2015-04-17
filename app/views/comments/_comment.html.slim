@@ -1,5 +1,6 @@
-p id="#{ model_id comment }"
+div id="#{ model_id comment }"
   p
     = comment.body
   p
-    | <a href="">Remove comment</a>
+    - if current_user_is_author_of comment
+      = link_to 'Delete comment', comment_path(comment), id: "delete_#{ model_id comment }", method: :delete, remote: true

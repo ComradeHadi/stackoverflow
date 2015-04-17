@@ -32,4 +32,4 @@ table id="answer_#{answer.id}"
       - else
         = t('answer.is_best') if answer.is_best
 
-- # = render 'layouts/comments/index', commentable: answer
+= render 'comments/comments', commentable: answer
