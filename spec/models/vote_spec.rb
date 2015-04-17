@@ -13,7 +13,7 @@ RSpec.describe Vote, type: :model do
   let(:question)   { create(:question) }
   let(:answer)     { create(:answer, question: question) }
 
-  [:question, :answer].each do |votable_name|
+  models_with_association(:votable).each do |votable_name|
 
     describe "vote for #{votable_name}" do
       before { @votable = send votable_name }
