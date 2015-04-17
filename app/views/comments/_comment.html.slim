@@ -1,6 +1,9 @@
 div id="#{ model_id comment }"
   p
-    = comment.body
-  p
-    - if current_user_is_author_of comment
-      = link_to 'Delete comment', comment_path(comment), id: "delete_#{ model_id comment }", method: :delete, remote: true
+    div
+      -# we have no user.name
+      strong = comment.user.email.split("@").first
+    small
+      = comment.body
+    div
+      = render 'layouts/item_delete', item: comment
