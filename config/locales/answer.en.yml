@@ -1,15 +1,21 @@
 en:
-  answers:
-    found: "Answers found: %{count}"
-    not_found: "No answers yet."
   answer:
-    created: "Your answer was successfully created."
-    updated: "Your answer was updated."
-    destroyed: "Your answer was deleted"
-    accept_as_best: "Accept as best answer"
-    accepted_as_best: "Answer was accepted as the best answer"
-    is_best: "This was accepted as best answer"
+    action:
+      new: "Add answer"
+      edit: "Edit answer"
+      delete: "Delete answer"
+      accept_as_best: "Accept as best answer"
+      confirm:
+        new: "Save answer"
+        edit: "Update answer"
+    label:
+      is_best: "This was accepted as the best answer"
+    success:
+      create: "Your answer was created"
+      update: "Your answer was updated"
+      destroy: "Your answer was deleted" 
+      accept_as_best: "Answer was accepted as the best answer"
     failure:
-      not_updated: "An error occured while updating your answer"
+      create: "An error occured while creating your answer"
+      update: "An error occured while updating your answer"
       not_an_author: "Only an author can edit or delete his answers"
-

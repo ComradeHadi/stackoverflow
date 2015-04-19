@@ -1,8 +1,10 @@
 en:
   comment:
-    new: "Add comment"
-    created: "Your comment was added"
-    delete: "Delete comment"
-    destroyed: "Your comment was deleted"
+    action:
+      new: "Add comment"
+      delete: "Delete comment"
+    success:
+      create: "Your comment was added"
+      destroy: "Your comment was deleted"
     failure:
       not_an_author: "Only an author can delete his comments"

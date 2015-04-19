@@ -1,0 +1,13 @@
+en:
+  attachments:
+    label: "Attachments"
+  attachment:
+    action:
+      new: "Add a file"
+      remove: "Remove"
+      delete: "delete"
+    success:
+      destroy: "File was deleted"
+    failure:
+      not_an_author: "Only an author can delete his attachments"
+
