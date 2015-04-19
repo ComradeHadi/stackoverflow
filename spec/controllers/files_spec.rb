@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FilesController, type: :controller do
+RSpec.describe AttachmentController, type: :controller do
   let(:question) { create(:question, :with_files, files_count: 2) }
   let(:files) { question.attachments }
   before { sign_in question.user }

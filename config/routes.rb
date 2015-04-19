@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     resources :comments, only: :create, defaults: {commentable: 'answer'}
   end
 
-  resources :files, only: [:destroy]
+  resources :attachments, only: [:destroy]
 
   resources :comments, only: [:destroy]
 end
