@@ -1,2 +1,1 @@
-$('#notice').html('<%= I18n.t(:destroyed, scope: @comment.class.to_s.underscore) %>')
-$('#<%= model_id @comment %>').remove()
+<%= render 'shared/remove_item_after_destroy', item: @comment %>

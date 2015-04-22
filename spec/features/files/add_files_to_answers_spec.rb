@@ -1,10 +1,9 @@
 require 'features/helper'
 
-feature 'Add files to answer', %q{
+feature 'Add files to answer', %q(
   As answer author
   I want to be able to add files to answer
-} do
-
+) do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
   given(:answer) { build(:answer, question: question) }

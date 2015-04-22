@@ -1,4 +1,6 @@
-$('#alert').html('')
-$('#notice').html('<%= t 'answer.accepted_as_best' %>')
-$('#answers').html('<%= j render 'answers' %>')
-
+<%= render layout: 'shared/layouts/update_item_after_action', locals: { \
+  item: @answer, \
+  action: :accept_as_best \
+} do %>
+  $("#answers_<%= dom_id @question %>").replaceWith('<%= j render 'answers/index' %>');
+<% end %>

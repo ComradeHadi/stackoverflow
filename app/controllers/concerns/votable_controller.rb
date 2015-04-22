@@ -9,28 +9,25 @@ module VotableController
   end
 
   def like
-    @votable.liked_by current_user unless @votable.has_vote_by current_user
+    @votable.liked_by current_user unless @votable.voted_by?(current_user)
     render_votes
   end
 
   def dislike
-    @votable.disliked_by current_user unless @votable.has_vote_by current_user
+    @votable.disliked_by current_user unless @votable.voted_by?(current_user)
     render_votes
   end
 
   def withdraw_vote
-    @votable.withdraw_vote_by current_user if @votable.has_vote_by current_user
+    @votable.withdraw_vote_by current_user if @votable.voted_by?(current_user)
     render_votes
   end
 
-  def user_can_vote_for votable
-    if user_signed_in?
-      not current_user.is_author_of votable
-    end
+  def user_can_vote_for(votable)
+    !current_user.author_of? votable if user_signed_in?
   end
 
   private
-
 
   def load_votable_resource
     @votable = controller_name.classify.constantize.find(params[:id])
@@ -43,6 +40,6 @@ module VotableController
   end
 
   def render_votes
-    render 'layouts/votes/update'
+    render 'votes/update'
   end
 end

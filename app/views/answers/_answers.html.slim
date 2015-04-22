@@ -1,8 +1,0 @@
-- if @question.answers.any?
-  p#answers_count= t('answers.found', count: @question.answers.size)
-- else
-  p= t 'answers.not_found'
-
-#answers_list
-  = render @question.answers
-

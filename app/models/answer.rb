@@ -20,4 +20,3 @@ class Answer < ActiveRecord::Base
     end
   end
 end
-

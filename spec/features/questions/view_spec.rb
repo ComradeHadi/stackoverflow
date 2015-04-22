@@ -1,10 +1,9 @@
 require 'features/helper'
 
-feature 'View questions', %q{
+feature 'View questions', %q(
   As a guest or a user
   I want to be able to view existing questions
-} do
-
+) do
   given(:user) { create(:user) }
   given!(:questions) { create_list(:question, 3) }
 
@@ -20,4 +19,3 @@ feature 'View questions', %q{
     expect(page).to have_content t('questions.found', count: questions.count)
   end
 end
-

@@ -12,5 +12,15 @@
 <p id="alert"><%= alert %></p>
 <%= yield %>
 
+<br/><br/>
+<div><%= link_to t('question.action.index'), questions_path %></div>
+
+<div><%=
+  if user_signed_in?
+    link_to 'log out', destroy_user_session_path, method: :delete
+  else
+    link_to 'log in', new_user_session_path, method: :get
+  end
+%></div>
 </body>
 </html>

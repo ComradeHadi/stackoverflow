@@ -1,10 +1,9 @@
 require 'features/helper'
 
-feature 'Add files to question', %q{
+feature 'Add files to question', %q(
   As question author
   I want to be able to add files to question
-} do
-
+) do
   given(:user) { create(:user) }
   given(:question) { build(:question) }
   given(:test_file) { "#{Rails.root}/spec/features/helper.rb" }

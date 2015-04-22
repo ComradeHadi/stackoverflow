@@ -20,4 +20,3 @@ end
 headless = Headless.new
 headless.start
 at_exit { headless.stop }
-

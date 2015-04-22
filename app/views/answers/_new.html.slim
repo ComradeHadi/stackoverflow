@@ -1,11 +1,12 @@
 - if user_signed_in?
-  = nested_form_for [@question, @answer], remote: true, data: { type: :json } do |f|
+  = nested_form_for [@question, @question.answers.new], remote: true do |f|
     p
       = f.label :body, 'Your answer'
+      br
       = f.text_area :body
 
-    p Attachments:
-    p = render 'layouts/attachments/new', form: f
+    p = t 'attachments.label'
+    p = render 'attachments/form', form: f
 
-    p = f.submit 'Save answer'
+    p = f.submit t 'answer.action.confirm.new'
 

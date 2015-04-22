@@ -1,0 +1,12 @@
+// Place all the styles related to the Answers controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.attachments {
+   font-size: small;
+   margin: 5px;
+}
+.attachment {
+  margin-left: 1em;
+  display: list-item;
+  list-style-type: square;
+}

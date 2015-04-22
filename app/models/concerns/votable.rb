@@ -8,27 +8,27 @@ module Votable
   LIKE = 1
   DISLIKE = -1
 
-  def liked_by user
+  def liked_by(user)
     new_vote_by user
   end
 
-  def disliked_by user
+  def disliked_by(user)
     new_vote_by user, DISLIKE
   end
 
-  def new_vote_by user, like = LIKE
+  def new_vote_by(user, like = LIKE)
     votes.create(user: user, like: like)
   end
 
-  def withdraw_vote_by user
+  def withdraw_vote_by(user)
     votes.where(user: user).delete_all
   end
 
-  def has_vote_by user
+  def voted_by?(user)
     votes.where(user: user).any?
   end
 
-  def vote_by user
+  def vote_by(user)
     votes.find_by(user: user).like
   end
 

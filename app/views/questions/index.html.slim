@@ -1,15 +1,12 @@
-- unless @questions.empty?
-  p#questions_count = t 'questions.found', count: @questions.count
+.questions
+  - @questions.each do |question|
 
-  table id="questions"
-    - @questions.each do |question|
-      tr id="question_#{question.id}"
-        td.title = question.title
-        td.delete
-          - if current_user_is_author_of question
-          = link_to 'Delete question', question_path(question), id: "delete_question_#{ question.id }", method: :delete, remote: true
-- else
-  p No questions yet.
+    = div_for question
+      span
+        = link_to question.title, question_path(question)
 
-= link_to 'Ask question', new_question_path
+      - if current_user_author_of? question
+        =< render 'shared/link_delete', item: question
 
+br
+= link_to t('question.action.new'), new_question_path

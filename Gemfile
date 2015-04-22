@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails'
 # Use postgresql as the database for Active Record
@@ -73,4 +72,7 @@ end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'rubocop', require: false
+  gem 'rubocop-rspec'
+  gem 'rails_best_practices'
 end

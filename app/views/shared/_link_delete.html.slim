@@ -1,0 +1,10 @@
+- model_name = item.model_name.element
+- remote = local_assigns.fetch :remote, true
+
+span =< link_to t("action.delete", scope: model_name), \
+  polymorphic_path(item), \
+  id: "link_delete_#{ dom_id item }", \
+  class: "link_delete_#{ model_name }", \
+  remote: remote, \
+  method: :delete
+

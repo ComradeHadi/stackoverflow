@@ -11,7 +11,6 @@ class QuestionsController < ApplicationController
 
   def show
     @question = Question.includes(:attachments, :votes, answers: [:attachments, :votes]).find(params[:id])
-    @answer = Answer.new
   end
 
   def new
@@ -22,23 +21,23 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new strong_params
+    @question = Question.new question_params
     if @question.save
-      redirect_to @question, notice: t('question.created')
+      redirect_to @question, notice: t('question.success.create')
     else
-      render :new, alert: t('question.failure.not_created')
+      render :new
     end
   end
 
   def update
-    @question.update(strong_params)
+    @question.update question_params
   end
 
   def destroy
     @question.destroy
     respond_to do |format|
-      format.html { redirect_to questions_path, notice: t('question.destroyed') }
-      format.js { render "destroy", locals: {questions_count: Question.all.count} }
+      format.html { redirect_to questions_path, notice: t('question.success.destroy') }
+      format.js
     end
   end
 
@@ -49,12 +48,12 @@ class QuestionsController < ApplicationController
   end
 
   def author_only
-    unless current_user.is_author_of @question
+    unless current_user.author_of? @question
       render status: :forbidden, text: t('question.failure.not_an_author')
     end
   end
 
-  def strong_params
+  def question_params
     strong_params = params.require(:question).permit(:title, :body, attachments_attributes: [:id, :file, :_destroy])
     strong_params.merge( user_id: current_user.id ) if user_signed_in?
   end

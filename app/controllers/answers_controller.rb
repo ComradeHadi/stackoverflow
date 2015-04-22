@@ -8,15 +8,15 @@ class AnswersController < ApplicationController
   include VotableController
 
   def create
-    @answer = @question.answers.build(strong_params)
-    
+    @answer = @question.answers.build answer_params
+
     unless @answer.save
       render status: :unprocessable_entity
     end
   end
 
   def update
-    @answer.update(strong_params)
+    @answer.update answer_params
   end
 
   def destroy
@@ -30,11 +30,12 @@ class AnswersController < ApplicationController
   private
 
   def load_question
-    @question = if params.has_key?(:question_id)
-      Question.find(params[:question_id])
-    else
-      @answer.question
-    end
+    @question =
+      if params.key? :question_id
+        Question.find(params[:question_id])
+      else
+        @answer.question
+      end
   end
 
   def load_answer
@@ -42,18 +43,18 @@ class AnswersController < ApplicationController
   end
 
   def answer_author_only
-    unless current_user.is_author_of @answer
+    unless current_user.author_of? @answer
       render status: :forbidden, text: t('answer.failure.not_an_author')
     end
   end
 
   def question_author_only
-    if @answer.question.user_id != current_user.id
-      render status: :forbidden, text: t('question.failure.not_an_author') 
+    unless current_user.author_of? @answer.question
+      render status: :forbidden, text: t('question.failure.not_an_author')
     end
   end
 
-  def strong_params
+  def answer_params
     strong_params = params.require(:answer).permit(:title, :body, attachments_attributes: [:file])
     strong_params.merge( user_id: current_user.id ) if user_signed_in?
   end

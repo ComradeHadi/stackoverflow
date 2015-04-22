@@ -1,0 +1,3 @@
+$("#alert").empty()
+$("#notice").html('<%= t "success.update", scope: @votable.model_name.element %>')
+$("#votes_<%= dom_id @votable %>").replaceWith('<%= j render 'votes/show', votable: @votable %>');

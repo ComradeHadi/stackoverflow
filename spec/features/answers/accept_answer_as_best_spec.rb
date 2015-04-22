@@ -1,10 +1,9 @@
 require 'features/helper'
 
-feature 'Accept answer as the best answer', %q{
+feature 'Accept answer as the best answer', %q(
   As the question author
   I want to be able to accept a single answer as the best answer to my question
-} do
-
+) do
   given(:question_author) { create(:user) }
   given(:other_user) { create(:user) }
 
@@ -55,7 +54,6 @@ feature 'Accept answer as the best answer', %q{
     log_in question_author
     visit question_path(question.id)
 
-    oldest_answer = answers.at(0) # is first by default
     good_answer = answers.at(1)   # will be accepted as best answer
 
     first_answer_selector = '#answers_list table:first-child tr'
@@ -85,4 +83,3 @@ feature 'Accept answer as the best answer', %q{
     expect(page).not_to have_link t('answer.accept_as_best')
   end
 end
-

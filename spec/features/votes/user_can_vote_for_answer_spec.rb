@@ -1,10 +1,9 @@
 require 'features/helper'
 
-feature 'Vote for a answer', %q{
+feature 'Vote for a answer', %q(
   As a user
   I want to be able to vote for (or against) an answer
-} do
-
+) do
   given(:user) { create(:user) }
   given(:answer) { create(:answer) }
   given(:answer_author) { answer.user }
@@ -39,7 +38,7 @@ feature 'Vote for a answer', %q{
     end
   end
 
-  scenario 'User can not vote multiple times for one answer' , js: true do
+  scenario 'User can not vote multiple times for one answer', js: true do
     log_in user
     visit question_path answer.question
 
@@ -62,7 +61,7 @@ feature 'Vote for a answer', %q{
       expect(page).to have_content '0'
     end
 
-    within answer_vote do  
+    within answer_vote do
       click_on 'Dislike'
     end
 

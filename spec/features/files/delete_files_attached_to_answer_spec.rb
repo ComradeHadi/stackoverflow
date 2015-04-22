@@ -1,10 +1,9 @@
 require 'features/helper'
 
-feature 'Delete file attached to answer', %q{
+feature 'Delete file attached to answer', %q(
   As answer author
   I want to be able to delete file I've attached to my answer
-} do
-
+) do
   given(:answer) { create(:answer, :with_files, files_count: 2) }
   given(:question) { answer.question }
   given(:file) { answer.attachments.first }
@@ -34,4 +33,3 @@ feature 'Delete file attached to answer', %q{
     expect(page).not_to have_link 'Delete file'
   end
 end
-

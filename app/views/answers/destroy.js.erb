@@ -1,3 +1,1 @@
-$('#notice').html('<%= I18n.t('answer.destroyed') %>')
-$('#answer_<%= @answer.id %>').remove()
-$('#answers_count').html('<%= t 'answers.found', count: @answer.question.answers.count %>');
+<%= render 'shared/remove_item_after_destroy', item: @answer %>

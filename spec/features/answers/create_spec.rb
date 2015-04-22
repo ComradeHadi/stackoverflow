@@ -1,11 +1,10 @@
 require 'features/helper'
 
-feature 'Create answer on the question page', %q{
+feature 'Create answer on the question page', %q(
   As an authenticated user
   I want to be able to answer on the question page
   Without page reload
-} do
-
+) do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
   given(:answer) { attributes_for(:answer) }
@@ -38,4 +37,3 @@ feature 'Create answer on the question page', %q{
     expect(page).not_to have_field 'Your answer'
   end
 end
-

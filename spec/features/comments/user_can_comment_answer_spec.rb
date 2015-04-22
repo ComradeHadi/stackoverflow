@@ -1,18 +1,17 @@
 require 'features/helper'
 
-feature 'User comments an answer', %q{
+feature 'User comments an answer', %q(
   As a user
   I want to be able to comment and an answer
-} do
-
+) do
   given(:answer) { create(:answer) }
   given(:answer_author) { answer.user }
   given(:other_user) { create(:user) }
 
   given(:comment_attr) { attributes_for(:comment) }
 
-  given(:el_answer) { "#{model_id answer}" }
-  given(:el_answer_comment) { "#comment_#{ model_id answer }" }
+  given(:el_answer) { "#{dom_id answer}" }
+  given(:el_answer_comment) { "#comment_#{ dom_id answer }" }
 
   scenario 'Author can comment his answer', js: true do
     log_in answer_author

@@ -1,0 +1,12 @@
+= div_for answer, :accept_as_best
+
+  - if answer.is_best
+    = t('answer.label.is_best')
+
+  - else
+    - if current_user_author_of? question
+      span.accept_as_best
+        =< link_to t('answer.action.accept_as_best'), \
+          accept_as_best_answer_path(answer), \
+          id: "best_answer_#{ answer.id }", \
+          remote: true, method: :patch

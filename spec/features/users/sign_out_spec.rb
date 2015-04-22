@@ -1,10 +1,9 @@
 require 'rails_helper'
 
-feature 'User sign out', %q{
+feature 'User sign out', %q(
   As an authenticated user
   I want to be able to sign-out
-} do
-
+) do
   given(:user) { create(:user) }
 
   scenario 'Authenticated user sign out' do
@@ -14,4 +13,3 @@ feature 'User sign out', %q{
     expect(page).to have_content t('devise.sessions.signed_out')
   end
 end
-

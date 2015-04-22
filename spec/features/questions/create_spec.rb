@@ -1,10 +1,9 @@
 require 'features/helper'
 
-feature 'Create question', %q{
+feature 'Create question', %q(
   As an authenticated user
   I want to be able to ask a question
-} do
-
+) do
   given(:user) { create(:user) }
   given(:question) { build(:question) }
 
@@ -29,4 +28,3 @@ feature 'Create question', %q{
     expect(page).to have_content t('devise.failure.unauthenticated')
   end
 end
-

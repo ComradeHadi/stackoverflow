@@ -1,10 +1,9 @@
 require 'features/helper'
 
-feature 'Delete answer without page reload', %q{
+feature 'Delete answer without page reload', %q(
   As an author
   I want to be able to delete my answer
-} do
-
+) do
   given(:author) { create(:user) }
   given(:other_user) { create(:user) }
   given!(:question) { create(:question, user: author) }
@@ -22,14 +21,15 @@ feature 'Delete answer without page reload', %q{
     expect(page).to have_content t('answers.found', count: 2)
     expect(current_path).to eq question_path(question)
   end
+
   scenario 'Users can not delete answer of another user' do
     log_in other_user
     visit question_path(question)
     expect(page).not_to have_link('Delete answer')
   end
+
   scenario 'Guest can not delete any questions' do
     visit question_path(question)
     expect(page).not_to have_link('Delete answer')
   end
 end
-

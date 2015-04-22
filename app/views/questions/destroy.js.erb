@@ -1,2 +1,1 @@
-$('#question_<%= @question.id %>').remove();
-$('#questions_count').html('<%= t 'questions.found', count: questions_count %>');
+<%= render 'shared/remove_item_after_destroy', item: @question %>

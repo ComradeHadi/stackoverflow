@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :answer do
-    body { Faker::Lorem.paragraph(1) }
+    body { Faker::Lorem.paragraph(2) }
     question
     user
     is_best false

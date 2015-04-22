@@ -11,15 +11,13 @@ Rails.application.routes.draw do
   end
 
   resources :questions, concerns: :votable do
-    resources :answers, except: [:index, :show, :edit], shallow: true, concerns: :votable do
-      patch :accept_as_best, on: :member
-    end
-
-    resources :comments, only: :create, defaults: {commentable: 'question'}
+    resources :answers, only: [:create, :update, :destroy], shallow: true, concerns: :votable
+    resources :comments, only: :create, defaults: { commentable: 'question' }
   end
 
-  resources :answers do
-    resources :comments, only: :create, defaults: {commentable: 'answer'}
+  resources :answers, only: [] do
+    resources :comments, only: :create, defaults: { commentable: 'answer' }
+    patch :accept_as_best, on: :member
   end
 
   resources :attachments, only: [:destroy]

@@ -1,9 +1,9 @@
-div id="#{ model_id comment }"
-  p
-    div
-      -# we have no user.name
-      strong = comment.user.email.split("@").first
-    small
-      = comment.body
-    div
-      = render 'layouts/item_delete', item: comment
+= div_for comment
+
+  = div_for comment, :item
+    span.user_name = comment.user.user_name
+    g=< comment.body
+
+  - if current_user_author_of? comment
+    = div_for comment, :links
+      = render 'shared/link_delete', item: comment
