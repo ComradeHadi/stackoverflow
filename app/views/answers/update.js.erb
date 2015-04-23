@@ -2,5 +2,7 @@
   item: @answer, \
   action: :update \
 } do %>
-  $("#answers_<%= dom_id @question %>").replaceWith('<%= j render 'answers/index' %>');
+  $("#form_edit_<%= dom_id @answer %>").hide()
+  $("#link_edit_<%= dom_id @answer %>").show()
+  $("#item_<%= dom_id @answer %>").replaceWith('<%= j render 'answers/item', answer: @answer %>');
 <% end %>

@@ -1,0 +1,7 @@
+= div_for answer, :item
+
+  span.user_name
+    = answer.user.user_name
+  =< answer.body
+
+  = render 'attachments/index', container: answer

@@ -9,12 +9,12 @@ feature 'Create answer on the question page', %q(
   given(:question) { create(:question) }
   given(:answer) { attributes_for(:answer) }
 
-  scenario 'User creates an answer to the question', js: :true do
+  scenario 'User creates an answer to the question', js: true do
     log_in user
 
     visit question_path question
-    fill_in 'Your answer', with: answer[:body]
-    click_on 'Save answer'
+    fill_in t('answer.label.body'), with: answer[:body]
+    click_on t('answer.action.confirm.new')
     expect(current_path).to eq question_path(question.id)
 
     within '#answers' do
@@ -22,11 +22,11 @@ feature 'Create answer on the question page', %q(
     end
   end
 
-  scenario 'User tries to create invalid answer', js: :true do
+  scenario 'User tries to create invalid answer', js: true do
     log_in user
 
     visit question_path(question.id)
-    click_on 'Save answer'
+    click_on t('answer.action.confirm.new')
     expect(current_path).to eq question_path(question.id)
 
     expect(page).to have_content "Body can't be blank"
@@ -34,6 +34,6 @@ feature 'Create answer on the question page', %q(
 
   scenario 'Guest can not answer a question' do
     visit question_path(question.id)
-    expect(page).not_to have_field 'Your answer'
+    expect(page).not_to have_field t('answer.label.body')
   end
 end

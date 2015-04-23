@@ -15,15 +15,15 @@ feature 'Add files to answer', %q(
   end
 
   scenario 'Author adds files when posting an answer', js: :true do
-    fill_in 'Your answer', with: answer.body
+    fill_in t('answer.label.body'), with: answer.body
 
     2.times do |n|
-      click_link 'Add a file'
+      click_link t('attachment.action.new)'
       within ".attachments_new .fields:nth-child(#{ n + 1 })" do
         attach_file 'File', test_file
       end
     end
-    click_on 'Save answer'
+    click_on t('answer.action.confirm.new')
 
     expect(page).to have_content t('answer.created')
     within '#answers_list' do

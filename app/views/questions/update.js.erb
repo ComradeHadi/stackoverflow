@@ -2,7 +2,7 @@
   item: @question, \
   action: :update \
 } do %>
-  $("form#for_edit_<%= dom_id @question %>").hide()
-  $("a#link_edit_<%= dom_id @question %>").show()
+  $("#form_edit_<%= dom_id @question %>").hide()
+  $("#link_edit_<%= dom_id @question %>").show()
   $("#item_<%= dom_id @question %>").replaceWith('<%= j render 'item' %>');
 <% end %>

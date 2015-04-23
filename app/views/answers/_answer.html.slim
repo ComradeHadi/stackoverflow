@@ -1,9 +1,8 @@
 = div_for answer
 
-  = div_for answer, :item
-    = answer.body
+  = render 'answers/item', answer: answer
 
-    = render 'attachments/index', container: answer
+  = render 'answers/edit', answer: answer
 
   - if current_user_author_of? answer
     = div_for answer, :links

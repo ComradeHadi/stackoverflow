@@ -9,6 +9,7 @@ en:
         new: "Save answer"
         edit: "Update answer"
     label:
+      body: "Your answer"
       is_best: "This was accepted as the best answer"
     success:
       create: "Your answer was created"
