@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   before_action :load_comment, only: :destroy
 
   def create
-    @commentable.comments.create comment_params
+    @comment = @commentable.comments.create comment_params
   end
 
   def destroy

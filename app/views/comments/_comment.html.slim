@@ -1,8 +1,6 @@
 = div_for comment
 
-  = div_for comment, :item
-    span.user_name = comment.user.user_name
-    g=< comment.body
+  = render 'comments/item', comment: comment
 
   - if current_user_author_of? comment
     = div_for comment, :links

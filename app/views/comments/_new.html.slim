@@ -1,0 +1,19 @@
+.comments_new
+
+  span =< link_to t("comment.action.new"), \
+    '', \
+    id: "link_new_comment_for_#{ dom_id container }", \
+    class: "link_new_comment", \
+    data: { container: dom_id(container) }
+
+  = form_for [container, container.comments.new], \
+    remote: true, \
+    html: { id: "form_new_comment_for_#{ dom_id container}", style: "display: none" } \
+  do |f|
+    p
+      = f.label :body, t("comment.label.body")
+      br
+      = f.text_area :body
+
+    p = f.submit t("comment.action.confirm.new")
+
