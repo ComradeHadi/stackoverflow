@@ -18,7 +18,7 @@ feature 'Add files to answer', %q(
     fill_in t('answer.label.body'), with: answer.body
 
     2.times do |n|
-      click_link t('attachment.action.new)'
+      click_link t('attachment.action.new')
       within ".attachments_new .fields:nth-child(#{ n + 1 })" do
         attach_file 'File', test_file
       end
