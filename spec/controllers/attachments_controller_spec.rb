@@ -1,18 +1,36 @@
 require 'rails_helper'
 
 RSpec.describe AttachmentsController, type: :controller do
-  let(:question) { create(:question, :with_files, files_count: 2) }
+  let!(:question) { create(:question, :with_files, files_count: 1) }
   let(:files) { question.attachments }
-  before { sign_in question.user }
+  let(:other_user) { create(:user) }
+  let(:delete_file) { delete :destroy, id: files.first, format: :js }
 
   describe 'DELETE #destroy' do
-    it 'deletes files' do
-      expect{ files.each { |file| delete :destroy, id: file, format: :js } }.to change{ Attachment.count }.by(-2)
+    context 'with valid attributes' do
+      before { sign_in question.user }
+
+      it 'deletes files' do
+        expect{ delete_file }.to change{ Attachment.count }.by(-1)
+      end
+
+      it 'renders template destroy' do
+        delete_file
+        expect(response).to render_template :destroy
+      end
     end
 
-    it 'renders template destroy' do
-      delete :destroy, id: files.first, format: :js
-      expect(response).to render_template :destroy
+    context 'with invalid attributes' do
+      before { sign_in other_user }
+
+      it 'does not delete files' do
+        expect{ delete_file }.to_not change{ Attachment.count }
+      end
+
+      it 'renders status 403 forbidden' do
+        delete_file
+        expect(response).to be_forbidden
+      end
     end
   end
 end
