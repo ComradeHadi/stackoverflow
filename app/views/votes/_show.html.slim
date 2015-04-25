@@ -17,7 +17,7 @@
           id: "withdraw_#{ dom_id votable }", \
           remote: true, method: :patch
 
-      - elsif user_can_vote_for votable
+      - elsif user_can_vote_for? votable
 
         span
           =< link_to t('vote.action.like'), \

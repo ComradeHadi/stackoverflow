@@ -5,7 +5,7 @@ module VotableController
     before_action :load_votable_resource, only: [:like, :dislike, :withdraw_vote]
     before_action :check_user_can_vote,   only: [:like, :dislike, :withdraw_vote]
 
-    helper_method :user_can_vote_for
+    helper_method :user_can_vote_for?
   end
 
   def like
@@ -23,7 +23,7 @@ module VotableController
     render_votes
   end
 
-  def user_can_vote_for(votable)
+  def user_can_vote_for?(votable)
     !current_user.author_of? votable if user_signed_in?
   end
 
@@ -34,7 +34,7 @@ module VotableController
   end
 
   def check_user_can_vote
-    unless user_can_vote_for @votable
+    unless user_can_vote_for? @votable
       render status: :forbidden, text: t('vote.failure.not_allowed_to_vote')
     end
   end

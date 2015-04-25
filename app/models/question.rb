@@ -1,9 +1,9 @@
 class Question < ActiveRecord::Base
   include Votable
   include Attachable
+  include Commentable
 
   has_many :answers, dependent: :destroy
-  has_many :comments,    as: :commentable, dependent: :destroy
 
   belongs_to :user
 

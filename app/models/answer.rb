@@ -1,13 +1,12 @@
 class Answer < ActiveRecord::Base
   include Votable
   include Attachable
+  include Commentable
 
   default_scope { order(is_best: :desc, created_at: :asc) }
 
   belongs_to :question
   belongs_to :user
-
-  has_many :comments,    as: :commentable, dependent: :destroy
 
   validates :body, presence: true
   validates :question, presence: true
