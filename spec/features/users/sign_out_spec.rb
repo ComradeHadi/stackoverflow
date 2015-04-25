@@ -9,7 +9,7 @@ feature 'User sign out', %q(
   scenario 'Authenticated user sign out' do
     log_in user
     expect(current_path).to eq root_path
-    log_out user
+    log_out
     expect(page).to have_content t('devise.sessions.signed_out')
   end
 end
