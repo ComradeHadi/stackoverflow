@@ -2,5 +2,8 @@
   item: @answer, \
   action: :create \
 } do %>
-  $("#answers_<%= dom_id @question %>").replaceWith('<%= j render 'answers/index' %>');
+  <% publish_to "/questions/#{@question.id}/answers" do %>
+    $("#answers_<%= dom_id @question %>").replaceWith('<%= j render 'answers/index' %>')
+  <% end %>
+  $("#answer_body").val('')
 <% end %>

@@ -10,7 +10,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = Question.includes(:attachments, :votes, answers: [:attachments, :votes]).find(params[:id])
+    @question = Question.includes(question_includes).find(params[:id])
   end
 
   def new
@@ -51,6 +51,10 @@ class QuestionsController < ApplicationController
     unless current_user.author_of? @question
       render status: :forbidden, text: t('question.failure.not_an_author')
     end
+  end
+
+  def question_includes
+    [:attachments, :votes, :comments, answers: [:attachments, :votes, :comments]]
   end
 
   def question_params

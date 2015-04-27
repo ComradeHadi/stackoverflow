@@ -39,7 +39,7 @@ class AnswersController < ApplicationController
   end
 
   def load_answer
-    @answer = Answer.find(params[:id])
+    @answer = Answer.includes(answer_includes).find(params[:id])
   end
 
   def answer_author_only
@@ -52,6 +52,10 @@ class AnswersController < ApplicationController
     unless current_user.author_of? @answer.question
       render status: :forbidden, text: t('question.failure.not_an_author')
     end
+  end
+
+  def answer_includes
+    [:attachments, :votes, :comments]
   end
 
   def answer_params

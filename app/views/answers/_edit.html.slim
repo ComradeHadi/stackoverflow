@@ -6,7 +6,7 @@
   p
     = f.label :body, t('answer.label.body')
     br
-    = f.text_area :body
+    = f.text_area :body, id: "edit_body_#{ dom_id answer }"
 
   p = render 'attachments/form', form: f
 
