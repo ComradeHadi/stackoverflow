@@ -13,7 +13,7 @@ feature 'Accept answer as the best answer', %q(
   given(:first_answer) { '.answers .answer:first-child' }
   given(:second_answer) { '.answers .answer:nth-child(2)' }
 
-  scenario 'Any answer can be accepted as the best answer', js: :true do
+  scenario 'Any answer can be accepted as the best answer', js: true do
     log_in question.author
     visit question_path question
     expect(page).to have_link link_accept_as_best_answer, count: question.answers.count
