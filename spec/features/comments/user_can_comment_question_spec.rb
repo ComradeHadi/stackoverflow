@@ -28,7 +28,7 @@ feature 'User comments an answer', %q(
     end
   end
 
-  scenario 'User comments an question', js: true do
+  scenario 'User comments a question', js: true do
     log_in user
     visit question_path question
 
@@ -43,7 +43,7 @@ feature 'User comments an answer', %q(
     end
   end
 
-  scenario 'Guest can not comment an answer', js: true do
+  scenario 'Guest can not comment a question', js: true do
     visit question_path question
     expect(page).to_not have_content link_new_comment
   end
