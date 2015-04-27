@@ -6,6 +6,8 @@ en:
       new: "Add a file"
       remove: "Remove"
       delete: "delete"
+    label:
+      file: "File"
     success:
       destroy: "File was deleted"
     failure:

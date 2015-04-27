@@ -1,16 +1,15 @@
 class Answer < ActiveRecord::Base
-  include Votable
+  include Authorable
   include Attachable
+  include Votable
   include Commentable
 
   default_scope { order(is_best: :desc, created_at: :asc) }
 
   belongs_to :question
-  belongs_to :user
 
   validates :body, presence: true
   validates :question, presence: true
-  validates :user, presence: true
 
   def accept_as_best
     Answer.transaction do

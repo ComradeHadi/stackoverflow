@@ -5,14 +5,13 @@ feature 'Delete question', %q(
   I want to be able to delete my question
 ) do
   given!(:question) { create(:question) }
-  given(:other_user) { create(:user) }
+  given(:user) { create(:user) }
   given(:link_delete_question) { t('question.action.delete') }
   given(:notice_destroyed) { t('question.success.destroy') }
 
   scenario 'Author deletes his question from index page', js: true do
-    log_in question.user
+    log_in question.author
     visit questions_path
-    expect(page).to have_content question.title
 
     click_on link_delete_question
 
@@ -21,7 +20,7 @@ feature 'Delete question', %q(
   end
 
   scenario 'Author deletes his question from question page' do
-    log_in question.user
+    log_in question.author
     visit question_path question
 
     click_on link_delete_question
@@ -32,7 +31,7 @@ feature 'Delete question', %q(
   end
 
   scenario 'User can not delete question of another user' do
-    log_in other_user
+    log_in user
     visit questions_path
     expect(page).to_not have_link link_delete_question
   end

@@ -6,7 +6,7 @@ feature 'Accept answer as the best answer', %q(
 ) do
   given(:question) { create(:question) }
   given!(:answers) { create_list(:answer, 3, question: question) }
-  given(:other_user) { create(:user) }
+  given(:user) { create(:user) }
   given(:link_accept_as_best_answer) { t('answer.action.accept_as_best') }
   given(:notice_accept_as_best) { t('answer.success.accept_as_best') }
   given(:label_is_best) { t('answer.label.is_best') }
@@ -14,13 +14,13 @@ feature 'Accept answer as the best answer', %q(
   given(:second_answer) { '.answers .answer:nth-child(2)' }
 
   scenario 'Any answer can be accepted as the best answer', js: :true do
-    log_in question.user
+    log_in question.author
     visit question_path question
     expect(page).to have_link link_accept_as_best_answer, count: question.answers.count
   end
 
   scenario 'Question author accepts an answer as the best answer', js: true do
-    log_in question.user
+    log_in question.author
     visit question_path question
 
     within first_answer do
@@ -34,7 +34,7 @@ feature 'Accept answer as the best answer', %q(
   end
 
   scenario 'Only one answer can be the best answer', js: true do
-    log_in question.user
+    log_in question.author
     visit question_path question
     expect(page).to have_content label_is_best, count: 0
 
@@ -50,7 +50,7 @@ feature 'Accept answer as the best answer', %q(
   end
 
   scenario 'Best answer should be the first in answers list', js: true do
-    log_in question.user
+    log_in question.author
     visit question_path question
 
     within second_answer do
@@ -62,14 +62,14 @@ feature 'Accept answer as the best answer', %q(
     end
   end
 
-  scenario 'Other user can not accept answer as the best answer', js: true do
-    log_in other_user
+  scenario 'User can not accept answer as the best answer', js: true do
+    log_in user
     visit question_path question
-    expect(page).not_to have_link link_accept_as_best_answer
+    expect(page).to_not have_link link_accept_as_best_answer
   end
 
   scenario 'Guest can not accept answer as the best answer' do
     visit question_path question
-    expect(page).not_to have_link link_accept_as_best_answer
+    expect(page).to_not have_link link_accept_as_best_answer
   end
 end

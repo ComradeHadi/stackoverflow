@@ -1,12 +1,10 @@
 class Question < ActiveRecord::Base
-  include Votable
+  include Authorable
   include Attachable
+  include Votable
   include Commentable
 
   has_many :answers, dependent: :destroy
 
-  belongs_to :user
-
   validates :title, :body, presence: true
-  validates :user, presence: true
 end

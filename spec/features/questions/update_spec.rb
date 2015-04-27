@@ -5,7 +5,7 @@ feature 'Update question', %q(
   I want to be able to update my question (without page reload)
 ) do
   given(:question) { create(:question) }
-  given(:other_user) { create(:user) }
+  given(:user) { create(:user) }
   given(:attributes) { attributes_for(:question) }
   given(:label_title) { t('question.label.title') }
   given(:label_body) { t('question.label.body') }
@@ -14,7 +14,7 @@ feature 'Update question', %q(
   given(:notice_updated) { t('question.success.update') }
 
   scenario 'Author updates his question', js: true do
-    log_in question.user
+    log_in question.author
     visit question_path question
 
     click_on link_edit_question
@@ -26,8 +26,8 @@ feature 'Update question', %q(
     expect(page).to have_content notice_updated
   end
 
-  scenario 'Users can not edit question of another user' do
-    log_in other_user
+  scenario 'User can not edit question of another user' do
+    log_in user
     visit question_path question
     expect(page).to_not have_link link_edit_question
   end

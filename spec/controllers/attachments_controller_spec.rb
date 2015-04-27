@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe AttachmentsController, type: :controller do
   let!(:question) { create(:question, :with_files, files_count: 1) }
   let(:files) { question.attachments }
-  let(:other_user) { create(:user) }
+  let(:user) { create(:user) }
   let(:delete_file) { delete :destroy, id: files.first, format: :js }
 
   describe 'DELETE #destroy' do
     context 'with valid attributes' do
-      before { sign_in question.user }
+      before { sign_in question.author }
 
       it 'deletes files' do
         expect{ delete_file }.to change{ Attachment.count }.by(-1)
@@ -21,7 +21,7 @@ RSpec.describe AttachmentsController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      before { sign_in other_user }
+      before { sign_in user }
 
       it 'does not delete files' do
         expect{ delete_file }.to_not change{ Attachment.count }

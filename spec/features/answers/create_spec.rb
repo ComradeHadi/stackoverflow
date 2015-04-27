@@ -9,14 +9,14 @@ feature 'Create answer on the question page', %q(
   given(:question) { create(:question) }
   given(:attributes) { attributes_for(:answer) }
   given(:label_body) { t('answer.label.body') }
-  given(:submit_new_question) { t('answer.action.confirm.new') }
+  given(:submit_new_answer) { t('answer.action.confirm.new') }
 
   scenario 'User creates an answer to the question', js: true do
     log_in user
     visit question_path question
 
     fill_in label_body, with: attributes[:body]
-    click_on submit_new_question
+    click_on submit_new_answer
 
     expect(current_path).to eq question_path question
     within '.answers' do
@@ -28,7 +28,7 @@ feature 'Create answer on the question page', %q(
     log_in user
     visit question_path question
 
-    click_on submit_new_question
+    click_on submit_new_answer
     expect(page).to have_content "Body can't be blank"
   end
 

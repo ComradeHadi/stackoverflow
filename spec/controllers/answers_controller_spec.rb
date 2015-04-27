@@ -14,7 +14,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:patch_dislike) { patch :dislike, id: answer, format: :js }
   let(:patch_withdraw_vote) { patch :withdraw_vote, id: answer, format: :js }
   let(:user) { create(:user) }
-  before { sign_in answer.user }
+  before { sign_in answer.author }
 
   describe 'POST #create' do
     context 'with valid attributes' do
@@ -61,7 +61,7 @@ RSpec.describe AnswersController, type: :controller do
       before { patch_invalid_answer }
 
       it 'does not change answer attributes' do
-        expect(answer.reload.body).not_to eq nil
+        expect(answer.reload.body).to_not eq nil
       end
 
       it 'renders template update' do
@@ -72,14 +72,14 @@ RSpec.describe AnswersController, type: :controller do
     context 'when unauthorized' do
       it 'does not update answer of another user' do
         patch :update, id: answer_by_another_user, answer: attributes, format: :js
-        expect(answer.reload.body).not_to eq attributes[:body]
+        expect(answer.reload.body).to_not eq attributes[:body]
       end
     end
   end
 
   describe 'PATCH #accept_as_best' do
     context 'when authorized' do
-      before { sign_in question.user }
+      before { sign_in question.author }
       before { answer }
       before { answer_by_another_user }
       before { patch :accept_as_best, id: answer, format: :js }
@@ -99,7 +99,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'when unauthorized' do
-      before { sign_in answer.user }
+      before { sign_in answer.author }
       before { question }
       before { answer }
       before { answer_by_another_user }
@@ -141,7 +141,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'when unauthorized' do
-      before { sign_in answer.user }
+      before { sign_in answer.author }
 
       it 'vote does not change rating' do
         expect{ patch_like }.to_not change{ answer.reload.rating }
@@ -169,7 +169,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'when unauthorized' do
-      before { sign_in answer.user }
+      before { sign_in answer.author }
 
       it 'vote does not change rating' do
         expect{ patch_dislike }.to_not change{ answer.reload.rating }
@@ -206,7 +206,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'when unauthorized' do
-      before { sign_in answer.user }
+      before { sign_in answer.author }
 
       it 'renders status forbidden' do
         patch_withdraw_vote

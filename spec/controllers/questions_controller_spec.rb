@@ -39,7 +39,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    before { sign_in question.user }
+    before { sign_in question.author }
     before { get :new }
 
     it 'assigns new question to @question' do
@@ -55,7 +55,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    before { sign_in question.user }
+    before { sign_in question.author }
 
     context 'with valid attributes' do
       it 'saves new question in db' do
@@ -81,7 +81,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    before { sign_in question.user }
+    before { sign_in question.author }
     before { patch_question }
 
     context 'with valid attributes' do
@@ -117,7 +117,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { sign_in question.user }
+    before { sign_in question.author }
 
     it 'deletes question' do
       expect { delete :destroy, id: question }.to change{ Question.count }.by(-1)
@@ -144,7 +144,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'when unauthorized' do
-      before { sign_in question.user }
+      before { sign_in question.author }
 
       it 'vote does not change rating' do
         expect{ patch_like }.to_not change{ question.reload.rating }
@@ -172,7 +172,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'when unauthorized' do
-      before { sign_in question.user }
+      before { sign_in question.author }
 
       it 'vote does not change rating' do
         expect{ patch_dislike }.to_not change{ question.reload.rating }
@@ -209,7 +209,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'when unauthorized' do
-      before { sign_in question.user }
+      before { sign_in question.author }
 
       it 'renders status forbidden' do
         patch_withdraw_vote
