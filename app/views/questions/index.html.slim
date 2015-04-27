@@ -9,4 +9,5 @@
         =< render 'shared/link_delete', item: question
 
 br
-= link_to t('question.action.new'), new_question_path
+- if user_signed_in?
+  = link_to t('question.action.new'), new_question_path

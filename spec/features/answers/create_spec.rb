@@ -7,33 +7,33 @@ feature 'Create answer on the question page', %q(
 ) do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
-  given(:answer) { attributes_for(:answer) }
+  given(:attributes) { attributes_for(:answer) }
+  given(:label_body) { t('answer.label.body') }
+  given(:submit_new_question) { t('answer.action.confirm.new') }
 
   scenario 'User creates an answer to the question', js: true do
     log_in user
-
     visit question_path question
-    fill_in t('answer.label.body'), with: answer[:body]
-    click_on t('answer.action.confirm.new')
-    expect(current_path).to eq question_path(question.id)
 
-    within '#answers' do
-      expect(page).to have_content answer[:body]
+    fill_in label_body, with: attributes[:body]
+    click_on submit_new_question
+
+    expect(current_path).to eq question_path question
+    within '.answers' do
+      expect(page).to have_content attributes[:body]
     end
   end
 
   scenario 'User tries to create invalid answer', js: true do
     log_in user
+    visit question_path question
 
-    visit question_path(question.id)
-    click_on t('answer.action.confirm.new')
-    expect(current_path).to eq question_path(question.id)
-
+    click_on submit_new_question
     expect(page).to have_content "Body can't be blank"
   end
 
   scenario 'Guest can not answer a question' do
-    visit question_path(question.id)
-    expect(page).not_to have_field t('answer.label.body')
+    visit question_path question
+    expect(page).to_not have_field label_body
   end
 end

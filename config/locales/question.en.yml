@@ -8,6 +8,9 @@ en:
       confirm:
         new: "Create question"
         edit: "Update question"
+    label:
+      title: "Title"
+      body: "Body"
     success:
       create: "Your question was created"
       update: "Your question was updated"

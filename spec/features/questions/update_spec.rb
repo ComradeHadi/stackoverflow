@@ -2,32 +2,38 @@ require 'features/helper'
 
 feature 'Update question', %q(
   As an author
-  I want to be able to edit my question without page reload
+  I want to be able to update my question (without page reload)
 ) do
-  given(:author) { create(:user) }
+  given(:question) { create(:question) }
   given(:other_user) { create(:user) }
-  given!(:question) { create(:question, user: author) }
+  given(:attributes) { attributes_for(:question) }
+  given(:label_title) { t('question.label.title') }
+  given(:label_body) { t('question.label.body') }
+  given(:link_edit_question) { t('question.action.edit') }
+  given(:sumbit_save_question) { t('question.action.confirm.edit') }
+  given(:notice_updated) { t('question.success.update') }
 
-  scenario 'Author can edit his question without page reload', js: true do
-    log_in author
-    visit question_path(question)
-    click_on 'Edit question'
-    expect(current_path).to eq question_path(question)
-    fill_in 'Title', with: 'Updated title'
-    fill_in 'Body', with: 'Updated body'
-    click_on 'Update'
-    expect(current_path).to eq question_path(question)
-    expect(page).to have_content t('question.updated')
+  scenario 'Author updates his question', js: true do
+    log_in question.user
+    visit question_path question
+
+    click_on link_edit_question
+    fill_in label_title, with: attributes[:title]
+    fill_in label_body, with: attributes[:body]
+    click_on sumbit_save_question
+
+    expect(current_path).to eq question_path question
+    expect(page).to have_content notice_updated
   end
 
   scenario 'Users can not edit question of another user' do
     log_in other_user
-    visit question_path(question)
-    expect(page).not_to have_link('Edit question')
+    visit question_path question
+    expect(page).to_not have_link link_edit_question
   end
 
   scenario 'Guest can not edit any questions' do
-    visit question_path(question)
-    expect(page).not_to have_link('Edit question')
+    visit question_path question
+    expect(page).to_not have_link link_edit_question
   end
 end
