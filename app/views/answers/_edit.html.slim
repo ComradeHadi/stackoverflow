@@ -4,9 +4,9 @@
     do |f|
 
   p
-    = f.label :body, t('answer.label.body')
+    = f.label :body, t('answer.label.body'), value: "#{ answer.id }"
     br
-    = f.text_area :body, id: "edit_body_#{ dom_id answer }"
+    = f.text_area :body, id: "answer_body_#{ answer.id }"
 
   p = render 'attachments/form', form: f
 
