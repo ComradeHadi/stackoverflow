@@ -10,8 +10,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = Question.includes(:attachments, :votes, answers: [:attachments, :votes]).find(params[:id])
-    @answer = Answer.new
+    @question = Question.includes(question_includes).find(params[:id])
   end
 
   def new
@@ -22,23 +21,25 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new strong_params
+    @question = Question.new question_params
     if @question.save
-      redirect_to @question, notice: t('question.created')
+      PrivatePub.publish_to "/questions", render_partial(:create)
+      redirect_to @question, notice: t('question.success.create')
     else
-      render :new, alert: t('question.failure.not_created')
+      render :new
     end
   end
 
   def update
-    @question.update(strong_params)
+    @question.update question_params
   end
 
   def destroy
     @question.destroy
+    PrivatePub.publish_to "/questions", render_partial(:destroy)
     respond_to do |format|
-      format.html { redirect_to questions_path, notice: t('question.destroyed') }
-      format.js { render "destroy", locals: {questions_count: Question.all.count} }
+      format.html { redirect_to questions_path, notice: t('question.success.destroy') }
+      format.js
     end
   end
 
@@ -49,13 +50,21 @@ class QuestionsController < ApplicationController
   end
 
   def author_only
-    if @question.user_id != current_user.id
-      render status: :forbidden, text: t('question.failure.not_an_author')
-    end
+    return if current_user.author_of? @question
+    render status: :forbidden, text: t('question.failure.not_an_author')
   end
 
-  def strong_params
-    strong_params = params.require(:question).permit(:title, :body, attachments_attributes: [:id, :file, :_destroy])
-    strong_params.merge( user_id: current_user.id ) if user_signed_in?
+  def question_includes
+    [:attachments, :votes, :comments, answers: [:attachments, :votes, :comments]]
+  end
+
+  def render_partial(template_name)
+    view_context.render template_name.to_s, question: @question
+  end
+
+  def question_params
+    permited = [:title, :body, attachments_attributes: [:id, :file, :_destroy]]
+    strong_params = params.require(:question).permit(*permited)
+    strong_params.merge(user_id: current_user.id) if user_signed_in?
   end
 end

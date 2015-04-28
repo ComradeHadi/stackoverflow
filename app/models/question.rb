@@ -1,13 +1,10 @@
 class Question < ActiveRecord::Base
+  include Authorable
+  include Attachable
   include Votable
+  include Commentable
 
   has_many :answers, dependent: :destroy
-  has_many :attachments, as: :attachable, dependent: :destroy
-
-  belongs_to :user
 
   validates :title, :body, presence: true
-  validates :user, presence: true
-
-  accepts_nested_attributes_for :attachments
 end

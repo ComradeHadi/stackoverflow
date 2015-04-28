@@ -1,0 +1,7 @@
+= div_for comment
+
+  = render 'comments/item', comment: comment
+
+  - if current_user_author_of? comment
+    = div_for comment, :links
+      = render 'shared/link_delete', item: comment

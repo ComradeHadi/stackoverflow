@@ -1,10 +1,9 @@
 require 'rails_helper'
 
-feature 'Register', %q{
+feature 'Register', %q(
   As a guest
   I want to be able to register
-} do
-
+) do
   given(:user) { build(:user) }
 
   scenario 'Guest is registered' do
@@ -17,4 +16,3 @@ feature 'Register', %q{
     expect(page).to have_content t('devise.registrations.signed_up')
   end
 end
-

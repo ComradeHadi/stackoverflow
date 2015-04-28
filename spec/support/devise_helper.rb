@@ -5,7 +5,8 @@ module DeviseHelper
     fill_in 'Password', with: user.password
     click_on 'Log in'
   end
-  def log_out(user)
+
+  def log_out
     page.driver.submit :delete, destroy_user_session_path, {}
   end
 end

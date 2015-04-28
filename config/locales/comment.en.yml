@@ -1,0 +1,14 @@
+en:
+  comment:
+    action:
+      new: "Add comment"
+      delete: "Delete comment"
+      confirm:
+        new: "Save comment"
+    label:
+      body: "Your comment"
+    success:
+      create: "Your comment was added"
+      destroy: "Your comment was deleted"
+    failure:
+      not_an_author: "Only an author can delete his comments"

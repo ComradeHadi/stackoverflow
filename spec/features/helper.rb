@@ -15,9 +15,11 @@ RSpec.configure do |config|
   config.before(:each, js: true) { DatabaseCleaner.strategy = :truncation }
   config.before(:each) { DatabaseCleaner.start }
   config.after(:each) { DatabaseCleaner.clean }
+
+  config.after(:each, js: true) { sleep 0.3 }
+  config.after(:suite) { sleep 1 }
 end
 
 headless = Headless.new
 headless.start
 at_exit { headless.stop }
-

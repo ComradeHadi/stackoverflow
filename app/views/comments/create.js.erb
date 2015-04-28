@@ -1,0 +1,10 @@
+<%= render layout: 'shared/layouts/update_item_after_action', locals: { \
+  item: @comment, \
+  action: :create \
+} do %>
+  $("#form_new_comment_for_<%= dom_id @commentable %>").hide()
+  $("#link_new_comment_for_<%= dom_id @commentable %>").show()
+  <% publish_to "/comments" do %>
+    $("#comments_<%= dom_id @commentable %>").append('<%= j render 'comments/comment', comment: @comment %>');
+  <% end %>
+<% end %>

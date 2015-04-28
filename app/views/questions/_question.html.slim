@@ -1,23 +1,18 @@
-#question_item
-  #question_title
-    = @question.title
-  #question_body
-    = @question.body
+= div_for @question
 
-#question_vote
-  = render 'layouts/votes/show', votable: @question
+  = render 'item'
 
-= form_for @question, remote: true, html: { id: "for_question_edit", style: "display: none" } do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Update'
+  = render 'edit'
 
-- if user_signed_in? and (@question.user_id == current_user.id)
-  #question_edit_link
-    = link_to 'Edit question', '', data: { question_id: @question.id }
+  - if current_user_author_of? @question
+    = div_for @question, :links
+      = render 'shared/link_edit', item: @question
+      =< render 'shared/link_delete', item: @question, remote: false
 
-  #question_delete_link
-    = link_to 'Delete question', question_path(@question), method: :delete
+  = render 'votes/show', votable: @question
 
+  = render 'comments/index', container: @question
+
+  hr
+
+  = render 'answers/index'

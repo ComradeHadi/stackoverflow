@@ -1,18 +1,15 @@
 class Answer < ActiveRecord::Base
+  include Authorable
+  include Attachable
   include Votable
+  include Commentable
 
   default_scope { order(is_best: :desc, created_at: :asc) }
 
   belongs_to :question
-  belongs_to :user
-
-  has_many :attachments, as: :attachable, dependent: :destroy
 
   validates :body, presence: true
   validates :question, presence: true
-  validates :user, presence: true
-
-  accepts_nested_attributes_for :attachments
 
   def accept_as_best
     Answer.transaction do
@@ -21,4 +18,3 @@ class Answer < ActiveRecord::Base
     end
   end
 end
-

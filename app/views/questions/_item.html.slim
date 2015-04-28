@@ -1,0 +1,7 @@
+= div_for @question, :item
+  h1
+    = @question.title
+  p
+    = @question.body
+
+  = render 'attachments/index', container: @question

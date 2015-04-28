@@ -1,0 +1,13 @@
+= nested_form_for answer, \
+    remote: true, \
+    html: { id: "form_edit_#{ dom_id answer }", style: "display: none" } \
+    do |f|
+
+  p
+    = f.label :body, t('answer.label.body'), value: "#{ answer.id }"
+    br
+    = f.text_area :body, id: "answer_body_#{ answer.id }"
+
+  p = render 'attachments/form', form: f
+
+  p = f.submit t 'answer.action.confirm.edit'

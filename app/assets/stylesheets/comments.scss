@@ -1,0 +1,15 @@
+// Place all the styles related to the Answers controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.comments {
+   font-size: small;
+   margin-top: 8px;
+   margin-left: 20px;
+   margin-bottom: 8px;
+}
+.comment {
+   margin-bottom: 10px;
+}
+.comment .user_name {
+  font-weight: bold;
+}

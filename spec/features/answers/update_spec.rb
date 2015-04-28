@@ -1,36 +1,38 @@
 require 'features/helper'
 
-feature 'Update answer', %q{
+feature 'Update answer', %q(
   As an author
   I want to be able to edit my answer
-} do
+) do
+  given!(:answer) { create(:answer) }
+  given(:user) { create(:user) }
+  given(:attributes) { attributes_for(:answer) }
+  given(:label_body) { t('answer.label.body') }
+  given(:link_edit_answer) { t('answer.action.edit') }
+  given(:submit_save_answer) { t('answer.action.confirm.edit') }
+  given(:notice_updated) { t('answer.success.update') }
 
-  given(:author) { create(:user) }
-  given(:other_user) { create(:user) }
-  given!(:question) { create(:question, user: author) }
-  given!(:answer) { create(:answer, question: question, user: author)}
+  scenario 'Author updates his answer', js: true do
+    log_in answer.author
+    visit question_path answer.question
 
-  scenario 'Author can edit his answer', js: true do
-    log_in author
-    visit question_path(question)
-    click_on 'Edit answer'
-    expect(current_path).to eq question_path(question)
-    fill_in 'Answer', with: 'updated answer', :match => :prefer_exact
-    click_on 'Update'
-    expect(current_path).to eq question_path(question)
-    expect(page).to have_content t('answer.updated')
-    expect(page).to have_content 'updated answer'
+    click_on link_edit_answer
+    fill_in label_body, with: attributes[:body], match: :prefer_exact
+    click_on submit_save_answer
+
+    expect(current_path).to eq question_path answer.question
+    expect(page).to have_content notice_updated
+    expect(page).to have_content attributes[:body]
   end
 
-  scenario 'Users can not edit answers of another user' do
-    log_in other_user
-    visit question_path(question)
-    expect(page).not_to have_link 'Edit answer'
+  scenario 'User can not edit answers of another user' do
+    log_in user
+    visit question_path answer.question
+    expect(page).to_not have_link link_edit_answer
   end
 
-  scenario 'Guest can not edit any questions' do
-    visit question_path(question)
-    expect(page).not_to have_link 'Edit answer'
+  scenario 'Guest can not edit any answer' do
+    visit question_path answer.question
+    expect(page).to_not have_link link_edit_answer
   end
 end
-

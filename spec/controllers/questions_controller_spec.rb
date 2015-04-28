@@ -2,7 +2,16 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
+  let(:attributes) { attributes_for(:question) }
+  let(:invalid_attr) { build_attributes(:invalid_question) }
   let(:questions) { create_list(:question, 2) }
+  let(:post_question) { post :create, question: attributes }
+  let(:post_invalid) { post :create, question: invalid_attr }
+  let(:patch_question) { patch :update, id: question, question: attributes, format: :js }
+  let(:patch_invalid) { patch :update, id: question, question: invalid_attr, format: :js }
+  let(:patch_like) { patch :like, id: question, format: :js }
+  let(:patch_dislike) { patch :dislike, id: question, format: :js }
+  let(:patch_withdraw_vote) { patch :withdraw_vote, id: question, format: :js }
   let(:user) { create(:user) }
 
   describe 'GET #index' do
@@ -30,7 +39,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    before { sign_in question.user }
+    before { sign_in question.author }
     before { get :new }
 
     it 'assigns new question to @question' do
@@ -43,78 +52,77 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
-    before { sign_in question.user }
-    before { get :edit, id: question }
-
-    it 'assigns the requested question to @question' do
-      expect(assigns(:question)).to eq question
-    end
-
-    it 'renders edit view' do
-      expect(response).to render_template :edit
-    end
   end
 
   describe 'POST #create' do
-    before { sign_in question.user }
+    before { sign_in question.author }
+
     context 'with valid attributes' do
       it 'saves new question in db' do
-        expect { post :create, question: build_attributes(:question) }.to change(Question, :count).by(1)
+        expect { post_question }.to change { Question.count }.by(1)
       end
+
       it 'redirects to show view' do
-        post :create, question: build_attributes(:question)
-        expect(response).to redirect_to question_path(assigns(:question))
+        post_question
+        expect(response).to redirect_to question_path assigns(:question)
       end
     end
+
     context 'with invalid attributes' do
-      it 'saves new question in db' do
-        expect { post :create, question: build_attributes(:invalid_question) }.to_not change(Question, :count)
+      it 'does not save new question in db' do
+        expect { post_invalid }.to_not change { Question.count }
       end
-      it 're-renders new view' do
-        post :create, question: build_attributes(:invalid_question)
+
+      it 'renders new view' do
+        post_invalid
         expect(response).to render_template :new
       end
     end
   end
 
   describe 'PATCH #update' do
-    before { sign_in question.user }
+    before { sign_in question.author }
+    before { patch_question }
+
     context 'with valid attributes' do
       it 'assigns the requested question to @question' do
-        patch :update, id: question, question: attributes_for(:question), format: :js
         expect(assigns(:question)).to eq question
       end
+
       it 'changes question attributes' do
-        patch :update, id: question, question: { title: 'new title', body: 'new body' }, format: :js
         question.reload
-        expect(question.title).to eq 'new title'
-        expect(question.body).to eq 'new body'
+        expect(question.title).to eq attributes[:title]
+        expect(question.body).to eq attributes[:body]
       end
-      it 'redirects to updated question' do
-        patch :update, id: question, question: { title: 'new title', body: 'new body' }, format: :js
+
+      it 'renders update template' do
         question.reload
         expect(response).to render_template :update
       end
     end
+
     context 'with invalid attributes' do
-      before { patch :update, id: question, question: { title: 'new title', body: nil }, format: :js }
+      before { patch_invalid }
 
       it 'does not change question attributes' do
         question.reload
         expect(question.title).to eq question.title
         expect(question.body).to eq question.body
       end
-      it 're-renders edit view' do
+
+      it 'renders update view' do
         expect(response).to render_template :update
       end
     end
   end
 
   describe 'DELETE #destroy' do
-    before { sign_in question.user }
+    before { sign_in question.author }
+
     it 'deletes question' do
-      expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+      expect { delete :destroy, id: question }.to change { Question.count }.by(-1)
     end
+
     it 'redirects to index view' do
       delete :destroy, id: question
       expect(response).to redirect_to questions_path
@@ -124,26 +132,26 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH #like' do
     context 'when authorized' do
       before { sign_in user }
-      before { patch :like, id: question, format: :js }
 
       it 'vote for question increase question rating' do
-        question.reload
-        expect( question.rating ).to eq 1
+        expect { patch_like }.to change { question.reload.rating }.by(1)
       end
+
       it 'renders partial votes/update' do
-        expect(response).to render_template 'layouts/votes/update'
+        patch_like
+        expect(response).to render_template 'votes/update'
       end
     end
 
     context 'when unauthorized' do
-      before { sign_in question.user }
-      before { patch :like, id: question, format: :js }
+      before { sign_in question.author }
 
       it 'vote does not change rating' do
-        question.reload
-        expect( question.rating ).to eq 0
+        expect { patch_like }.to_not change { question.reload.rating }
       end
+
       it 'renders status forbidden' do
+        patch_like
         expect(response).to be_forbidden
       end
     end
@@ -152,26 +160,26 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH #dislike' do
     context 'when authorized' do
       before { sign_in user }
-      before { patch :dislike, id: question, format: :js }
 
       it 'vote against question decrease question rating' do
-        question.reload
-        expect( question.rating ).to eq -1
+        expect { patch_dislike }.to change { question.reload.rating }.by(-1)
       end
+
       it 'renders partial votes/update' do
-        expect(response).to render_template 'layouts/votes/update'
+        patch_dislike
+        expect(response).to render_template 'votes/update'
       end
     end
 
     context 'when unauthorized' do
-      before { sign_in question.user }
-      before { patch :dislike, id: question, format: :js }
+      before { sign_in question.author }
 
       it 'vote does not change rating' do
-        question.reload
-        expect( question.rating ).to eq 0
+        expect { patch_dislike }.to_not change { question.reload.rating }
       end
+
       it 'renders status forbidden' do
+        patch_dislike
         expect(response).to be_forbidden
       end
     end
@@ -180,26 +188,33 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH #withdraw_vote' do
     context 'when authorized' do
       before { sign_in user }
-      before { patch :like, id: question, format: :js }
-      before { patch :withdraw_vote, id: question, format: :js }
 
-      it 'withdraw vote returns rating back to zero' do
-        question.reload
-        expect( question.rating ).to eq 0
+      it 'withdraw vote after like returns rating back to zero' do
+        patch_like
+        patch_withdraw_vote
+        expect(question.reload.rating).to eq 0
       end
+
+      it 'second and subsequent withdraw_vote have no effect on rating' do
+        patch_like
+        patch_withdraw_vote
+        expect { patch_withdraw_vote }.to_not change { question.reload.rating }
+      end
+
       it 'renders partial votes/update' do
-        expect(response).to render_template 'layouts/votes/update'
+        patch_like
+        patch_withdraw_vote
+        expect(response).to render_template 'votes/update'
       end
     end
 
     context 'when unauthorized' do
-      before { sign_in question.user }
-      before { patch :withdraw_vote, id: question, format: :js }
+      before { sign_in question.author }
 
       it 'renders status forbidden' do
+        patch_withdraw_vote
         expect(response).to be_forbidden
       end
     end
   end
-
 end

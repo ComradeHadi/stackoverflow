@@ -1,11 +1,21 @@
 en:
-  questions:
-    found: "Questions found: %{count}"
   question:
-    created: "Your question was successfully created."
-    updated: "Your question was updated"
-    destroyed: "Your question was deleted"
+    action:
+      index: "All questions"
+      new: "Ask question"
+      edit: "Edit question"
+      delete: "Delete question"
+      confirm:
+        new: "Create question"
+        edit: "Update question"
+    label:
+      title: "Title"
+      body: "Body"
+    success:
+      create: "Your question was created"
+      update: "Your question was updated"
+      destroy: "Your question was deleted"
     failure:
-      not_updated: "An error occured while updating your question"
+      create: "An error occured while creating your question"
+      update: "An error occured while updating your question"
       not_an_author: "Only an author can edit or delete his questions"
-

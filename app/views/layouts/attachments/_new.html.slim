@@ -1,6 +1,0 @@
-p.attachments_new
-  = form.fields_for :attachments do |attachment|
-    = attachment.label :file
-    = attachment.file_field :file, html: { class: "attachment_new_file_field" }
-    = attachment.link_to_remove "Remove"
-  = form.link_to_add "Add a file", :attachments

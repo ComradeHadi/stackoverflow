@@ -1,11 +1,9 @@
-<% if @answer.errors.present? %>
-  <% @answer.errors.full_messages.each do |message| %>
-    $('#alert').html('<%= t 'answer.failure.not_created' %>')
-    $('#notice').html('<%= j message %>')
+<%= render layout: 'shared/layouts/update_item_after_action', locals: { \
+  item: @answer, \
+  action: :create \
+} do %>
+  <% publish_to "/answers" do %>
+    $("#answers_<%= dom_id @question %>").replaceWith('<%= j render 'answers/index' %>')
   <% end %>
-<% else %>
-  $('#notice').html('<%= t 'answer.created' %>')
-  $('#answers').html('<%= j render 'answers' %>');
-  $('#answer_body').val('');
+  $("#answer_body").val('')
 <% end %>
-

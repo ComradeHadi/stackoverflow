@@ -1,37 +1,43 @@
 require 'features/helper'
 
-feature 'Delete question', %q{
+feature 'Delete question', %q(
   As an author
   I want to be able to delete my question
-} do
+) do
+  given!(:question) { create(:question) }
+  given(:user) { create(:user) }
+  given(:link_delete_question) { t('question.action.delete') }
+  given(:notice_destroyed) { t('question.success.destroy') }
 
-  given(:author) { create(:user) }
-  given(:other_user) { create(:user) }
-  given(:questions) { create_list(:question, 3, user: author) }
-  given!(:question) { questions.at(2) }
-
-  scenario 'Author can delete his question from index page (with ajax)' do
-    log_in author
+  scenario 'Author deletes his question from index page', js: true do
+    log_in question.author
     visit questions_path
-    click_on "delete_question_#{ question.id }"
+
+    click_on link_delete_question
+
+    expect(page).to have_content notice_destroyed
+    expect(page).to_not have_content question.title
+  end
+
+  scenario 'Author deletes his question from question page' do
+    log_in question.author
+    visit question_path question
+
+    click_on link_delete_question
+
     expect(current_path).to eq questions_path
-    expect(page).not_to have_content question.title
+    expect(page).to have_content notice_destroyed
+    expect(page).to_not have_content question.title
   end
-  scenario 'Author can delete his question from show page' do
-    log_in author
-    visit question_path(question)
-    click_on 'Delete question'
-    expect(page).to have_content t('question.destroyed')
-    expect(current_path).to eq questions_path
+
+  scenario 'User can not delete question of another user' do
+    log_in user
+    visit questions_path
+    expect(page).to_not have_link link_delete_question
   end
-  scenario 'Users can not delete question of another user' do
-    log_in other_user
-    visit question_path(question)
-    expect(page).not_to have_link('Delete question')
-  end
+
   scenario 'Guest can not delete any questions' do
-    visit question_path(question)
-    expect(page).not_to have_link('Delete question')
+    visit questions_path
+    expect(page).to_not have_link link_delete_question
   end
 end
-

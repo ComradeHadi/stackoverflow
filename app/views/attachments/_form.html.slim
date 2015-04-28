@@ -1,0 +1,15 @@
+= t 'attachments.label'
+
+.attachments_form
+
+  = form.fields_for :attachments do |attachment|
+
+    - if attachment.object.new_record?
+      = attachment.label :file
+      = attachment.file_field :file
+      = attachment.link_to_remove t('attachment.action.remove')
+
+    - else
+      = attachment.object.file_identifier
+
+  = form.link_to_add t('attachment.action.new'), :attachments

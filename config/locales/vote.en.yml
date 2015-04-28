@@ -1,5 +1,13 @@
 en:
   vote:
-    accepted: "Thank you for your vote!"
+    action:
+      like: "Like"
+      dislike: "Dislike"
+      withdraw: "Withdraw"
+    label:
+      rating: "Rating"
+      my_vote: "My vote"
+    success:
+      voted: "Thank you for your vote!"
     failure:
       not_allowed_to_vote: "Sorry, you are not allowed to vote"

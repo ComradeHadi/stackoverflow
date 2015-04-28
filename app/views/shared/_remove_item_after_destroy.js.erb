@@ -1,0 +1,8 @@
+<% channel = local_assigns.fetch :channel, nil %>
+$('#notice').html('<%= t('success.destroy', scope: item.model_name.element) %>')
+<% if channel %>
+<%   publish_to channel do %>
+       $("#<%= dom_id item %>").remove()
+<%   end %>
+<% end %>
+$("#<%= dom_id item %>").remove()

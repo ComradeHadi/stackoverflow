@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def model_id record
-    "#{ record.model_name.singular }_#{ record.id }"
+  def current_user_author_of?(resource)
+    user_signed_in? && (current_user.author_of? resource)
   end
 end

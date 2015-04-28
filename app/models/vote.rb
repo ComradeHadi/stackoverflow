@@ -1,8 +1,9 @@
 class Vote < ActiveRecord::Base
-  belongs_to :user
+  include Authorable
+
   belongs_to :votable, polymorphic: true
 
-  validates :user_id, :like, :votable_id, :votable_type, presence: true
+  validates :like, :votable_id, :votable_type, presence: true
   validates :user_id, uniqueness: { scope: [:votable_id, :votable_type] }
-  validates :like, inclusion: [-1, 1]
+  validates :like, inclusion: [Votable::LIKE, Votable::DISLIKE]
 end

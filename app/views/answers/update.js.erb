@@ -1,11 +1,8 @@
-<% if @answer.errors.present? %>
-  <% @answer.errors.full_messages.each do |message| %>
-    $('#alert').html('<%= t 'answer.failure.not_updated' %>')
-    $('#notice').html('<%= j message %>')
-  <% end %>
-<% else %>
-  $('#alert').empty()
-  $('#notice').html('<%= t 'answer.updated' %>')
-  $('#answer_<%= @answer.id %>').replaceWith('<%= j render @answer %>')
+<%= render layout: 'shared/layouts/update_item_after_action', locals: { \
+  item: @answer, \
+  action: :update \
+} do %>
+  $("#form_edit_<%= dom_id @answer %>").hide()
+  $("#link_edit_<%= dom_id @answer %>").show()
+  $("#item_<%= dom_id @answer %>").replaceWith('<%= j render 'answers/item', answer: @answer %>');
 <% end %>
-
