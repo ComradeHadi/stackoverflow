@@ -1,8 +1,5 @@
 <%
   channel = local_assigns.fetch :channel, nil
-
-pp "channel: #{ channel }"
-
 %>
 
 $('#notice').html('<%= t('success.destroy', scope: item.model_name.element) %>')
