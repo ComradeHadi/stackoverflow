@@ -30,6 +30,3 @@ Style/Encoding:
 
 Style/UnneededPercentQ:
   Enabled: false
-
-Style/IfUnlessModifier:
-  Enabled: false
