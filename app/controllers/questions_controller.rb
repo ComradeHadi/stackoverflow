@@ -23,7 +23,7 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new question_params
     if @question.save
-      PrivatePub.publish_to "/questions", render_question_create
+      PrivatePub.publish_to "/questions", render_partial(:create)
       redirect_to @question, notice: t('question.success.create')
     else
       render :new
@@ -36,6 +36,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question.destroy
+    PrivatePub.publish_to "/questions", render_partial(:destroy)
     respond_to do |format|
       format.html { redirect_to questions_path, notice: t('question.success.destroy') }
       format.js
@@ -57,8 +58,8 @@ class QuestionsController < ApplicationController
     [:attachments, :votes, :comments, answers: [:attachments, :votes, :comments]]
   end
 
-  def render_question_create
-    view_context.render 'create', question: @question
+  def render_partial(template_name)
+    view_context.render template_name.to_s, question: @question
   end
 
   def question_params
