@@ -40,15 +40,13 @@ class AnswersController < ApplicationController
   end
 
   def answer_author_only
-    unless current_user.author_of? @answer
-      render status: :forbidden, text: t('answer.failure.not_an_author')
-    end
+    return if current_user.author_of? @answer
+    render status: :forbidden, text: t('answer.failure.not_an_author')
   end
 
   def question_author_only
-    unless current_user.author_of? @answer.question
-      render status: :forbidden, text: t('question.failure.not_an_author')
-    end
+    return if current_user.author_of? @answer.question
+    render status: :forbidden, text: t('question.failure.not_an_author')
   end
 
   def answer_includes

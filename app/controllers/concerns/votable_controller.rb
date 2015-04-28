@@ -34,9 +34,8 @@ module VotableController
   end
 
   def check_user_can_vote
-    unless user_can_vote_for? @votable
-      render status: :forbidden, text: t('vote.failure.not_allowed_to_vote')
-    end
+    return if user_can_vote_for? @votable
+    render status: :forbidden, text: t('vote.failure.not_allowed_to_vote')
   end
 
   def render_votes

@@ -14,8 +14,7 @@ class AttachmentsController < ApplicationController
   end
 
   def author_only
-    unless current_user.author_of? @attachment.attachable
-      render status: :forbidden, text: t('attachment.failure.not_an_author')
-    end
+    return if current_user.author_of? @attachment.attachable
+    render status: :forbidden, text: t('attachment.failure.not_an_author')
   end
 end

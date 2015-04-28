@@ -28,9 +28,6 @@ Style/StringLiterals:
 Style/Encoding:
   Enabled: false
 
-Style/GuardClause:
-  Enabled: false
-
 Style/UnneededPercentQ:
   Enabled: false
 
