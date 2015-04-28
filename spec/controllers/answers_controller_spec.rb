@@ -5,11 +5,11 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer, question: question) }
   let(:answer_by_another_user) { create(:answer, question: question) }
   let(:attributes) { build_attributes(:answer) }
-  let(:invalid_attributes) { build_attributes(:invalid_answer) }
+  let(:invalid_attr) { build_attributes(:invalid_answer) }
   let(:post_answer) { post :create, answer: attributes, question_id: question, format: :js }
-  let(:post_invalid_answer) { post :create, answer: invalid_attributes, question_id: question, format: :js }
+  let(:post_invalid) { post :create, answer: invalid_attr, question_id: question, format: :js }
   let(:patch_answer) { patch :update, id: answer, answer: attributes, format: :js }
-  let(:patch_invalid_answer) { patch :update, id: answer, answer: invalid_attributes, format: :js }
+  let(:patch_invalid_answer) { patch :update, id: answer, answer: invalid_attr, format: :js }
   let(:patch_like) { patch :like, id: answer, format: :js }
   let(:patch_dislike) { patch :dislike, id: answer, format: :js }
   let(:patch_withdraw_vote) { patch :withdraw_vote, id: answer, format: :js }
@@ -19,7 +19,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves new answer in db' do
-        expect{ post_answer }.to change{ question.answers.count }.by(1)
+        expect { post_answer }.to change { question.answers.count }.by(1)
       end
 
       it 'renders create template' do
@@ -30,11 +30,11 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save new answer in db' do
-        expect { post_invalid_answer }.to_not change{ question.answers.count }
+        expect { post_invalid }.to_not change { question.answers.count }
       end
 
       it 'renders create template' do
-        post_invalid_answer
+        post_invalid
         expect(response).to be_unprocessable
       end
     end
@@ -106,7 +106,8 @@ RSpec.describe AnswersController, type: :controller do
       before { patch :accept_as_best, id: answer, format: :js }
 
       it 'answer can not be accepted by any user except question author' do
-        expect{ patch :accept_as_best, id: answer, format: :js }.to_not change { answer.reload.is_best }
+        expect { patch :accept_as_best, id: answer, format: :js }
+          .to_not change { answer.reload.is_best }
       end
 
       it 'renders status 403 forbidden' do
@@ -117,7 +118,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'DELETE #destroy' do
     it 'deletes answer' do
-      expect{ delete :destroy, id: answer, format: :js }.to change{ Answer.count }.by(-1)
+      expect { delete :destroy, id: answer, format: :js }.to change { Answer.count }.by(-1)
     end
 
     it 'renders template destroy' do
@@ -131,7 +132,7 @@ RSpec.describe AnswersController, type: :controller do
       before { sign_in user }
 
       it 'vote for answer increase answer rating' do
-        expect{ patch_like }.to change{ answer.reload.rating }.by(1)
+        expect { patch_like }.to change { answer.reload.rating }.by(1)
       end
 
       it 'renders partial votes/update' do
@@ -144,7 +145,7 @@ RSpec.describe AnswersController, type: :controller do
       before { sign_in answer.author }
 
       it 'vote does not change rating' do
-        expect{ patch_like }.to_not change{ answer.reload.rating }
+        expect { patch_like }.to_not change { answer.reload.rating }
       end
 
       it 'renders status forbidden' do
@@ -159,7 +160,7 @@ RSpec.describe AnswersController, type: :controller do
       before { sign_in user }
 
       it 'vote against answer decrease answer rating' do
-        expect{ patch_dislike }.to change{ answer.reload.rating }.by(-1)
+        expect { patch_dislike }.to change { answer.reload.rating }.by(-1)
       end
 
       it 'renders template votes/update' do
@@ -172,7 +173,7 @@ RSpec.describe AnswersController, type: :controller do
       before { sign_in answer.author }
 
       it 'vote does not change rating' do
-        expect{ patch_dislike }.to_not change{ answer.reload.rating }
+        expect { patch_dislike }.to_not change { answer.reload.rating }
       end
 
       it 'renders status forbidden' do
@@ -195,7 +196,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'second and subsequent withdraw_vote have no effect on rating' do
         patch_like
         patch_withdraw_vote
-        expect{ patch_withdraw_vote }.to_not change{ answer.reload.rating }
+        expect { patch_withdraw_vote }.to_not change { answer.reload.rating }
       end
 
       it 'renders partial votes/update' do

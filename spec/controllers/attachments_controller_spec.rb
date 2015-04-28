@@ -11,7 +11,7 @@ RSpec.describe AttachmentsController, type: :controller do
       before { sign_in question.author }
 
       it 'deletes files' do
-        expect{ delete_file }.to change{ Attachment.count }.by(-1)
+        expect { delete_file }.to change { Attachment.count }.by(-1)
       end
 
       it 'renders template destroy' do
@@ -24,7 +24,7 @@ RSpec.describe AttachmentsController, type: :controller do
       before { sign_in user }
 
       it 'does not delete files' do
-        expect{ delete_file }.to_not change{ Attachment.count }
+        expect { delete_file }.to_not change { Attachment.count }
       end
 
       it 'renders status 403 forbidden' do

@@ -9,10 +9,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.build answer_params
-
-    unless @answer.save
-      render status: :unprocessable_entity
-    end
+    @answer.save || render(status: :unprocessable_entity)
   end
 
   def update
@@ -60,6 +57,6 @@ class AnswersController < ApplicationController
 
   def answer_params
     strong_params = params.require(:answer).permit(:title, :body, attachments_attributes: [:file])
-    strong_params.merge( user_id: current_user.id ) if user_signed_in?
+    strong_params.merge(user_id: current_user.id) if user_signed_in?
   end
 end

@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
   let(:attributes) { attributes_for(:question) }
-  let(:invalid_attributes) { build_attributes(:invalid_question) }
+  let(:invalid_attr) { build_attributes(:invalid_question) }
   let(:questions) { create_list(:question, 2) }
   let(:post_question) { post :create, question: attributes }
-  let(:post_invalid_question) { post :create, question: invalid_attributes }
+  let(:post_invalid) { post :create, question: invalid_attr }
   let(:patch_question) { patch :update, id: question, question: attributes, format: :js }
-  let(:patch_invalid_question) { patch :update, id: question, question: invalid_attributes, format: :js }
+  let(:patch_invalid) { patch :update, id: question, question: invalid_attr, format: :js }
   let(:patch_like) { patch :like, id: question, format: :js }
   let(:patch_dislike) { patch :dislike, id: question, format: :js }
   let(:patch_withdraw_vote) { patch :withdraw_vote, id: question, format: :js }
@@ -59,7 +59,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with valid attributes' do
       it 'saves new question in db' do
-        expect { post_question }.to change{ Question.count }.by(1)
+        expect { post_question }.to change { Question.count }.by(1)
       end
 
       it 'redirects to show view' do
@@ -70,11 +70,11 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save new question in db' do
-        expect { post_invalid_question }.to_not change{ Question.count }
+        expect { post_invalid }.to_not change { Question.count }
       end
 
       it 'renders new view' do
-        post_invalid_question
+        post_invalid
         expect(response).to render_template :new
       end
     end
@@ -102,7 +102,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      before { patch_invalid_question }
+      before { patch_invalid }
 
       it 'does not change question attributes' do
         question.reload
@@ -120,7 +120,7 @@ RSpec.describe QuestionsController, type: :controller do
     before { sign_in question.author }
 
     it 'deletes question' do
-      expect { delete :destroy, id: question }.to change{ Question.count }.by(-1)
+      expect { delete :destroy, id: question }.to change { Question.count }.by(-1)
     end
 
     it 'redirects to index view' do
@@ -134,7 +134,7 @@ RSpec.describe QuestionsController, type: :controller do
       before { sign_in user }
 
       it 'vote for question increase question rating' do
-        expect{ patch_like }.to change{ question.reload.rating }.by(1)
+        expect { patch_like }.to change { question.reload.rating }.by(1)
       end
 
       it 'renders partial votes/update' do
@@ -147,7 +147,7 @@ RSpec.describe QuestionsController, type: :controller do
       before { sign_in question.author }
 
       it 'vote does not change rating' do
-        expect{ patch_like }.to_not change{ question.reload.rating }
+        expect { patch_like }.to_not change { question.reload.rating }
       end
 
       it 'renders status forbidden' do
@@ -162,7 +162,7 @@ RSpec.describe QuestionsController, type: :controller do
       before { sign_in user }
 
       it 'vote against question decrease question rating' do
-        expect{ patch_dislike }.to change{ question.reload.rating }.by(-1)
+        expect { patch_dislike }.to change { question.reload.rating }.by(-1)
       end
 
       it 'renders partial votes/update' do
@@ -175,7 +175,7 @@ RSpec.describe QuestionsController, type: :controller do
       before { sign_in question.author }
 
       it 'vote does not change rating' do
-        expect{ patch_dislike }.to_not change{ question.reload.rating }
+        expect { patch_dislike }.to_not change { question.reload.rating }
       end
 
       it 'renders status forbidden' do
@@ -198,7 +198,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'second and subsequent withdraw_vote have no effect on rating' do
         patch_like
         patch_withdraw_vote
-        expect{ patch_withdraw_vote }.to_not change{ question.reload.rating }
+        expect { patch_withdraw_vote }.to_not change { question.reload.rating }
       end
 
       it 'renders partial votes/update' do

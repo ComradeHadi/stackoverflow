@@ -23,7 +23,7 @@ class CommentsController < ApplicationController
 
   def comment_params
     strong_params = params.require(:comment).permit(:body, :commentable)
-    strong_params.merge( user_id: current_user.id ) if user_signed_in?
+    strong_params.merge(user_id: current_user.id) if user_signed_in?
   end
 
   def commentable_name

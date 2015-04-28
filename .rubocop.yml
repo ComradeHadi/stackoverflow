@@ -13,10 +13,11 @@ AllCops:
     - 'tmp/**/*'
     - 'vendor/**/*'
     - Guardfile
+    - Gemfile
   DisplayCopNames: true
 
 Metrics/LineLength:
-  Max: 118
+  Max: 98
 
 Style/Documentation:
   Enabled: false
@@ -35,10 +36,3 @@ Style/UnneededPercentQ:
 
 Style/IfUnlessModifier:
   Enabled: false
-
-Style/SpaceBeforeBlockBraces:
-  Enabled: false
-
-Style/SpaceInsideParens:
-  Enabled: false
-
