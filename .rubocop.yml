@@ -16,7 +16,7 @@ AllCops:
   DisplayCopNames: true
 
 Metrics/LineLength:
-  Max: 150
+  Max: 118
 
 Style/Documentation:
   Enabled: false

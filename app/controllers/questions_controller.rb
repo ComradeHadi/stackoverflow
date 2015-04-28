@@ -67,7 +67,8 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    strong_params = params.require(:question).permit(:title, :body, attachments_attributes: [:id, :file, :_destroy])
+    permited = [:title, :body, attachments_attributes: [:id, :file, :_destroy]]
+    strong_params = params.require(:question).permit(*permited)
     strong_params.merge( user_id: current_user.id ) if user_signed_in?
   end
 end
