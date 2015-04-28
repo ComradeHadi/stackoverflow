@@ -3,3 +3,6 @@
 - if user_signed_in?
   hr
   = render 'answers/new', question: @question
+
+= subscribe_to "/answers"
+= subscribe_to "/comments"

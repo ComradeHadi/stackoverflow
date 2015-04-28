@@ -1,13 +1,10 @@
 .questions
+
   - @questions.each do |question|
-
-    = div_for question
-      span
-        = link_to question.title, question_path(question)
-
-      - if current_user_author_of? question
-        =< render 'shared/link_delete', item: question
+    = render 'index_item', question: question
 
 br
 - if user_signed_in?
   = link_to t('question.action.new'), new_question_path
+
+= subscribe_to "/questions"

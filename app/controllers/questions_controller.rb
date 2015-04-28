@@ -23,6 +23,7 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new question_params
     if @question.save
+      PrivatePub.publish_to "/questions", questions_append_index_item
       redirect_to @question, notice: t('question.success.create')
     else
       render :new
@@ -55,6 +56,14 @@ class QuestionsController < ApplicationController
 
   def question_includes
     [:attachments, :votes, :comments, answers: [:attachments, :votes, :comments]]
+  end
+
+  def render_index_item
+    view_context.render 'index_item', question: @question
+  end
+
+  def questions_append_index_item
+    "$('.questions').append('#{ render_index_item }')"
   end
 
   def question_params
