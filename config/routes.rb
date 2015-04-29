@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, concerns: :votable do
+  resources :questions, except: [:edit], concerns: :votable do
     resources :answers, only: [:create, :update, :destroy], shallow: true, concerns: :votable
     resources :comments, only: :create, defaults: { commentable: 'question' }
   end

@@ -1,11 +1,14 @@
-class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:show, :edit, :update, :destroy]
-  before_action :author_only, only: [:edit, :update, :destroy]
-
+class QuestionsController < ApplicationThinController
   include VotableController
 
-  respond_to :html, :js
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :load_resource, only: [:show, :update, :destroy]
+  before_action :check_user_is_author, only: [:update, :destroy]
+
+  after_action :publish_changes, only: [:create, :destroy]
+
+  respond_to :html, only: [:index, :show, :new, :create, :destroy]
+  respond_to :js, only: [:create, :update, :destroy]
 
   def index
     respond_with(@questions = Question.all)
@@ -19,43 +22,27 @@ class QuestionsController < ApplicationController
     respond_with(@question = Question.new)
   end
 
-  def edit
-  end
-
   def create
-    @question = Question.new question_params
-    @question.save && private_publish(@question)
-    respond_with @question
+    respond_with(@question = Question.create(attributes))
   end
 
   def update
-    @question.update question_params
+    @question.update attributes
     respond_with @question
   end
 
   def destroy
-    @question.destroy && private_publish(@question)
+    @question.destroy
     respond_with @question
   end
 
   private
 
-  def load_question
-    @question = Question.includes(question_includes).find(params[:id])
+  def permit_attributes
+    [:title, :body, attachments_attributes: [:id, :file, :_destroy]]
   end
 
-  def question_includes
+  def include_resources
     [:attachments, :votes, :comments, answers: [:attachments, :votes, :comments]]
-  end
-
-  def author_only
-    return if current_user.author_of? @question
-    render status: :forbidden, text: t('question.failure.not_an_author')
-  end
-
-  def question_params
-    permited = [:title, :body, attachments_attributes: [:id, :file, :_destroy]]
-    strong_params = params.require(:question).permit(*permited)
-    strong_params.merge(user_id: current_user.id) if user_signed_in?
   end
 end
