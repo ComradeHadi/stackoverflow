@@ -341,6 +341,7 @@ DEPENDENCIES
   rails
   rails_best_practices
   remotipart
+  responders
   rspec-rails
   rubocop
   rubocop-rspec
