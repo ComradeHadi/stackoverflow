@@ -10,7 +10,7 @@ feature 'Create question', %q(
   given(:label_body) { t('question.label.body') }
   given(:link_new_question) { t('question.action.new') }
   given(:submit_new_question) { t('question.action.confirm.new') }
-  given(:notice_created) { t('question.success.create') }
+  given(:notice_created) { t('flash.actions.create.notice', resource_name: 'Question') }
 
   scenario 'User creates a question' do
     log_in user

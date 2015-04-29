@@ -24,10 +24,7 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new question_params
-    if @question.save
-      flash[:notice] = t('question.success.create')
-      private_publish @question
-    end
+    @question.save && private_publish(@question)
     respond_with @question
   end
 
@@ -37,10 +34,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if @question.destroy
-      flash[:notice] = t('question.success.destroy')
-      private_publish @question
-    end
+    @question.destroy && private_publish(@question)
     respond_with @question
   end
 

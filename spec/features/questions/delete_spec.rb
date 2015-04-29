@@ -7,7 +7,7 @@ feature 'Delete question', %q(
   given!(:question) { create(:question) }
   given(:user) { create(:user) }
   given(:link_delete_question) { t('question.action.delete') }
-  given(:notice_destroyed) { t('question.success.destroy') }
+  given(:notice_destroyed) { t('flash.actions.destroy.notice', resource_name: 'Question') }
 
   scenario 'Author deletes his question from index page', js: true do
     log_in question.author
