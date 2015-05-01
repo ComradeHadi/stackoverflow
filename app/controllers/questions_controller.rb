@@ -38,11 +38,15 @@ class QuestionsController < ApplicationThinController
 
   private
 
-  def permit_attributes
-    [:title, :body, attachments_attributes: [:id, :file, :_destroy]]
-  end
-
   def include_resources
     [:attachments, :votes, :comments, answers: [:attachments, :votes, :comments]]
+  end
+
+  def publish_channel
+    "questions"
+  end
+
+  def permit_attributes
+    [:title, :body, attachments_attributes: [:file]]
   end
 end

@@ -7,8 +7,5 @@ en:
         new: "Save comment"
     label:
       body: "Your comment"
-    success:
-      create: "Your comment was added"
-      destroy: "Your comment was deleted"
-    failure:
+    alert:
       not_an_author: "Only an author can delete his comments"

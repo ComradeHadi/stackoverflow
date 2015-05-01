@@ -1,7 +1,7 @@
-= div_for @question, :item
+= div_for question, :item
   h1
-    = @question.title
+    = question.title
   p
-    = @question.body
+    = question.body
 
-  = render 'attachments/index', container: @question
+  = render 'attachments/list', container: question

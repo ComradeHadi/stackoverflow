@@ -1,9 +1,7 @@
 <%= render layout: 'shared/layouts/update_item_after_action', locals: { \
   item: @answer, \
-  action: :create \
+  action: :create, \
+  clear_form: "#answer_body"
 } do %>
-  <% publish_to "/answers" do %>
-    $("#answers_<%= dom_id @question %>").replaceWith('<%= j render 'answers/index' %>')
-  <% end %>
-  $("#answer_body").val('')
+//
 <% end %>

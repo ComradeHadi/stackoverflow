@@ -1,18 +1,18 @@
-= div_for @question
+= div_for question
 
-  = render 'item'
+  = render 'item', question: question
 
-  = render 'edit'
+  = render 'edit', question: question
 
-  - if current_user_author_of? @question
+  - if current_user_author_of? question
     = div_for @question, :links
-      = render 'shared/link_edit', item: @question
-      =< render 'shared/link_delete', item: @question, remote: false
+      = render 'shared/link_edit', item: question
+      =< render 'shared/link_delete', item: question, remote: false
 
-  = render 'votes/show', votable: @question
+  = render 'votes/show', votable: question
 
-  = render 'comments/index', container: @question
+  = render 'comments/list', container: question
 
   hr
 
-  = render 'answers/index'
+  = render 'answers/list', question: question

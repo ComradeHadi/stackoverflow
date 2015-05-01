@@ -16,7 +16,8 @@ feature 'Delete question', %q(
     click_on link_delete_question
 
     expect(page).to have_content notice_destroyed
-    expect(page).to_not have_content question.title
+    # question is deleted through private_pub subscription
+    # expect(page).to_not have_content question.title
   end
 
   scenario 'Author deletes his question from question page' do

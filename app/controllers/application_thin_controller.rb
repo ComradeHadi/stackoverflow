@@ -6,47 +6,53 @@ class ApplicationThinController < ApplicationController
 
   private
 
+  # before_action :load_resource, only: [:show, :update, :destroy, ...]
+  # :include_resources may be overriden in controller
   def load_resource
     record = resource_model.includes(include_resources).find(params[:id])
     instance_variable_set("@#{ resource_name }", record)
   end
 
+  # before_action :check_user_is_author, only: [:update, :destroy, ...]
   def check_user_is_author
     return if current_user.author_of? resource
-    render status: :forbidden, text: t('failure.not_an_author', scope: resource)
+    render status: :forbidden, text: t('alert.not_an_author', scope: resource)
   end
 
+  # :permit_attributes must be overriden in controller
   def attributes
     strong_params = params.require(resource_name.to_sym).permit(*permit_attributes)
     strong_params.merge(user_id: current_user.id) if user_signed_in?
   end
 
+  # after_action :publish_changes, only: [:create, :destroy]
   def publish_changes
     return unless resource.valid?
     private_publish resource
   end
 
-  def private_publish(resource, method = action_name)
-    method ||= caller_locations(1, 1)[0].label
-    channel = "#{ controller_name }/#{ method }"
-    PrivatePub.publish_to "/#{ channel }", render_partial(method, resource)
+  def private_publish(resource, method_name = action_name)
+    channel = publish_channel || "#{ controller_name }/#{ resource.id }"
+    PrivatePub.publish_to "/#{ channel }", render_publish_template(method_name, resource)
   end
 
-  def render_partial(template_name, resource)
-    resource_name = resource.model_name.element
-    view_context.render template_name.to_s, "#{ resource_name }": resource
+  # :publish_locals may be overriden in controller
+  def render_publish_template(method_name, resource)
+    publish_template = "#{ controller_name }/publish_#{ method_name }"
+    locals = { "#{ resource_name }": resource }.merge(publish_locals)
+    view_context.render partial: publish_template, locals: locals
   end
 
   def resource_model
-    controller_name.classify.constantize
+    @resource_model ||= controller_name.classify.constantize
   end
 
   def resource_name
-    resource_model.model_name.element
+    @resource_name ||= controller_name.singularize
   end
 
   def resource
-    instance_variable_get("@#{ resource_name }")
+    @resource ||= instance_variable_get("@#{ resource_name }")
   end
 
   def include_resources
@@ -55,5 +61,13 @@ class ApplicationThinController < ApplicationController
 
   def permit_attributes
     []
+  end
+
+  def publish_channel
+    nil
+  end
+
+  def publish_locals
+    {}
   end
 end

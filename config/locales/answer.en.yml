@@ -11,12 +11,7 @@ en:
     label:
       body: "Your answer"
       is_best: "This was accepted as the best answer"
-    success:
-      create: "Your answer was created"
-      update: "Your answer was updated"
-      destroy: "Your answer was deleted" 
+    notice:
       accept_as_best: "Answer was accepted as the best answer"
-    failure:
-      create: "An error occured while creating your answer"
-      update: "An error occured while updating your answer"
+    alert:
       not_an_author: "Only an author can edit or delete his answers"

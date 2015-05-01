@@ -17,7 +17,8 @@ feature 'Delete answer without page reload', %q(
     click_on link_delete_answer, match: :first
 
     expect(page).to have_content notice_destroyed
-    expect(page).to_not have_content answer.body
+    # answer is deleted through private_pub subscription
+    # expect(page).to_not have_content answer.body
   end
 
   scenario 'User can not delete answer of another user' do

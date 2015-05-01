@@ -1,11 +1,10 @@
 .questions
 
   - @questions.each do |question|
-    = render 'index_item', question: question
+    = render 'index_record', question: question
 
 br
 - if user_signed_in?
   = link_to t('question.action.new'), new_question_path
 
-= subscribe_to "/questions/create"
-= subscribe_to "/questions/destroy"
+= subscribe_to "/questions"

@@ -2,9 +2,10 @@
 
   = render 'answers/item', answer: answer
 
-  = render 'answers/edit', answer: answer
-
   - if current_user_author_of? answer
+
+    = render 'answers/edit', answer: answer
+
     = div_for answer, :links
       = render 'shared/link_edit', item: answer
       =< render 'shared/link_delete', item: answer
@@ -12,4 +13,7 @@
   = render 'votes/show', votable: answer
   = render 'answers/accept_as_best', question: question, answer: answer
 
-  = render 'comments/index', container: answer
+  - unless local_assigns[:new_record]
+    = render 'comments/list', container: answer
+
+= subscribe_to "/answers/#{ answer.id }/comments"
