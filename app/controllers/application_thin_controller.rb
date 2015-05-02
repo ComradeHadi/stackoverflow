@@ -40,7 +40,7 @@ class ApplicationThinController < ApplicationController
   def render_publish_template(method_name, resource)
     publish_template = "#{ controller_name }/publish_#{ method_name }"
     locals = { "#{ resource_name }": resource }.merge(publish_locals)
-    view_context.render partial: publish_template, locals: locals
+    render_to_string partial: publish_template, locals: locals, formats: [:js]
   end
 
   def resource_model

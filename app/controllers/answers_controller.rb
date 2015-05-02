@@ -41,7 +41,7 @@ class AnswersController < ApplicationThinController
   end
 
   def permit_attributes
-    [:body, attachments_attributes: [:file]]
+    [:body, attachments_attributes: [:id, :file, :_destroy]]
   end
 
   def publish_channel

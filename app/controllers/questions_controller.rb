@@ -39,7 +39,14 @@ class QuestionsController < ApplicationThinController
   private
 
   def include_resources
-    [:attachments, :votes, :comments, answers: [:attachments, :votes, :comments]]
+    case action_name
+    when 'show'
+      [:attachments, :votes, :comments, answers: [:attachments, :votes, :comments]]
+    when 'update'
+      [:attachments]
+    else
+      []
+    end
   end
 
   def publish_channel
@@ -47,6 +54,6 @@ class QuestionsController < ApplicationThinController
   end
 
   def permit_attributes
-    [:title, :body, attachments_attributes: [:file]]
+    [:title, :body, attachments_attributes: [:id, :file, :_destroy]]
   end
 end
