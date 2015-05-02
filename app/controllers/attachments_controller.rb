@@ -1,20 +1,19 @@
-class AttachmentsController < ApplicationController
+class AttachmentsController < ApplicationThinController
   before_action :authenticate_user!
-  before_action :load_attachment
-  before_action :author_only
+  before_action :load_resource
+  before_action :check_user_is_author
+
+  respond_to :js
 
   def destroy
     @attachment.destroy
+    respond_with(@attachment)
   end
 
   private
 
-  def load_attachment
-    @attachment = Attachment.find(params[:id])
-  end
-
-  def author_only
+  def check_user_is_author
     return if current_user.author_of? @attachment.attachable
-    render status: :forbidden, text: t('attachment.failure.not_an_author')
+    render status: :forbidden, text: t('attachment.alert.not_an_author')
   end
 end

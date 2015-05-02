@@ -8,7 +8,7 @@ feature 'Accept answer as the best answer', %q(
   given!(:answers) { create_list(:answer, 3, question: question) }
   given(:user) { create(:user) }
   given(:link_accept_as_best_answer) { t('answer.action.accept_as_best') }
-  given(:notice_accept_as_best) { t('answer.success.accept_as_best') }
+  given(:notice_accept_as_best) { t('answer.notice.accept_as_best') }
   given(:label_is_best) { t('answer.label.is_best') }
   given(:first_answer) { '.answers .answer:first-child' }
   given(:second_answer) { '.answers .answer:nth-child(2)' }

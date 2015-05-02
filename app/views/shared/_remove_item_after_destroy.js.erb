@@ -1,8 +1,11 @@
-<% channel = local_assigns.fetch :channel, nil %>
-$('#notice').html('<%= t('success.destroy', scope: item.model_name.element) %>')
-<% if channel %>
-<%   publish_to channel do %>
-       $("#<%= dom_id item %>").remove()
-<%   end %>
+<%
+  model_name = item.model_name.element
+
+  default_notice = t('flash.actions.destroy.notice', resource_name: model_name.capitalize)
+  notice = t("#{ model_name }.notice.destroy", default: default_notice)
+%>
+$('#alert').empty()
+$('#notice').html('<%= notice %>')
+<% unless local_assigns[:published] %>
+  $("#<%= dom_id item %>").remove()
 <% end %>
-$("#<%= dom_id item %>").remove()

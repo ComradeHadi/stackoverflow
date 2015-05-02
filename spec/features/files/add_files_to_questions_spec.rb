@@ -11,7 +11,7 @@ feature 'Add files to question', %q(
   given(:label_file) { t('attachment.label.file') }
   given(:link_new_attachment) { t('attachment.action.new') }
   given(:submit_new_question) { t('question.action.confirm.new') }
-  given(:notice_created) { t('question.success.create') }
+  given(:notice_created) { t('flash.actions.create.notice', resource_name: 'Question') }
   given(:test_file_name) { 'helper.rb' }
   given(:test_file) { "#{Rails.root}/spec/features/#{ test_file_name }" }
 

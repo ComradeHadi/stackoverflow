@@ -8,8 +8,6 @@ en:
       delete: "delete"
     label:
       file: "File"
-    success:
-      destroy: "File was deleted"
-    failure:
+    alert:
       not_an_author: "Only an author can delete his attachments"
 

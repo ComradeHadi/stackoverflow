@@ -11,7 +11,7 @@ feature 'Update question', %q(
   given(:label_body) { t('question.label.body') }
   given(:link_edit_question) { t('question.action.edit') }
   given(:sumbit_save_question) { t('question.action.confirm.edit') }
-  given(:notice_updated) { t('question.success.update') }
+  given(:notice_updated) { t('flash.actions.update.notice', resource_name: 'Question') }
 
   scenario 'Author updates his question', js: true do
     log_in question.author

@@ -1,60 +1,54 @@
-class AnswersController < ApplicationController
-  before_action :authenticate_user!
-  before_action :load_answer, except: [:create]
-  before_action :load_question, except: [:destroy]
-  before_action :answer_author_only, only: [:update, :destroy]
-  before_action :question_author_only, only: [:accept_as_best]
-
+class AnswersController < ApplicationThinController
   include VotableController
 
+  before_action :authenticate_user!
+  before_action :load_resource, except: :create
+  before_action :load_question, only: :create
+  before_action :check_user_is_question_author, only: :accept_as_best
+
+  after_action :publish_changes, only: [:create, :destroy]
+
+  respond_to :js
+
   def create
-    @answer = @question.answers.build answer_params
-    @answer.save || render(status: :unprocessable_entity)
+    respond_with(@answer = @question.answers.create(attributes))
   end
 
   def update
-    @answer.update answer_params
+    @answer.update attributes
+    respond_with @answer
   end
 
   def destroy
     @answer.destroy
+    respond_with @answer
   end
 
   def accept_as_best
     @answer.accept_as_best
+    respond_with @answer
   end
 
   private
 
   def load_question
-    @question =
-      if params.key? :question_id
-        Question.find(params[:question_id])
-      else
-        @answer.question
-      end
+    @question = Question.find(params[:question_id])
   end
 
-  def load_answer
-    @answer = Answer.includes(answer_includes).find(params[:id])
-  end
-
-  def answer_author_only
-    return if current_user.author_of? @answer
-    render status: :forbidden, text: t('answer.failure.not_an_author')
-  end
-
-  def question_author_only
+  def check_user_is_question_author
     return if current_user.author_of? @answer.question
-    render status: :forbidden, text: t('question.failure.not_an_author')
+    render status: :forbidden, text: t('question.alert.not_an_author')
   end
 
-  def answer_includes
-    [:attachments, :votes, :comments]
+  def permit_attributes
+    [:body, attachments_attributes: [:id, :file, :_destroy]]
   end
 
-  def answer_params
-    strong_params = params.require(:answer).permit(:title, :body, attachments_attributes: [:file])
-    strong_params.merge(user_id: current_user.id) if user_signed_in?
+  def publish_channel
+    "questions/#{ @answer.question_id }/answers"
+  end
+
+  def publish_locals
+    { question: @question }
   end
 end

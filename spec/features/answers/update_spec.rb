@@ -10,7 +10,7 @@ feature 'Update answer', %q(
   given(:label_body) { t('answer.label.body') }
   given(:link_edit_answer) { t('answer.action.edit') }
   given(:submit_save_answer) { t('answer.action.confirm.edit') }
-  given(:notice_updated) { t('answer.success.update') }
+  given(:notice_updated) { t('flash.actions.update.notice', resource_name: 'Answer') }
 
   scenario 'Author updates his answer', js: true do
     log_in answer.author

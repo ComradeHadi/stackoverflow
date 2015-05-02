@@ -4,5 +4,5 @@
 } do %>
   $("#form_edit_<%= dom_id @question %>").hide()
   $("#link_edit_<%= dom_id @question %>").show()
-  $("#item_<%= dom_id @question %>").replaceWith('<%= j render 'item' %>');
+  $("#item_<%= dom_id @question %>").replaceWith('<%= j render 'questions/item', question: @question %>');
 <% end %>

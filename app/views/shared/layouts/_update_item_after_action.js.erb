@@ -1,17 +1,23 @@
 <%
    model_name = item.model_name.element
    action = local_assigns.fetch :action, :update
-%>
 
+   default_alert = t("flash.actions.#{ action }.alert", resource_name: model_name.capitalize)
+   default_notice = t("flash.actions.#{ action }.notice", resource_name: model_name.capitalize)
+   alert = t("#{ model_name }.alert.#{ action }", default: default_alert)
+   notice = t("#{ model_name }.notice.#{ action }", default: default_notice)
+%>
 <% if item.errors.any? %>
-  $("#alert").html('<%= t "failure.#{ action }", scope: model_name %>')
+  $("#alert").html('<%= alert %>')
   $("#notice").empty()
   <% item.errors.full_messages.each do |message| %>
     $("#notice").append('<%= j message %>')
   <% end %>
 <% else %>
   $("#alert").empty()
-  $("#notice").html('<%= t "success.#{ action }", scope: model_name %>')
+  $("#notice").html('<%= notice %>')
   <%= yield %>
+  <% if local_assigns[:clear_form] %>
+     $("<%= clear_form %>").val('')
+  <% end %>
 <% end %>
-

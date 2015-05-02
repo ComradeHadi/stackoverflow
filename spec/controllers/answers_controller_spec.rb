@@ -35,7 +35,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'renders create template' do
         post_invalid
-        expect(response).to be_unprocessable
+        expect(response).to render_template :create
       end
     end
   end
