@@ -12,7 +12,7 @@ class Answer < ActiveRecord::Base
   validates :question, presence: true
 
   def accept_as_best
-    Answer.transaction do
+    transaction do
       Answer.where(question: question_id, is_best: true).update_all(is_best: false)
       update(is_best: true)
     end
