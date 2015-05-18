@@ -5,7 +5,7 @@ class Identity < ActiveRecord::Base
   validates_uniqueness_of :uid, scope: :provider
 
   def self.find_or_create_for_auth(auth)
-    includes(:user).find_or_create_by(provider: auth.provider, uid: auth.uid.to_s)
+    find_or_create_by(provider: auth.provider, uid: auth.uid.to_s)
   end
 
   def require_confirmation(email)
