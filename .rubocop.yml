@@ -30,3 +30,6 @@ Style/Encoding:
 
 Style/UnneededPercentQ:
   Enabled: false
+
+RSpec/DescribedClass:
+  Enabled: false

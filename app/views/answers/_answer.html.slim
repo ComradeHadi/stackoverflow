@@ -16,4 +16,4 @@
   - unless local_assigns[:new_record]
     = render 'comments/list', container: answer
 
-= subscribe_to "/answers/#{ answer.id }/comments"
+  = subscribe_to "/answers/#{ answer.id }/comments"

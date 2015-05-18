@@ -14,8 +14,11 @@ RSpec.configure do |config|
   config.before(:each) { DatabaseCleaner.strategy = :transaction }
   config.before(:each, js: true) { DatabaseCleaner.strategy = :truncation }
   config.before(:each, js: true) { page.driver.allow_url('stackoverflow.local') }
+  config.before(:each, js: true) { ActionMailer::Base.deliveries = [] }
   config.before(:each) { DatabaseCleaner.start }
   config.after(:each) { DatabaseCleaner.clean }
+  config.after(:each) { FileUtils.rm_rf(Dir.glob('public/uploads/*')) }
+  config.after(:each, js: true) { ActionMailer::Base.deliveries = [] }
 
   config.after(:each, js: true) { sleep 0.3 }
   config.after(:suite) { sleep 1 }
