@@ -1,4 +1,9 @@
-<h2>Sign up</h2>
+<%
+  oauth_mode = session['devise.require_email_confirmation'].present?
+  header = if oauth_mode then 'Email confirmation required' else 'Sign up' end
+  submit_label = if oauth_mode then 'Confirm' else 'Sign up' end
+%>
+<h2><%= header %></h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
@@ -7,6 +12,8 @@
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true %>
   </div>
+
+<% unless oauth_mode %>
 
   <div class="field">
     <%= f.label :password %>
@@ -21,9 +28,11 @@
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
 
+<% end %>
+
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <%= f.submit submit_label %>
   </div>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<%= render "devise/shared/links" unless oauth_mode %>

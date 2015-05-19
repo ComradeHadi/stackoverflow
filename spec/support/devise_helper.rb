@@ -9,4 +9,9 @@ module DeviseHelper
   def log_out
     page.driver.submit :delete, destroy_user_session_path, {}
   end
+
+  def oauth_provider(provider, options)
+    OmniAuth.config.mock_auth[provider.to_sym]
+    OmniAuth.config.add_mock(provider.to_sym, { info: {} }.merge(options))
+  end
 end

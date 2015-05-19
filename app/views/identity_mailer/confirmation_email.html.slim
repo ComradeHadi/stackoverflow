@@ -1,0 +1,6 @@
+p Welcome to Stackoverflow.local!
+
+p Please click the link below to confirm your account email
+
+= link_to 'Confirm my account email', \
+  confirm_identities_url(token: @identity.confirmation_token)
