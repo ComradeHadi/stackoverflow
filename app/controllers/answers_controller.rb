@@ -4,18 +4,19 @@ class AnswersController < ApplicationThinController
   before_action :authenticate_user!
   before_action :load_resource, except: :create
   before_action :load_question, only: :create
-  before_action :check_user_is_question_author, only: :accept_as_best
 
   after_action :publish_changes, only: [:create, :destroy]
+
+  authorize_resource
 
   respond_to :js
 
   def create
-    respond_with(@answer = @question.answers.create(attributes))
+    respond_with(@answer = @question.answers.create(resource_params))
   end
 
   def update
-    @answer.update attributes
+    @answer.update resource_params
     respond_with @answer
   end
 
@@ -33,11 +34,6 @@ class AnswersController < ApplicationThinController
 
   def load_question
     @question = Question.find(params[:question_id])
-  end
-
-  def check_user_is_question_author
-    return if current_user.author_of? @answer.question
-    render status: :forbidden, text: t('question.alert.not_an_author')
   end
 
   def permit_attributes

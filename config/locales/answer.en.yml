@@ -13,5 +13,3 @@ en:
       is_best: "This was accepted as the best answer"
     notice:
       accept_as_best: "Answer was accepted as the best answer"
-    alert:
-      not_an_author: "Only an author can edit or delete his answers"

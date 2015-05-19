@@ -1,4 +1,6 @@
 class IdentitiesController < ApplicationController
+  skip_authorization_check
+
   before_action :load_identity, only: :show
   before_action :check_identity_require_confirmation, only: :show
   before_action :load_identity_by_token, only: :confirm

@@ -1,4 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
+  skip_authorization_check
   before_action :load_identity, only: :create
 
   def create

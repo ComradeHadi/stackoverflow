@@ -2,7 +2,7 @@
 
   = render 'answers/item', answer: answer
 
-  - if current_user_author_of? answer
+  - if can? :modify, answer
 
     = render 'answers/edit', answer: answer
 

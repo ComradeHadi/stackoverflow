@@ -3,9 +3,10 @@ class QuestionsController < ApplicationThinController
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_resource, only: [:show, :update, :destroy]
-  before_action :check_user_is_author, only: [:update, :destroy]
 
   after_action :publish_changes, only: [:create, :destroy]
+
+  authorize_resource
 
   respond_to :html, only: [:index, :show, :new, :create, :destroy]
   respond_to :js, only: [:create, :update, :destroy]
@@ -23,11 +24,11 @@ class QuestionsController < ApplicationThinController
   end
 
   def create
-    respond_with(@question = Question.create(attributes))
+    respond_with(@question = Question.create(resource_params))
   end
 
   def update
-    @question.update attributes
+    @question.update resource_params
     respond_with @question
   end
 
