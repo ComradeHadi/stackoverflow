@@ -2,9 +2,10 @@
 
   = render 'item', question: question
 
-  = render 'edit', question: question
+  - if can? :modify, question
 
-  - if current_user_author_of? question
+    = render 'edit', question: question
+
     = div_for @question, :links
       = render 'shared/link_edit', item: question
       =< render 'shared/link_delete', item: question, remote: false

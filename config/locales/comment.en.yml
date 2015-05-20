@@ -7,5 +7,3 @@ en:
         new: "Save comment"
     label:
       body: "Your comment"
-    alert:
-      not_an_author: "Only an author can delete his comments"

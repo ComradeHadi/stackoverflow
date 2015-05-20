@@ -4,7 +4,7 @@
     = t('answer.label.is_best')
 
   - else
-    - if current_user_author_of? question
+    - if can? :accept_as_best, answer
       span.accept_as_best
         =< link_to t('answer.action.accept_as_best'), \
           accept_as_best_answer_path(answer), \

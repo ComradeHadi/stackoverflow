@@ -5,10 +5,12 @@ class CommentsController < ApplicationThinController
 
   after_action :publish_changes, only: [:create, :destroy]
 
+  authorize_resource
+
   respond_to :js, only: [:create, :destroy]
 
   def create
-    respond_with(@comment = @commentable.comments.create(attributes))
+    respond_with(@comment = @commentable.comments.create(resource_params))
   end
 
   def destroy

@@ -13,14 +13,8 @@ class ApplicationThinController < ApplicationController
     instance_variable_set("@#{ resource_name }", record)
   end
 
-  # before_action :check_user_is_author, only: [:update, :destroy, ...]
-  def check_user_is_author
-    return if current_user.author_of? resource
-    render status: :forbidden, text: t('alert.not_an_author', scope: resource)
-  end
-
   # :permit_attributes must be overriden in controller
-  def attributes
+  def resource_params
     strong_params = params.require(resource_name.to_sym).permit(*permit_attributes)
     strong_params.merge(user_id: current_user.id) if user_signed_in?
   end

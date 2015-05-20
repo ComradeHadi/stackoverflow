@@ -1,4 +1,6 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  skip_authorization_check
+
   def provider
     @user = User.find_for_auth request.env['omniauth.auth']
 

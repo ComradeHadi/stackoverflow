@@ -1,5 +1,5 @@
 = div_for attachment
   span = link_to attachment.file_identifier, attachment.file.url
 
-  - if current_user_author_of? container
+  - if can? :destroy, attachment
     span =< render 'shared/link_delete', item: attachment

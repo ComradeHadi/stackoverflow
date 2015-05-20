@@ -1,9 +1,0 @@
-if user_signed_in?
-  = nested_form_for [commentable, comment], remote: true do |f|
-    p
-      = f.label :body, 'Your comment'
-      = f.text_area :body
-
-    p = f.submit 'Save comment'
-
-

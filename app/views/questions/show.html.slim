@@ -1,6 +1,6 @@
 = render @question
 
-- if user_signed_in?
+- if can? :create, Answer
   hr
   = render 'answers/new', question: @question
 

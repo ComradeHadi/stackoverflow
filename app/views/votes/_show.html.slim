@@ -3,30 +3,28 @@
   = div_for votable, :rating
     | #{ t('vote.label.rating') }: #{ votable.rating }
 
-  - if user_signed_in?
+  = div_for votable, :vote
+    - if can? :vote, votable
 
-    = div_for votable, :vote
-      - if votable.voted_by? current_user
+      span
+        =< link_to t('vote.action.like'), \
+        polymorphic_path([:like, votable]), \
+        id: "like_#{ dom_id votable }", \
+        remote: true, method: :patch
 
-        span id="my_vote_#{ dom_id votable }"
-          | #{ t('vote.label.my_vote') }: #{ votable.vote_by current_user }
+      span
+        =< link_to t('vote.action.dislike'), \
+        polymorphic_path([:dislike, votable]), \
+        id: "dislike_#{ dom_id votable }", \
+        remote: true, method: :patch
 
-        span
-          =< link_to t('vote.action.withdraw'), \
-          polymorphic_path([:withdraw_vote, votable]), \
-          id: "withdraw_#{ dom_id votable }", \
-          remote: true, method: :patch
+    - if can? :withdraw_vote, votable
 
-      - elsif user_can_vote_for? votable
+      span id="my_vote_#{ dom_id votable }"
+        | #{ t('vote.label.my_vote') }: #{ votable.vote_by current_user }
 
-        span
-          =< link_to t('vote.action.like'), \
-          polymorphic_path([:like, votable]), \
-          id: "like_#{ dom_id votable }", \
-          remote: true, method: :patch
-
-        span
-          =< link_to t('vote.action.dislike'), \
-          polymorphic_path([:dislike, votable]), \
-          id: "dislike_#{ dom_id votable }", \
-          remote: true, method: :patch
+      span
+        =< link_to t('vote.action.withdraw'), \
+        polymorphic_path([:withdraw_vote, votable]), \
+        id: "withdraw_#{ dom_id votable }", \
+        remote: true, method: :patch

@@ -4,7 +4,7 @@
     = render 'index_record', question: question
 
 br
-- if user_signed_in?
+- if can? :create, Question
   = link_to t('question.action.new'), new_question_path
 
 = subscribe_to "/questions"

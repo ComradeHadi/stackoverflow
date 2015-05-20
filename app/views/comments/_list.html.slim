@@ -1,5 +1,5 @@
 = div_for container, :comments, class: :comments
   = render container.comments
 
-- if user_signed_in?
+- if can? :create, Comment
   = render 'comments/new', container: container

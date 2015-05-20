@@ -1,6 +1,6 @@
 = div_for comment
   = render 'comments/item', comment: comment
 
-  - if current_user_author_of? comment
+  - if can? :destroy, Comment
     = div_for comment, :links
       = render 'shared/link_delete', item: comment
