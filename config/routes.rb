@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  use_doorkeeper
+
   devise_for :users, controllers: {
     registrations: 'registrations',
     omniauth_callbacks: 'omniauth_callbacks'
@@ -30,5 +32,13 @@ Rails.application.routes.draw do
 
   resources :identities, only: :show do
     get :confirm, on: :collection
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: :index do
+        get :me, on: :collection
+      end
+    end
   end
 end

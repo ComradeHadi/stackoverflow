@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   has_many :comments, dependent: :restrict_with_exception
   has_many :identities, dependent: :destroy
 
+  scope :all_except, ->(user) { where.not(id: user) }
+
   attr_accessor :no_password
 
   def self.find_for_auth(auth)
