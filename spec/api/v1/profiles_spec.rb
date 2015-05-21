@@ -26,7 +26,7 @@ RSpec.describe 'Profile API' do
       end
 
       it 'returns list of users except resource owner' do
-        expect(response.body).to be_json_eql(users.to_json)
+        expect(response.body).to have_json_size(users.size).at_path('profiles')
         expect(response.body).to_not include_json(me.to_json)
       end
     end
