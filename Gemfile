@@ -37,9 +37,18 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 
+# Authorization Gem for Ruby on Rails
 gem 'cancancan'
 
+# OAuth v2 provider for Rails
 gem 'doorkeeper'
+
+# ActiveModel::Serializer implementation and Rails hooks
+gem 'active_model_serializers'
+
+# Optimized JSON - A fast JSON parser/serializer
+gem 'oj'
+gem 'oj_mimic_json'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

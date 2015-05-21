@@ -98,3 +98,15 @@ def models_with_association association_polymorphic_name
   Rails.application.eager_load!
   ActiveRecord::Base.send(:subclasses).select{ |model| model.reflect_on_all_associations.map { |assoc| assoc.options[:as] == association_polymorphic_name }.any? }.map{ |model| model.name.underscore } 
 end
+
+def resource_attributes(resource)
+  resource_serializer(resource)._attributes
+end
+
+def resource_associations(resource)
+  resource_serializer(resource)._associations.keys
+end
+
+def resource_serializer(resource)
+  "#{ resource.to_s.singularize.capitalize }Serializer".classify.constantize
+end
