@@ -30,8 +30,8 @@ RSpec.describe Ability, type: :model do
     let(:other_comment) { create :comment }
     let(:his_attachment) { create :attachment, attachable: his_question }
     let(:other_attachment) { create :attachment, attachable: other_question }
-    let(:voted_question) { other_question.liked_by user; other_question }
-    let(:voted_answer) { other_answer.liked_by user; other_answer }
+    let(:voted_question) { other_question.liked_by(user) }
+    let(:voted_answer) { other_answer.liked_by(user) }
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }

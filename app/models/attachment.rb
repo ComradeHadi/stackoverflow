@@ -6,8 +6,4 @@ class Attachment < ActiveRecord::Base
   validates :file, presence: true
 
   mount_uploader :file, FileUploader
-
-  def url
-    file.url
-  end
 end

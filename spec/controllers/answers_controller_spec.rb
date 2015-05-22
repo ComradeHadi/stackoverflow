@@ -1,19 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
-  let(:answer) { create(:answer, question: question) }
-  let(:answer_by_another_user) { create(:answer, question: question) }
-  let(:attributes) { build_attributes(:answer) }
-  let(:invalid_attr) { build_attributes(:invalid_answer) }
+  let(:question) { create :question }
+  let(:answer) { create :answer, question: question }
+  let(:answer_by_another_user) { create :answer, question: question }
+  let(:attributes) { build_attributes :answer }
+  let(:invalid_attr) { build_attributes :invalid_answer }
   let(:post_answer) { post :create, answer: attributes, question_id: question, format: :js }
   let(:post_invalid) { post :create, answer: invalid_attr, question_id: question, format: :js }
   let(:patch_answer) { patch :update, id: answer, answer: attributes, format: :js }
   let(:patch_invalid_answer) { patch :update, id: answer, answer: invalid_attr, format: :js }
-  let(:patch_like) { patch :like, id: answer, format: :js }
-  let(:patch_dislike) { patch :dislike, id: answer, format: :js }
-  let(:patch_withdraw_vote) { patch :withdraw_vote, id: answer, format: :js }
-  let(:user) { create(:user) }
+  let(:publish_channel) { "/questions/#{ question.id }/answers" }
+
   before { sign_in answer.author }
 
   describe 'POST #create' do
@@ -26,6 +24,9 @@ RSpec.describe AnswersController, type: :controller do
         post_answer
         expect(response).to render_template :create
       end
+
+      let(:do_request) { post_answer }
+      it_behaves_like "publishable"
     end
 
     context 'with invalid attributes' do
@@ -33,10 +34,8 @@ RSpec.describe AnswersController, type: :controller do
         expect { post_invalid }.to_not change { question.answers.count }
       end
 
-      it 'renders create template' do
-        post_invalid
-        expect(response).to render_template :create
-      end
+      let(:do_request) { post_invalid }
+      it_behaves_like "not publishable"
     end
   end
 
@@ -117,102 +116,21 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    let(:delete_answer) { delete :destroy, id: answer, format: :js }
+
     it 'deletes answer' do
-      expect { delete :destroy, id: answer, format: :js }.to change { Answer.count }.by(-1)
+      expect { delete_answer }.to change { Answer.count }.by(-1)
     end
 
     it 'renders template destroy' do
-      delete :destroy, id: answer, format: :js
+      delete_answer
       expect(response).to render_template :destroy
     end
+
+    let(:do_request) { delete_answer }
+    it_behaves_like "publishable"
   end
 
-  describe 'PATCH #like' do
-    context 'when authorized' do
-      before { sign_in user }
-
-      it 'vote for answer increase answer rating' do
-        expect { patch_like }.to change { answer.reload.rating }.by(1)
-      end
-
-      it 'renders partial votes/update' do
-        patch_like
-        expect(response).to render_template 'votes/update'
-      end
-    end
-
-    context 'when unauthorized' do
-      before { sign_in answer.author }
-
-      it 'vote does not change rating' do
-        expect { patch_like }.to_not change { answer.reload.rating }
-      end
-
-      it 'renders status forbidden' do
-        patch_like
-        expect(response).to be_forbidden
-      end
-    end
-  end
-
-  describe 'PATCH #dislike' do
-    context 'when authorized' do
-      before { sign_in user }
-
-      it 'vote against answer decrease answer rating' do
-        expect { patch_dislike }.to change { answer.reload.rating }.by(-1)
-      end
-
-      it 'renders template votes/update' do
-        patch_dislike
-        expect(response).to render_template 'votes/update'
-      end
-    end
-
-    context 'when unauthorized' do
-      before { sign_in answer.author }
-
-      it 'vote does not change rating' do
-        expect { patch_dislike }.to_not change { answer.reload.rating }
-      end
-
-      it 'renders status forbidden' do
-        patch_dislike
-        expect(response).to be_forbidden
-      end
-    end
-  end
-
-  describe 'PATCH #withdraw_vote' do
-    context 'when authorized' do
-      before { sign_in user }
-
-      it 'withdraw_vote after like returns rating back to zero' do
-        patch_like
-        patch_withdraw_vote
-        expect(answer.reload.rating).to eq 0
-      end
-
-      it 'second and subsequent withdraw_vote have no effect on rating' do
-        patch_like
-        patch_withdraw_vote
-        expect { patch_withdraw_vote }.to_not change { answer.reload.rating }
-      end
-
-      it 'renders partial votes/update' do
-        patch_like
-        patch_withdraw_vote
-        expect(response).to render_template 'votes/update'
-      end
-    end
-
-    context 'when unauthorized' do
-      before { sign_in answer.author }
-
-      it 'renders status forbidden' do
-        patch_withdraw_vote
-        expect(response).to be_forbidden
-      end
-    end
-  end
+  let(:votable) { answer }
+  it_behaves_like "Votable Controller"
 end
