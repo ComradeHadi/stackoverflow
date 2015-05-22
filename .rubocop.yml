@@ -1,6 +1,7 @@
 require: rubocop-rspec
 
 AllCops:
+  RunRailsCops: true
   Exclude:
     - 'bin/**/*'
     - 'config/**/*'
@@ -15,6 +16,14 @@ AllCops:
     - Guardfile
     - Gemfile
   DisplayCopNames: true
+
+Metrics/AbcSize:
+  Exclude:
+    - app/models/ability.rb
+
+Metrics/MethodLength:
+  Exclude:
+    - app/models/ability.rb
 
 Metrics/LineLength:
   Max: 98
@@ -32,4 +41,9 @@ Style/UnneededPercentQ:
   Enabled: false
 
 RSpec/DescribedClass:
+  Enabled: false
+
+# "The first argument to describe should be the class or module being tested"
+# NOT for spec/api
+RSpec/DescribeClass:
   Enabled: false

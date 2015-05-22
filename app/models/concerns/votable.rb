@@ -18,10 +18,12 @@ module Votable
 
   def new_vote_by(user, like = LIKE)
     votes.create(user: user, like: like)
+    self
   end
 
   def withdraw_vote_by(user)
     votes.where(user: user).delete_all
+    self
   end
 
   def voted_by?(user)

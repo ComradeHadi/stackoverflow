@@ -1,61 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
-  let(:attributes) { attributes_for(:question) }
-  let(:invalid_attr) { build_attributes(:invalid_question) }
-  let(:questions) { create_list(:question, 2) }
-  let(:post_question) { post :create, question: attributes }
-  let(:post_invalid) { post :create, question: invalid_attr }
-  let(:patch_question) { patch :update, id: question, question: attributes, format: :js }
-  let(:patch_invalid) { patch :update, id: question, question: invalid_attr, format: :js }
-  let(:patch_like) { patch :like, id: question, format: :js }
-  let(:patch_dislike) { patch :dislike, id: question, format: :js }
-  let(:patch_withdraw_vote) { patch :withdraw_vote, id: question, format: :js }
-  let(:user) { create(:user) }
+  let(:question) { create :question }
+  let(:attributes) { attributes_for :question }
+  let(:invalid_attr) { build_attributes :invalid_question }
+  let(:publish_channel) { "/questions" }
 
-  describe 'GET #index' do
-    before { get :index }
-
-    it 'populates questions array' do
-      expect(assigns(:questions)).to match_array(questions)
-    end
-
-    it 'renders index view' do
-      expect(response).to render_template :index
-    end
-  end
-
-  describe 'GET #show' do
-    before { get :show, id: question }
-
-    it 'assigns the requested question to @question' do
-      expect(assigns(:question)).to eq question
-    end
-
-    it 'renders show view' do
-      expect(response).to render_template :show
-    end
-  end
-
-  describe 'GET #new' do
-    before { sign_in question.author }
-    before { get :new }
-
-    it 'assigns new question to @question' do
-      expect(assigns(:question)).to be_a_new Question
-    end
-
-    it 'renders new view' do
-      expect(response).to render_template :new
-    end
-  end
-
-  describe 'GET #edit' do
-  end
+  before { sign_in question.author }
 
   describe 'POST #create' do
-    before { sign_in question.author }
+    let(:post_question) { post :create, question: attributes }
+    let(:post_invalid) { post :create, question: invalid_attr }
 
     context 'with valid attributes' do
       it 'saves new question in db' do
@@ -66,6 +21,9 @@ RSpec.describe QuestionsController, type: :controller do
         post_question
         expect(response).to redirect_to question_path assigns(:question)
       end
+
+      let(:do_request) { post_question }
+      it_behaves_like "publishable"
     end
 
     context 'with invalid attributes' do
@@ -73,148 +31,50 @@ RSpec.describe QuestionsController, type: :controller do
         expect { post_invalid }.to_not change { Question.count }
       end
 
-      it 'renders new view' do
-        post_invalid
-        expect(response).to render_template :new
-      end
+      let(:do_request) { post_invalid }
+      it_behaves_like "not publishable"
     end
   end
 
   describe 'PATCH #update' do
-    before { sign_in question.author }
-    before { patch_question }
+    let(:patch_question) { patch :update, id: question, question: attributes, format: :js }
+    let(:patch_invalid) { patch :update, id: question, question: invalid_attr, format: :js }
 
     context 'with valid attributes' do
-      it 'assigns the requested question to @question' do
-        expect(assigns(:question)).to eq question
-      end
-
       it 'changes question attributes' do
+        patch_question
         question.reload
         expect(question.title).to eq attributes[:title]
         expect(question.body).to eq attributes[:body]
       end
-
-      it 'renders update template' do
-        question.reload
-        expect(response).to render_template :update
-      end
     end
 
     context 'with invalid attributes' do
-      before { patch_invalid }
-
       it 'does not change question attributes' do
+        patch_invalid
         question.reload
         expect(question.title).to eq question.title
         expect(question.body).to eq question.body
-      end
-
-      it 'renders update view' do
-        expect(response).to render_template :update
       end
     end
   end
 
   describe 'DELETE #destroy' do
-    before { sign_in question.author }
+    let(:delete_question) { delete :destroy, id: question }
 
     it 'deletes question' do
-      expect { delete :destroy, id: question }.to change { Question.count }.by(-1)
+      expect { delete_question }.to change { Question.count }.by(-1)
     end
 
     it 'redirects to index view' do
-      delete :destroy, id: question
+      delete_question
       expect(response).to redirect_to questions_path
     end
+
+    let(:do_request) { delete_question }
+    it_behaves_like "publishable"
   end
 
-  describe 'PATCH #like' do
-    context 'when authorized' do
-      before { sign_in user }
-
-      it 'vote for question increase question rating' do
-        expect { patch_like }.to change { question.reload.rating }.by(1)
-      end
-
-      it 'renders partial votes/update' do
-        patch_like
-        expect(response).to render_template 'votes/update'
-      end
-    end
-
-    context 'when unauthorized' do
-      before { sign_in question.author }
-
-      it 'vote does not change rating' do
-        expect { patch_like }.to_not change { question.reload.rating }
-      end
-
-      it 'renders status forbidden' do
-        patch_like
-        expect(response).to be_forbidden
-      end
-    end
-  end
-
-  describe 'PATCH #dislike' do
-    context 'when authorized' do
-      before { sign_in user }
-
-      it 'vote against question decrease question rating' do
-        expect { patch_dislike }.to change { question.reload.rating }.by(-1)
-      end
-
-      it 'renders partial votes/update' do
-        patch_dislike
-        expect(response).to render_template 'votes/update'
-      end
-    end
-
-    context 'when unauthorized' do
-      before { sign_in question.author }
-
-      it 'vote does not change rating' do
-        expect { patch_dislike }.to_not change { question.reload.rating }
-      end
-
-      it 'renders status forbidden' do
-        patch_dislike
-        expect(response).to be_forbidden
-      end
-    end
-  end
-
-  describe 'PATCH #withdraw_vote' do
-    context 'when authorized' do
-      before { sign_in user }
-
-      it 'withdraw vote after like returns rating back to zero' do
-        patch_like
-        patch_withdraw_vote
-        expect(question.reload.rating).to eq 0
-      end
-
-      it 'second and subsequent withdraw_vote have no effect on rating' do
-        patch_like
-        patch_withdraw_vote
-        expect { patch_withdraw_vote }.to_not change { question.reload.rating }
-      end
-
-      it 'renders partial votes/update' do
-        patch_like
-        patch_withdraw_vote
-        expect(response).to render_template 'votes/update'
-      end
-    end
-
-    context 'when unauthorized' do
-      before { sign_in question.author }
-
-      it 'renders status forbidden' do
-        patch_withdraw_vote
-        expect(response).to be_forbidden
-      end
-    end
-  end
+  let(:votable) { question }
+  it_behaves_like "Votable Controller"
 end

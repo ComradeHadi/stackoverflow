@@ -1,15 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe CommentsController, type: :controller do
-  let(:question) { create(:question) }
-  let(:answer) { create(:answer) }
-  let(:user) { create(:user) }
-  let(:comment) { create(:comment, user: user) }
-  let(:attributes) { attributes_for(:comment) }
-  let(:invalid_attr) { attributes_for(:invalid_comment) }
-  let(:post_comment) { post :create, { comment: attributes }.merge(comment_params) }
-  let(:post_invalid) { post :create, { comment: invalid_attr }.merge(comment_params) }
-  let(:delete_comment) { delete :destroy, id: comment, format: :js }
+  let(:question) { create :question }
+  let(:answer) { create :answer }
+  let(:user) { create :user }
+  let(:comment) { create :comment, user: user }
+  let(:attributes) { attributes_for :comment }
+  let(:invalid_attr) { attributes_for :invalid_comment }
+
   before { sign_in user }
 
   models_with_association(:commentable).each do |commentable_name|
@@ -20,7 +18,13 @@ RSpec.describe CommentsController, type: :controller do
       end
       let(:commentable) { send commentable_name }
 
+      let(:commentable_collection) { commentable_name.underscore.pluralize }
+      let(:publish_channel) { "/#{ commentable_collection }/#{ commentable.id }/comments" }
+
       describe "POST #create" do
+        let(:post_comment) { post :create, { comment: attributes }.merge(comment_params) }
+        let(:post_invalid) { post :create, { comment: invalid_attr }.merge(comment_params) }
+
         context 'with valid attributes' do
           it 'assigns @commentable' do
             post_comment
@@ -35,6 +39,9 @@ RSpec.describe CommentsController, type: :controller do
             post_comment
             expect(response).to render_template :create
           end
+
+          let(:do_request) { post_comment }
+          it_behaves_like "publishable"
         end
 
         context 'with invalid attributes' do
@@ -46,11 +53,15 @@ RSpec.describe CommentsController, type: :controller do
             post_invalid
             expect(response).to render_template :create
           end
+
+          let(:do_request) { post_invalid }
+          it_behaves_like "not publishable"
         end
       end
 
       describe "DELETE #destroy" do
-        let(:commentable) { send commentable_name }
+        let(:delete_comment) { delete :destroy, id: comment, format: :js }
+
         before { commentable.comments << comment }
 
         it 'deletes comment' do
@@ -61,6 +72,9 @@ RSpec.describe CommentsController, type: :controller do
           delete_comment
           expect(response).to render_template :destroy
         end
+
+        let(:do_request) { delete_comment }
+        it_behaves_like "publishable"
       end
     end
   end
