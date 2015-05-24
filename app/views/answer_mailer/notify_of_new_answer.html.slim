@@ -1,0 +1,21 @@
+p
+  | Hello, #{ @subscriber.user_name }
+
+p There is new answer to the quesion:
+
+= link_to @answer.question.title, question_url(@answer.question)
+
+<hr>
+
+p
+  | This email was sent to #{ @subscriber.email } by Stackoverflow.local
+
+p
+  | We respect your privacy and you may unsubscribe at any time by clicking this link:
+
+  = link_to t("action.unsubscribe", scope: :question), \
+    question_subscription_url(@subscription), \
+    id: "link_unsubscribe_#{ dom_id question }", \
+    class: "link_unsubscribe", \
+    remote: true, \
+    method: :delete

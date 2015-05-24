@@ -1,6 +1,6 @@
 require 'features/helper'
 
-feature 'User comments an answer', %q(
+feature 'User comments a question', %q(
   As a user
   I want to be able to comment and an answer
 ) do

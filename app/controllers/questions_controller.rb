@@ -16,6 +16,7 @@ class QuestionsController < ApplicationThinController
   end
 
   def show
+    @subscription = @question.subscription_by current_user || QuestionSubscription.new
     respond_with @question
   end
 

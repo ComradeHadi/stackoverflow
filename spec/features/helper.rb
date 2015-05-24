@@ -11,17 +11,21 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before(:suite) { DatabaseCleaner.clean_with :truncation }
+
   config.before(:each) { DatabaseCleaner.strategy = :transaction }
+  config.before(:each) { Sidekiq::Worker.clear_all }
   config.before(:each, js: true) { DatabaseCleaner.strategy = :truncation }
   config.before(:each, js: true) { page.driver.allow_url('stackoverflow.local') }
   config.before(:each, js: true) { ActionMailer::Base.deliveries = [] }
   config.before(:each) { DatabaseCleaner.start }
+
   config.after(:each) { DatabaseCleaner.clean }
-  config.after(:each) { FileUtils.rm_rf(Dir.glob('public/uploads/*')) }
+  config.after(:each) { ActiveJob::Base.queue_adapter.enqueued_jobs = [] }
+  config.after(:each) { ActiveJob::Base.queue_adapter.performed_jobs = [] }
   config.after(:each, js: true) { ActionMailer::Base.deliveries = [] }
 
   config.after(:each, js: true) { sleep 0.3 }
-  config.after(:suite) { sleep 1 }
+  config.after(:suite) { FileUtils.rm_rf(Dir.glob('public/uploads/*')) }
 end
 
 headless = Headless.new

@@ -1,0 +1,8 @@
+= div_for question, :subscription
+
+  - if can? :destroy, @subscription
+    = render 'question_subscriptions/link_unsubscribe', \
+      question: question, subscription: @subscription
+
+  - elsif can? :create, QuestionSubscription
+    = render 'question_subscriptions/link_subscribe', question: question

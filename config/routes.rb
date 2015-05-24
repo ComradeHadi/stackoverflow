@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   resources :questions, except: [:edit], concerns: :votable do
     resources :answers, only: [:create, :update, :destroy], shallow: true, concerns: :votable
     resources :comments, only: :create, defaults: { commentable: 'question' }
+    resources :question_subscriptions, only: [:create, :destroy], shallow: true
   end
 
   resources :answers, only: [] do

@@ -50,6 +50,12 @@ gem 'active_model_serializers'
 gem 'oj'
 gem 'oj_mimic_json'
 
+# Recurring jobs for Sidekiq
+gem 'whenever', require: false
+# Simple, efficient background processing for Ruby
+# requires redis-server
+gem 'sidekiq'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
