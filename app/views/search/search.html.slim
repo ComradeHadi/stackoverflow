@@ -1,0 +1,10 @@
+h1 Search results
+
+- if @results.any?
+  - @results.each do |result|
+    - resource_name = result.model_name.element
+    = render "search/#{ resource_name }_item", \
+      "#{ resource_name }": result
+
+- else
+  | Nothing was found

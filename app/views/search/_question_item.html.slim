@@ -1,0 +1,7 @@
+strong = link_to "Question #{ question.id }", question_path(question)
+
+= div_for question, :item
+  span.title = question.title
+  span.body  = question.body
+
+hr

@@ -18,6 +18,8 @@ class Ability
 
   def guest_abilities
     can :read, :all
+
+    can :search, Search
   end
 
   def admin_abilities
