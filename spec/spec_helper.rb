@@ -90,8 +90,8 @@ def build_attributes(*args)
   # FactoryGirl.attributes_for dont include associations
   # referencing an association generates a call to database
   # which can slow down tests in some cases
-  exclude_attributes = %w(id created_at updated_at)
-  FactoryGirl.build(*args).attributes.except(exclude_attributes).symbolize_keys
+  exclude_attributes = %w(created_at updated_at)
+  FactoryGirl.build(*args).attributes.except(*exclude_attributes).symbolize_keys
 end
 
 def models_with_association association_polymorphic_name

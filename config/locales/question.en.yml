@@ -5,6 +5,8 @@ en:
       new: "Ask question"
       edit: "Edit question"
       delete: "Delete question"
+      subscribe: "Subscribe to question"
+      unsubscribe: "Unsubscribe"
       confirm:
         new: "Create question"
         edit: "Update question"

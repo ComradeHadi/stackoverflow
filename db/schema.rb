@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150520132851) do
+ActiveRecord::Schema.define(version: 20150523180551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,17 @@ ActiveRecord::Schema.define(version: 20150520132851) do
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
+  create_table "question_subscriptions", force: :cascade do |t|
+    t.integer  "question_id"
+    t.integer  "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "question_subscriptions", ["question_id", "user_id"], name: "index_question_subscriptions_on_question_id_and_user_id", unique: true, using: :btree
+  add_index "question_subscriptions", ["question_id"], name: "index_question_subscriptions_on_question_id", using: :btree
+  add_index "question_subscriptions", ["user_id"], name: "index_question_subscriptions_on_user_id", using: :btree
+
   create_table "questions", force: :cascade do |t|
     t.string   "title"
     t.text     "body"
@@ -149,6 +160,8 @@ ActiveRecord::Schema.define(version: 20150520132851) do
   add_foreign_key "answers", "users"
   add_foreign_key "comments", "users"
   add_foreign_key "identities", "users"
+  add_foreign_key "question_subscriptions", "questions"
+  add_foreign_key "question_subscriptions", "users"
   add_foreign_key "questions", "users"
   add_foreign_key "votes", "users"
 end

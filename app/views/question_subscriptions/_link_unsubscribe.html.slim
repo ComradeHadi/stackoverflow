@@ -1,0 +1,6 @@
+= link_to t("action.unsubscribe", scope: :question), \
+  question_subscription_path(subscription), \
+  id: "link_unsubscribe_#{ dom_id question }", \
+  class: "link_unsubscribe", \
+  remote: true, \
+  method: :delete

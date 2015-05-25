@@ -8,7 +8,8 @@ class User < ActiveRecord::Base
   has_many :answers, dependent: :restrict_with_exception
   has_many :votes, dependent: :restrict_with_exception
   has_many :comments, dependent: :restrict_with_exception
-  has_many :identities, dependent: :destroy
+  has_many :identities, dependent: :delete_all
+  has_many :question_subscriptions, dependent: :delete_all
 
   scope :all_except, ->(user) { where.not(id: user) }
 

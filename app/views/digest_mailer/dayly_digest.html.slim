@@ -1,0 +1,16 @@
+p
+  | Hello, #{ @user.user_name }
+
+- if @questions.any?
+
+  p There are some new questions asked yesterday:
+
+    - @questions.each do |question|
+      = link_to question.title, question_path(question)
+
+- else
+
+  p There were no questions yesterday,
+    and it would be better not to send this email.
+
+    We are sending it just for testing ActiveJob

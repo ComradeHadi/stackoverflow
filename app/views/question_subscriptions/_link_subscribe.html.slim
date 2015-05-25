@@ -1,0 +1,6 @@
+= link_to t("action.subscribe", scope: :question), \
+  question_question_subscriptions_path(question), \
+  id: "link_subscribe_#{ dom_id question }", \
+  class: "link_subscribe", \
+  remote: true, \
+  method: :post

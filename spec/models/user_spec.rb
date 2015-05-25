@@ -6,6 +6,9 @@ RSpec.describe User, type: :model do
   it { should have_many(:votes).dependent(:restrict_with_exception) }
   it { should have_many(:comments).dependent(:restrict_with_exception) }
 
+  it { should have_many(:identities).dependent(:delete_all) }
+  it { should have_many(:question_subscriptions).dependent(:delete_all) }
+
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
 

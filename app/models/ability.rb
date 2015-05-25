@@ -50,6 +50,11 @@ class Ability
     can :withdraw_vote, votables do |votable|
       votable.voted_by? @user
     end
+
+    can :create, QuestionSubscription
+    can :destroy, QuestionSubscription do |subscription|
+      @user.author_of? subscription
+    end
   end
 
   private

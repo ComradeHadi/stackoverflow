@@ -30,6 +30,8 @@ RSpec.describe Ability, type: :model do
     let(:other_comment) { create :comment }
     let(:his_attachment) { create :attachment, attachable: his_question }
     let(:other_attachment) { create :attachment, attachable: other_question }
+    let(:his_subscription) { create :question_subscription, user: user }
+    let(:other_subscription) { create :question_subscription }
     let(:voted_question) { other_question.liked_by(user) }
     let(:voted_answer) { other_answer.liked_by(user) }
 
@@ -54,6 +56,10 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :create, Attachment }
     it { should be_able_to :destroy, his_attachment }
     it { should_not be_able_to :destroy, other_attachment }
+
+    it { should be_able_to :create, QuestionSubscription }
+    it { should be_able_to :destroy, his_subscription }
+    it { should_not be_able_to :destroy, other_subscription }
 
     it { should be_able_to :vote, other_question }
     it { should_not be_able_to :vote, his_question }
