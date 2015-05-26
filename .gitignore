@@ -4,23 +4,24 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
-# Ignore bundler config.
+# config
 /.bundle
+/config/database.yml
+/config/secrets.yml
+/config/private_pub.yml
+/config/*.sphinx.conf
+/config/thinking_sphinx.yml
+/.idea/
 
-# Ignore uploaded files
+# uploaded files
 /public/tmp
 /public/uploads
 
-# Ignore all logfiles and tempfiles.
+# logfiles and tempfiles.
 /log/*
 !/log/.keep
 /tmp
-config/database.yml
-config/secrets.yml
-.idea/
-dump.rdb
 
-# Ignore sphinx config
-/config/*.sphinx.conf
-/config/thinking_sphinx.yml
+# sphinx
+/dump.rdb
 /db/sphinx/*
