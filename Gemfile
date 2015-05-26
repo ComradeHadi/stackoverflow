@@ -56,6 +56,15 @@ gem 'whenever', require: false
 # requires redis-server
 gem 'sidekiq'
 
+# required by thinking-sphinx
+# requires libmysqlclient-dev
+gem 'mysql2'
+
+# Sphinx plugin for ActiveRecord/Rails
+# requires sphinxsearch
+# requires gem mysql2
+gem 'thinking-sphinx'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -7,16 +7,22 @@ Capybara.javascript_driver = :webkit
 
 RSpec.configure do |config|
   config.include Capybara::Webkit::RspecMatchers, type: :feature
+  config.include SphinxHelpers, type: :feature
 
   config.use_transactional_fixtures = false
 
-  config.before(:suite) { DatabaseCleaner.clean_with :truncation }
+  config.before(:suite) do
+    DatabaseCleaner.clean_with :truncation
+    ThinkingSphinx::Test.init
+    ThinkingSphinx::Test.start_with_autostop
+  end
 
   config.before(:each) { DatabaseCleaner.strategy = :transaction }
   config.before(:each) { Sidekiq::Worker.clear_all }
   config.before(:each, js: true) { DatabaseCleaner.strategy = :truncation }
   config.before(:each, js: true) { page.driver.allow_url('stackoverflow.local') }
   config.before(:each, js: true) { ActionMailer::Base.deliveries = [] }
+  config.before(:each, js: true) { index }
   config.before(:each) { DatabaseCleaner.start }
 
   config.after(:each) { DatabaseCleaner.clean }

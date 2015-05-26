@@ -35,6 +35,8 @@ Rails.application.routes.draw do
     get :confirm, on: :collection
   end
 
+  get 'search', to: 'search#search'
+
   namespace :api do
     namespace :v1 do
       resources :profiles, only: :index do

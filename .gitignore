@@ -19,3 +19,8 @@ config/database.yml
 config/secrets.yml
 .idea/
 dump.rdb
+
+# Ignore sphinx config
+/config/*.sphinx.conf
+/config/thinking_sphinx.yml
+/db/sphinx/*
