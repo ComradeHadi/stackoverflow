@@ -1,73 +1,58 @@
-== README
+== a Stackoverflow clone
+(just for learning Rails)
 
-export RAILS_APP=stackoverflow
+User strories:
+----
+Guest can sign up
+User can log in (and log out) [gem devise is used]
 
-# создаем новый gemset для проекта
+User can ask questions
+User can post answers to a question (ajax - without page reload)
+User can comment questions and answers (ajax)
+User can edit or delete his question or answer (ajax)
+User can vote for (or against) a question or answer (ajax)
+User can add one or more files when creating answer or asking a question
+User can delete his files
 
-rvm gemset create $RAILS_APP
+Question author can accept any answer as the best answer (but there is always no more than one best answer for a given question)
 
-# переключаемся на новый gemset
+Publish/subscribe:
+After user adds (or deletes) an answer, question or comment,
+these updates are published to other users, who are viewing corresponding page in browser (with private_pub)
 
-rvm gemset use $RAILS_APP
+OAUTH:
+User can sign in from one or more OAUTH providers, e.g. Facebook or Twitter (with email confirmation)
 
-# Устанавливаем rails в текущий gemset
+REST API with OAUTH2 authentication is provided (gem doorkeeper):
+User can view questions and answers using REST API
+User can create question or answer (after authorizing with OUATH2)
 
-gem install rails
+Localization:
+Supported with config/locales (instead of hardcoded strings)
 
-# Создаем новое приложение (используем postgresql в качестве БД)
+Authorization:
+Every controller is protected with cancancan/authorize_resource
 
-rails new $RAILS_APP -d postgresql
+Mailings
+User can subscribe for a question to receive a email when new answer is posted to than question
+Question author is automatically subscribed to his question
+Each user receives a daily digest with a list of new question added yesterday (gem whenever)
+These mailings are deferred and delivered later with ActiveJob and Sidekiq
 
-# возвращаемся в default gemset
+TDD, BDD
+Project is tested with RSpec, Capybara(-webkit)
+Every user story is covered with a set of feature tests
 
-rvm gemset use default
+Full text search with Sphinx:
+User can do search with several search options:
+  everything in project (questions, answers, comments)
+  only for a certain kind of objects (e.g. only within answers)
+  search for questions, including every answer or comment it contains
 
-# переходим в папку проекта
+Some advanced technics are used in this project, including but not limited to:
+* thin controllers with responders
+* concerns
+* shared examples
+* rubocop recomendations and Rails Best Practices are respected
 
-cd $RAILS_APP
-
-# указываем версию Ruby и gemset для проекта
-# не используем .rvmrc без необходимости
-
-rvm --ruby-version use `rvm current`@$RAILS_APP
-
-# сохраняем исходный конфиг database.yml
-# редактируем database.yml
-
-cp config/database.yml config/database.yml.sample
-
-# Устанавливаем драйвер postgresql
-
-gem install pg
-
-# Добавляем пользователя в базу
-
-sudo -iu postgres psql --command "CREATE USER $RAILS_APP WITH CREATEDB LOGIN PASSWORD '*****'" template1
-
-# Создаем базы
-
-rake db:create:all
-
-# Добавляем гемы rspec-rails, factory_girl_rails в @Gemfile
-# после этого запускаем bundle
-
-bundle install
-
-# Устанавливаем rspec
-
-rails generate rspec:install
-
-rm -r test
-
-# Добавялем проект в git; конфиг database.yml не должен попасть в git!
-
-git init
-echo config/database.yml >> .gitignore
-git add .
-git cm "$RAILS_APP: initial commit"
-
-# Привязываем наш локальный репозитарий к GitHub
-
-git remote add origin git@github.com:<USERNAME>/<PROJECTNAME>.git
-git push -u origin master
-
+Project is deployed to production with Capistrano
