@@ -7,7 +7,6 @@
 # config
 /.bundle
 /config/database.yml
-/config/secrets.yml
 /config/private_pub.yml
 /config/*.sphinx.conf
 /config/thinking_sphinx.yml
