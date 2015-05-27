@@ -41,7 +41,7 @@ Supported with config/locales (instead of hardcoded strings)
 User authorization is done with cancancan
 
 ### Mailings
-User can subscribe for a question to receive a email when new answer is posted to than question
+User can subscribe to a question to receive a email when new answer is posted to that question
 
 Question author is automatically subscribed to his question
 
