@@ -1,7 +1,7 @@
 set :rails_env, :production
 set :stage, :production
 
-server '178.62.218.37',
+server 'cmdx.mooo.com',
   user: 'deploy',
   roles: %w(app db web),
   primary: true,
