@@ -65,16 +65,6 @@ gem 'mysql2'
 # requires gem mysql2
 gem 'thinking-sphinx'
 
-gem 'dotenv'
-gem 'dotenv-rails' #, require: 'dotenv/rails-now'
-# gem 'dotenv-deployment', require: 'dotenv/deployment'
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use Unicorn as the app server
-# gem 'unicorn'
-
 # Remote multi-server automation and deployment tool (http://www.capistranorb.com)
 group :development do
   gem 'capistrano', require: false
@@ -82,6 +72,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-passenger', require: false
+  gem 'capistrano-sidekiq', require: false
 end
 
 group :development, :test do
