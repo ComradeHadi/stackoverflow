@@ -37,7 +37,7 @@ module Stackoverflow
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
 
-    config.web_console.whitelisted_ips = '192.168.0.0/16'
+    # config.web_console.whitelisted_ips = '192.168.0.0/16'
     config.active_job.queue_adapter = :sidekiq
   end
 end

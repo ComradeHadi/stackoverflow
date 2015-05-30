@@ -66,7 +66,7 @@ gem 'mysql2'
 gem 'thinking-sphinx'
 
 # Access an IRB console on exception pages or by using <%= console %> in views
-gem 'web-console'
+# gem 'web-console'
 
 # Remote multi-server automation and deployment tool (http://www.capistranorb.com)
 group :development do
