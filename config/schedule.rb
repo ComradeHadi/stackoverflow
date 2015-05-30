@@ -22,3 +22,7 @@
 every 1.day, :at => '7:30 am' do
   runner "QuestionsDigest.send_daily_digest"
 end
+
+every 1.hour do
+  rake "ts:index"
+end
