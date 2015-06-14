@@ -452,3 +452,6 @@ DEPENDENCIES
   thinking-sphinx
   uglifier
   whenever
+
+BUNDLED WITH
+   1.10.3
